@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/auth/[...nextauth]/provider.js", "src/app/api/auth/[...nextauth]/provider.js", "src/components/login/binaryuAnimation.jsx", "src/app/server/db.js", "src/Repo/Logic.js", "src/app/api/auth/[...nextauth]/route.js", "src/lib/db.js", "src/lib/db.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/auth/[...nextauth]/provider.js", "src/app/api/auth/[...nextauth]/provider.js", "src/components/login/binaryuAnimation.jsx", "src/app/server/db.js", "src/Repo/Logic.js", "src/app/api/auth/[...nextauth]/route.js", "src/lib/db.js", "src/lib/db.js", "src/app/login/page.jsx", "src/app/Application/getStarted/page.jsx"],
   "exclude": ["node_modules"]
 }

@@ -13,8 +13,8 @@ model User {
   image              String?
   role               Role
   status             status?
-  default_Adress_lnt String?
-  default_Adress_lng String?
+  default_Adress_lat Float?
+  default_Adress_lng Float?
   default_time String?
   booking      Booking[]
   key          Key?      @relation(fields: [key_id], references: [id_Key])

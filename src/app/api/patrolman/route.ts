@@ -20,6 +20,7 @@ export async function GET(){
           }      
         }
         else{
+          //intra checking
          link = "/Application/getStarted"
         }
      

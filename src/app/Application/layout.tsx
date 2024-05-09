@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/utils/authOptions";
 import { redirect } from 'next/navigation'
+import { Toaster } from "@/components/ui/toaster"
+
 
 export default async function RootLayout({
     children,
@@ -13,7 +15,10 @@ export default async function RootLayout({
         redirect('/login')
     
     return (
-      children
+      <>
+      <Toaster />
+      {children}
+      </>
     );
   }
   

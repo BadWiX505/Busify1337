@@ -10,6 +10,7 @@ import GoogleIconSVG from "@/components/ui/GoogleIcon";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Loader from "@/components/ui/loader";
 
 
 
@@ -38,7 +39,7 @@ useEffect(()=>{
         <div className="w-full lg:grid lg:min-h-[580px] lg:grid-cols-2 ">
             <div className="flex items-start justify-center py-12 ">
                 <div className="mx-auto grid w-[350px] gap-10 ">
-                {isloading &&<div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-10"></div>}
+                {isloading && <Loader />}
                     <div>
                         <Image
                             src="/img/1337.png"

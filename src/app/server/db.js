@@ -17,8 +17,8 @@ export async function createUserAndKey(userInfo) {
         image: userInfo.image || null,
         role: userInfo.role,
         status: userInfo.status || "active",
-        default_Adress_lnt: userInfo.default_Adress_lnt || null,
-        default_Adress_lng: userInfo.default_Adress_lng || null,
+        default_Adress_lat: userInfo.default_Address.lat || null,
+        default_Adress_lng: userInfo.default_Address.lng || null,
         default_time: userInfo.default_time || null,
       },
     });
