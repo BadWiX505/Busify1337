@@ -31,21 +31,33 @@ model Key {
 model Booking {
   id_Booking  Int      @id @default(autoincrement())
   user_id     Int
-  depart_Time Int
-  depart_Date DateTime
+  depart_Time String
+  depart_Date String
+  Adress_lnt Float?
+  Adress_lng Float?
+  bookedAt DateTime?
   bus_id      Int
   bus         Bus      @relation(fields: [bus_id], references: [id_Bus])
   user        User     @relation(fields: [user_id], references: [id_User])
+  bookingStatus BookingStatus?
 }
 
 model Bus {
   id_Bus       Int       @id @default(autoincrement())
   bus_Number   Int
+  bus_Name     String
   id_Driver    Int
   bus_Capacity Int
   bus_Status   status
   booking      Booking[]
 }
+
+
+model TravelTimes{
+  id   Int @id @default(autoincrement())
+  time String 
+}
+
 
 enum status {
   inactive
@@ -56,4 +68,10 @@ enum Role {
   staff
   student
   driver
+}
+
+enum BookingStatus{
+  Pending
+  Completed
+  Missed
 }

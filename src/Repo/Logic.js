@@ -1,4 +1,4 @@
-import {checkUserExistance,getUserRole,createUserAndKey} from '@/app/server/db';
+import {checkUserExistance,getUserRole,createUserAndKey,getUserDefaultThings,getAvailableTimes,bookSeatOnNextAvailableBus, getStudentDetails, updateUser, getStudentHistory,getPendingBookingsByUserId, getStudentTicket} from '@/app/server/db';
 
 
 
@@ -27,9 +27,17 @@ export async function checkAuth(user){
 
 
 export async function getRole(userkey){
-   const role = await getUserRole(userkey);
-   return role;
+   const user = await getUserRole(userkey);
+   return user;
 }
+
+
+
+export async function getUserDefault(idUser){
+   const defaultUser = await getUserDefaultThings(idUser);
+   return defaultUser;
+}
+
 
 // export async function door(){
 //    const session = await getServerSession(authOptions);
@@ -65,4 +73,51 @@ export async function getAddressFromCoordinates(lat, lng) {
        console.error('Error fetching data:', error);
        return null;
     }
+}
+
+
+
+export async function availableTimes(date){
+  const AT = await getAvailableTimes(date);
+  return AT;
+}
+
+
+
+
+export async function bookBus(booking){
+   const res = await bookSeatOnNextAvailableBus(booking.depart_date, booking.depart_time, booking.id_User, booking.adress_lat, booking.adress_lng);
+   return res;
+}
+
+
+
+export async function getStudentDetailsforStudent(userId){
+   const Student = await getStudentDetails(userId);
+   return Student;
+}
+
+
+export async function UpdateStudent(userId,newSt){
+   const res = await updateUser(userId,newSt.address.lat,newSt.address.lng,newSt.time)
+   return res;
+}
+
+
+export async function StudentBookingHistory(userId , offset , limit ){
+   const historyData = await getStudentHistory(userId, offset, limit)
+   return historyData;
+}
+
+
+export async function StudentBookingPending(userId){
+    const historyPending = await  getPendingBookingsByUserId(userId);
+  return historyPending;
+}
+
+
+
+export  async function StudentTicket(bookingId){
+    const ticket = await getStudentTicket(bookingId);
+    return ticket;
 }

@@ -2,7 +2,7 @@
 
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast"
 import Loader from '@/components/ui/loader';
@@ -69,7 +69,6 @@ const MyComponent = () => {
   });
   const { toast } = useToast();
   const [isloading, setIsLoading] = useState(false);
-  const [currentPosition, setCurrentPosition] = useState(null);
 
   // Callback function to receive current position from child component
   const handleCurrentPositionChange = (position: Address) => {
@@ -164,7 +163,7 @@ const MyComponent = () => {
       });
       const addedRes = await res.json();
       if (addedRes.finalRes)
-        router.push('/Application/Student/welcome');
+        router.push('/login');
       else
         throw new Error("created unsucccessfully");
     }
@@ -278,7 +277,7 @@ const MyComponent = () => {
             } */}
 
             <div className="space-y-16">
-              <h2 className="text-4xl font-bold">Let's Get Started!</h2>
+              <h2 className="text-4xl font-bold">Let &apos s Get Started!</h2>
               <div className="space-y-9">
 
                 <div className="space-y-1 relative">
@@ -304,7 +303,7 @@ const MyComponent = () => {
         googleMapsApiKey="AIzaSyDCzTRvG0nBe5vmD0j74U1Bsz7rvRCeD34"
         >
 
-         <GoogleMapsComponentModal handleCurrentPositionChange={handleCurrentPositionChange}/>
+         <GoogleMapsComponentModal handleCurrentPositionChange={handleCurrentPositionChange} modalRole='GTstarted'/>
          
          </LoadScript>
 
@@ -343,9 +342,6 @@ const MyComponent = () => {
 
 
 
-interface Props {
-  changeAddress: (address: Address) => void;
-}
 
 
 // const ModalContent: React.FC<Props> = ({ changeAddress }) => {

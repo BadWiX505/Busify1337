@@ -14,7 +14,7 @@ export default async function RootLayout({
 
     if(session){
       const res= await getRole({userName:session?.user?.name,email:session?.user?.email});
-       if(!res || res!=="staff"){
+       if(!res || res.role!=="staff"){
         redirect("/login");
        }
     }    

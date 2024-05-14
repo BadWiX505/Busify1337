@@ -2,7 +2,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 const containerStyle = {
   width: '100%',
   height: '490px'
@@ -57,10 +57,13 @@ const khouribgaBounds = {
   west: -6.937
 };
 
+
+
+
 // interface Props {
 //   onAddressChange: (address: Address) => void;
 // }
-const GoogleMapsComponentModal = ({handleCurrentPositionChange}) => {
+const GoogleMapsComponentModal = ({handleCurrentPositionChange , modalRole}) => {
   const [currentPosition, setCurrentPosition] = useState({ lat: null, lng: null });
 
 
@@ -98,6 +101,23 @@ const GoogleMapsComponentModal = ({handleCurrentPositionChange}) => {
      },[currentPosition])
 
 
+     useEffect(()=>{
+       
+      async function getStudentDefaultAddress(){
+        const res = await fetch('/api/getStudentDefault');
+        const DE = await res.json();
+       setCurrentPosition({lat : DE.defU.default_Adress_lat , lng :DE.defU.default_Adress_lng})
+      }
+
+
+      if(modalRole==='STmain'){
+      getStudentDefaultAddress();
+     }
+
+    }
+    ,[])
+
+
   // function isInBounds(position) {
   //   return (
   //     position.lat >= khouribgaBounds.south &&
@@ -116,7 +136,16 @@ const GoogleMapsComponentModal = ({handleCurrentPositionChange}) => {
   //   }
   // };  
 
-  return (
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: "AIzaSyDCzTRvG0nBe5vmD0j74U1Bsz7rvRCeD34"
+  })
+
+  
+
+ 
+  return isLoaded ?(
     <>
       <DialogContent
         className=""
@@ -136,8 +165,7 @@ const GoogleMapsComponentModal = ({handleCurrentPositionChange}) => {
           center={(currentPosition && currentPosition.lat && currentPosition.lng) ? currentPosition : center}
           zoom={17}
           options={options}
-          onClick={(e) => handleclickOnMap(e)}
-
+          onClick={(e) => handleclickOnMap(e)}  
         >
           {currentPosition && <Marker position={currentPosition}>
 
@@ -146,7 +174,7 @@ const GoogleMapsComponentModal = ({handleCurrentPositionChange}) => {
         </GoogleMap>
       </DialogContent>
     </>
-  );
+  ):<></>
 };
 
 export default GoogleMapsComponentModal;
