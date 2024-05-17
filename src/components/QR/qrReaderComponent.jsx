@@ -1,29 +1,41 @@
+"use client"
 import React, { useState } from 'react';
-import { QrReader } from 'react-qr-reader';
+import dynamic from 'next/dynamic';
 
-const QrReaderCompo = (props) => {
-  const [data, setData] = useState('No result');
+// Dynamically import QrReader with no SSR
+const QrReader = dynamic(() => import('react-qr-scanner'), { ssr: false });
+
+
+const App = () => {
+  const [result, setResult] = useState(null);
+
+  const handleScan = (data) => {
+    if (data) {
+      setResult(data.text);
+    }
+  };
+
+  const handleError = (err) => {
+    console.error(err);
+  };
+
+  const previewStyle = {
+    height: 220,
+    width: 320,
+  };
 
   return (
-    <>
+    <div>
+      <h1>QR Code Scanner</h1>
       <QrReader
-       containerStyle={{ width: '200px', height: '200px' , margin : "0px auto" }}
-       videoStyle={{ width: '100%', height: '100%' }}
-        onResult={(result, error) => {
-          if (!!result) {
-            setData(result?.text);
-          }
-
-          if (!!error) {
-            console.info(error);
-          }
-        }}
-        style={{ width: '300px' }}
+        delay={300}
+        style={previewStyle}
+        onError={handleError}
+        onScan={handleScan}
       />
-      <p>{data}</p>
-    </>
+      <p>{result}</p>
+    </div>
   );
 };
 
-
-export default QrReaderCompo;
+export default App;
