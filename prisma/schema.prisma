@@ -50,12 +50,23 @@ model Bus {
   bus_Capacity Int
   bus_Status   status
   booking      Booking[]
+  duities Duty[]
 }
 
 
 model TravelTimes{
   id   Int @id @default(autoincrement())
   time String 
+}
+
+
+model Duty{
+  id_Duty Int @id @default(autoincrement())
+  duty_Time String
+  duty_Date String
+  duty_Status DutyStatus?
+  bus_id      Int
+  bus         Bus      @relation(fields: [bus_id], references: [id_Bus])
 }
 
 
@@ -74,4 +85,10 @@ enum BookingStatus{
   Pending
   Completed
   Missed
+}
+
+enum DutyStatus{
+ Pending
+ Scanning
+ Driving
 }

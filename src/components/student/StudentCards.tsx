@@ -12,7 +12,7 @@ export default function StudentCards(){
 
    useEffect(()=>{
     if(pendingBookings.length>0)
-   setLoading(false);
+       setLoading(false);
    },[pendingBookings])
 
    async function getAllPendingBookings(){

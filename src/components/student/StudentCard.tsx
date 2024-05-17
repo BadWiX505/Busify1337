@@ -10,11 +10,19 @@ import { Button } from "../ui/button";
 import { Dialog } from "../ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import StudentTicket from "./StudentTicket";
+import { useState } from "react";
 
 
 
 export default function StudentCard({ data }) {
 
+  const [isDialogOpen , setisDialogOpen] = useState(false);
+
+
+
+   function changeDialogeMode(){
+      setisDialogOpen(!isDialogOpen)
+   }
   function formatShortReadableDate(dateString: string) {
     const date = new Date(dateString);
     const options = { month: 'short', day: 'numeric' };
@@ -67,11 +75,13 @@ export default function StudentCard({ data }) {
         </div>
       </CardContent>
       <CardFooter>
-        <Dialog>
+        <Dialog onOpenChange={changeDialogeMode}>
         <DialogTrigger asChild>
         <Button>Get ticket</Button>
         </DialogTrigger>
+        {isDialogOpen &&
         <StudentTicket idBooking = {data.id_Booking}/>
+          }
         </Dialog>
       </CardFooter>
       

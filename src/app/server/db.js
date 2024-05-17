@@ -261,6 +261,9 @@ let sucObject={status : null, message : null};
     return sucObject={status : 500, message : "You have already made a booking at this hour on the specified date"}
   }
 
+
+
+
   // Query available buses for the requested date and time
   const availableBuses = await prisma.bus.findMany({
     where: {
@@ -274,7 +277,7 @@ let sucObject={status : null, message : null};
   });
 
   let bookedOnBus = false;
-
+  let selectdBus = null;
   // Loop through available buses
   for (const bus of availableBuses) {
     const bookedSeats = await prisma.booking.count({
@@ -288,6 +291,7 @@ let sucObject={status : null, message : null};
 
     if (availableSeats > 0) {
       // If available seats found on this bus, create a booking
+      selectdBus = bus.id_Bus;
       await prisma.booking.create({
         data: {
           user: { connect: { id_User: validatedUserId } },
@@ -303,6 +307,27 @@ let sucObject={status : null, message : null};
 
       bookedOnBus = true;
      sucObject = {status : 201 , message: "Booking successfully"}
+
+
+     let existingDuty = await prisma.duty.findFirst({
+      where: {
+        duty_Date: validatedDate,
+        duty_Time: validatedHour,
+        bus_id : selectdBus,
+      },
+    });
+
+    // If duty does not exist, create a new duty
+    if (!existingDuty) {
+      existingDuty = await prisma.duty.create({
+        data: {
+          duty_Date: validatedDate,
+          duty_Time: validatedHour,
+          duty_Status: 'Pending', // You might want to set a default status
+          bus_id : selectdBus,
+        },
+      });
+    }
      
       break;
     }
@@ -512,5 +537,233 @@ export async function getStudentTicket(idBooking) {
    return null;
   } finally {
     await prisma.$disconnect()
+  }
+}
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////Driver ///////////////////////////////////////////
+
+
+export async function getDriverInfo(userId) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id_User: userId,
+      },
+      select: {
+        full_name: true,
+        image: true,
+      },
+    });
+
+    if (user) {
+     return user;
+    } else {
+     return null;
+    }
+  } catch (error) {
+    console.error("Error retrieving user info:", error);
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+
+
+
+async function getDutyStatus(date, time, driverId) {
+  try {
+    // Find the bus ID associated with the provided driver ID
+    const bus = await prisma.bus.findFirst({
+      where: { id_Driver: driverId },
+      select: { id_Bus: true }
+    });
+
+    if (!bus) {
+      console.log("No bus found for the provided driver ID.");
+      return null;
+    }
+
+    // Find the duty with the given date, time, and bus ID
+    const duty = await prisma.duty.findFirst({
+      where: {
+        duty_Date: date,
+        duty_Time: time,
+        bus_id: bus.id_Bus
+      },
+      select: { duty_Status: true }
+    });
+
+    if (!duty) {
+      console.log("No duty found for the provided date, time, and driver.");
+      return null;
+    }
+
+    return duty.duty_Status;
+  } catch (error) {
+    console.error('Error getting duty status:', error);
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+export async function getBookingCountsByTimeAndDate(driverId, date) {
+  try {
+    const bookings = await prisma.booking.findMany({
+      where: {
+        bus: {
+          id_Driver: driverId,
+        },
+        depart_Date: date,
+        bookingStatus: "Pending",
+      },
+      select: {
+        depart_Time: true,
+        depart_Date: true,
+      }
+    });
+
+    const groupedBookings = {};
+    bookings.forEach(booking => {
+      const key = `${booking.depart_Date} ${booking.depart_Time}`;
+      if (!groupedBookings[key]) {
+        groupedBookings[key] = { date: booking.depart_Date, time: booking.depart_Time, count: 0 };
+      }
+      groupedBookings[key].count++;
+    });
+
+    // Convert the grouped bookings to an array
+    const resultArray = Object.values(groupedBookings);
+
+   
+
+   if(resultArray){
+    for(const item of resultArray){
+        if(isCurrentMomentWithinTenMinutes(item.date,item.time)){
+
+           const ok = await updateDutyStatus(item.date,item.time);
+           
+            if(!ok)
+            throw new Error("some thing is wrong in table duties");
+
+                     
+
+           }
+
+           item.status = await getDutyStatus(item.date,item.time,driverId);
+        }
+
+        return resultArray;
+    }
+
+
+   return null;
+
+
+  } catch (error) {
+    console.error("Error retrieving booking counts:", error);
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+
+
+async function updateDutyStatus(date, time) {
+  try {
+    // Find duties with pending status for the given date and time
+    const duties = await prisma.duty.findMany({
+      where: {
+        duty_Date: date,
+        duty_Time: time,
+        duty_Status: 'Pending'
+      }
+    });
+
+    // Update duty status to 'Scanning' for found duties
+    for (const duty of duties) {
+      await prisma.duty.update({
+        where: { id_Duty: duty.id_Duty },
+        data: { duty_Status: 'Scanning' }
+      });
+      console.log(`Updated duty ${duty.id_Duty} status to 'Scanning'`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error updating duty status:', error);
+    return false;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+
+  function isCurrentMomentWithinTenMinutes(date, time) {
+    // Parse date and time strings into Date objects
+    const dateTimeString = `${date}T${time}`;
+    const targetTime = new Date(dateTimeString);
+    
+    // Subtract 10 minutes from the target time
+    const tenMinutesAgo = new Date(targetTime.getTime() - 10 * 60000); // 10 minutes in milliseconds
+    
+    // Get the current time
+    const currentTime = new Date();
+
+    // Compare current time with 10 minutes ago
+    return currentTime >= tenMinutesAgo;
+}
+
+
+
+
+export async function getBookingsDetails(driverId,departTime, departDate,take,skip) {
+  try {
+    const userInfoWithBookingAddress = await prisma.booking.findMany({
+      where: {
+        depart_Time: departTime,
+        depart_Date: departDate,
+        bus: {
+          id_Driver: driverId,
+        },
+      },
+      select: {
+    
+        user: {
+          select: {
+            full_name: true,
+            image: true,
+          }
+        },
+        Adress_lnt: true,
+        Adress_lng: true,
+      },
+      take: parseInt(take),
+      skip: parseInt(skip),
+    });
+
+
+   if(userInfoWithBookingAddress){
+    return userInfoWithBookingAddress;
+   }
+   return null;
+  } catch (error) {
+    console.error("Error retrieving user info and booking address:", error);
+    return null;
+  } finally {
+    await prisma.$disconnect();
   }
 }

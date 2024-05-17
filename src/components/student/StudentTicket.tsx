@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card"
 import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
 import { useEffect, useState } from "react";
 import TicketLoading from "./StudentTicketLoading";
+import QRCodeGenerator from "../QR/qrComponent";
 
 export default function StudentTicket({idBooking}) {
   
@@ -13,8 +14,8 @@ export default function StudentTicket({idBooking}) {
    const [loading , setLoading] = useState(true);
 
    async function getStudentTicket(){
-      const res = await fetch("/api/getStudentTicket?"+idBooking);
-      const Sticket =await  res.json();
+      const res = await fetch("/api/getStudentTicket?idbooking="+idBooking);
+      const Sticket = await res.json();
       setTicket(Sticket);
    }
 
@@ -62,16 +63,7 @@ export default function StudentTicket({idBooking}) {
         <div className="font-medium">{ticket.bus_Name}</div>
       </div>
       <div className="flex justify-center">
-        <img
-          alt="QR Code"
-          height={120}
-          src="https://i.stack.imgur.com/Ln0Ar.jpg"
-          style={{
-            aspectRatio: "120/120",
-            objectFit: "cover",
-          }}
-          width={120}
-        />
+        <QRCodeGenerator jsonData={ticket}/>
       </div>
     </Card> }
 

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import Divider from '@mui/material/Divider';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GoogleIconSVG from "@/components/ui/GoogleIcon";
-import { signIn } from "next-auth/react";
+import { signIn} from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "@/components/ui/loader";

@@ -1,6 +1,13 @@
-import { getServerSession } from "next-auth";
-import Image from "next/image";
+"use client"
+
+
+import QrReaderCompo from '@/components/QR/qrReaderComponent';
 
 export default async function Home() {
- 
+    return(
+
+    <>
+   <QrReaderCompo />
+    </>
+    )
 }

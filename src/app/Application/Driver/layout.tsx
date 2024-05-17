@@ -1,5 +1,6 @@
 import { getRole } from "@/Repo/Logic";
 import { authOptions } from "@/app/utils/authOptions";
+import DriverNavBar from "@/components/driver/DriverNavBar";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -21,6 +22,9 @@ export default async function RootLayout({
 
         
     return (
-      children
+      <>
+      <DriverNavBar />
+      {children}
+      </>
     );
   }
