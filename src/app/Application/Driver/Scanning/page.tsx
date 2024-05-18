@@ -33,7 +33,7 @@ export default function QrScan() {
                         </Button>
                         <div className="mt-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg px-4 py-2 flex items-center justify-center">
                             <CheckIcon className="mr-2 h-5 w-5" />
-                            You're validated to access the bus
+                            You are validated to access the bus
                         </div>
                         <div className="mt-4 flex justify-end">
                             <Button className="bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-950 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus:ring-gray-300">
