@@ -31,7 +31,7 @@ export default function StudentNav() {
         >
           .Busify
         </Link>
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="md:flex items-center space-x-6">
          
           <Dialog key="1" >
             <DialogTrigger asChild>
