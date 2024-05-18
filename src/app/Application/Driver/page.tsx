@@ -130,7 +130,7 @@ export default function Component() {
                     width={128}
                 />
             </div>
-            <h1 className="text-3xl font-bold text-center">Welcome, <span className="text-[#A7E92F]">{driver.full_name}</span></h1>
+            <h1 className="text-3xl font-bold text-center">Welcome, <span className="text-[#A7E92F]">{driver ? driver.full_name : "Driver"}</span></h1>
             <div className="w-full max-w-4xl">
                 <div className="flex items-center justify-between mb-4 px-4">
                     <h2 className="text-xl font-semibold">Filter By date</h2>
