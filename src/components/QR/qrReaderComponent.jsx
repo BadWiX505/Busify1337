@@ -24,7 +24,7 @@ const App = () => {
     width: 320,
   };
 
-  const scannerOptions = {
+  const scannerConstraints = {
     facingMode: "environment", // Use the back camera
   };
 
@@ -37,7 +37,6 @@ const App = () => {
         onError={handleError}
         onScan={handleScan}
         facingMode={"environment"} // For compatibility with some browsers
-        constraints={scannerOptions} // Pass options to the scanner component
       />
       <p>{result}</p>
     </div>
