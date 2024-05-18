@@ -24,6 +24,10 @@ const App = () => {
     width: 320,
   };
 
+  const scannerOptions = {
+    facingMode: "environment", // Use the back camera
+  };
+
   return (
     <div>
       <h1>QR Code Scanner</h1>
@@ -32,6 +36,8 @@ const App = () => {
         style={previewStyle}
         onError={handleError}
         onScan={handleScan}
+        facingMode={"environment"} // For compatibility with some browsers
+        constraints={scannerOptions} // Pass options to the scanner component
       />
       <p>{result}</p>
     </div>
