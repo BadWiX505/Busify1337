@@ -24,9 +24,7 @@ const App = () => {
     width: 320,
   };
 
-  const scannerConstraints = {
-    facingMode: "environment", // Use the back camera
-  };
+  
 
   return (
     <div>
@@ -36,8 +34,11 @@ const App = () => {
         style={previewStyle}
         onError={handleError}
         onScan={handleScan}
-        facingMode={"environment"} // For compatibility with some browsers
-      />
+        constraints={{
+          audio: false,
+          video: { facingMode: "environment" }
+        }}      
+        />
       <p>{result}</p>
     </div>
   );
