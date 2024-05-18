@@ -56,7 +56,7 @@ export default function DruverNavBar(){
                 <PopoverContent className="p-4 w-64 bg-white shadow-lg dark:bg-gray-900">
                     <div className="grid gap-4">
                         <div className="flex flex-col gap-2 mt-4">
-                            <Button>Sign Out</Button>
+                            <Button onClick={destroySession}>Sign Out</Button>
                         </div>
                     </div>
                 </PopoverContent>
