@@ -1,12 +1,4 @@
-import { BookingStatus, PrismaClient } from '@prisma/client';
-
-let prisma;
-
-// Ensure the instance is only created once
-if (!prisma) {
-  prisma = new PrismaClient();
-}
-
+import prisma from '@/lib/prisma';
 
 
 export async function createUserAndKey(userInfo) {
@@ -606,7 +598,7 @@ async function getDutyStatus(date, time, driverId) {
       console.log("No duty found for the provided date, time, and driver.");
       return null;
     }
-
+ 
     return duty.duty_Status;
   } catch (error) {
     console.error('Error getting duty status:', error);

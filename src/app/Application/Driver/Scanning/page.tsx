@@ -2,10 +2,17 @@
 
 import QrReaderCompo from "@/components/QR/qrReaderComponent";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 
 export default function QrScan() {
+    const [key, setKey] = useState(0);
 
+    const refreshQrReader = () => {
+      setKey(prevKey => prevKey + 1);
+    };
+
+    
 
     return (
         <div key="1" className="flex flex-col h-screen">
@@ -23,13 +30,13 @@ export default function QrScan() {
                         </div>
                         <div className="flex items-center justify-center">
                             <div className="w-full h-full">
-                                <QrReaderCompo />
+                                <QrReaderCompo key={key} />
                             </div>
                         </div>
 
-                        <Button className="w-full">
+                        <Button className="w-full" onClick={refreshQrReader}>
                             <QrCodeIcon className="mr-2 h-5 w-5" />
-                            Scan QR Code
+                            Refresh QR scanner
                         </Button>
                         <div className="mt-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg px-4 py-2 flex items-center justify-center">
                             <CheckIcon className="mr-2 h-5 w-5" />

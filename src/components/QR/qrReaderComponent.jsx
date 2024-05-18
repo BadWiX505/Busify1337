@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 const QrReader = dynamic(() => import('react-qr-scanner'), { ssr: false });
 
 
-const App = () => {
+const QrReaderCompo = ({key}) => {
   const [result, setResult] = useState(null);
 
   const handleScan = (data) => {
@@ -22,14 +22,15 @@ const App = () => {
   const previewStyle = {
     height: 220,
     width: 320,
+    margin : '20px auto'
   };
 
   
 
   return (
     <div>
-      <h1>QR Code Scanner</h1>
       <QrReader
+      key={key}
         delay={300}
         style={previewStyle}
         onError={handleError}
@@ -44,4 +45,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default QrReaderCompo;
