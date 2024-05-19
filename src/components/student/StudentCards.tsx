@@ -11,8 +11,9 @@ export default function StudentCards(){
    const [loading , setLoading] = useState(true);
 
    useEffect(()=>{
-    if(pendingBookings.length>0)
+    if(pendingBookings.length>0){
        setLoading(false);
+    }
    },[pendingBookings])
 
    async function getAllPendingBookings(){

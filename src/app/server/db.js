@@ -1,4 +1,15 @@
+// import { PrismaClient } from '@prisma/client';
+
 import prisma from '@/lib/prisma';
+
+
+// let prisma;
+
+// // Ensure the instance is only created once
+// if (!prisma) {
+//   prisma = new PrismaClient();
+// }
+
 
 
 export async function createUserAndKey(userInfo) {
@@ -523,6 +534,7 @@ export async function getStudentTicket(idBooking) {
       bus_Name: booking.bus.bus_Name,
       depart_Date: booking.depart_Date,
       depart_Time: booking.depart_Time,
+      idBooking : 0
     }
   } catch (error) {
     console.error('Error fetching user and bus details:', error)
@@ -555,6 +567,7 @@ export async function getDriverInfo(userId) {
     });
 
     if (user) {
+      user.busName = await getBusNameByDriverId(userId)
      return user;
     } else {
      return null;
@@ -568,6 +581,30 @@ export async function getDriverInfo(userId) {
 }
 
 
+async function getBusNameByDriverId(driverId) {
+  try {
+    const bus = await prisma.bus.findFirst({
+      where: {
+        id_Driver: driverId,
+      },
+      select: {
+        bus_Name: true,
+      },
+    });
+    if (bus) {
+      console.log(`Bus Name: ${bus.bus_Name}`);
+      return bus.bus_Name;
+    } else {
+      console.log('No bus found for the given driver ID');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching bus name:', error);
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 
 
 
@@ -617,7 +654,6 @@ export async function getBookingCountsByTimeAndDate(driverId, date) {
           id_Driver: driverId,
         },
         depart_Date: date,
-        bookingStatus: "Pending",
       },
       select: {
         depart_Time: true,
@@ -755,6 +791,77 @@ export async function getBookingsDetails(driverId,departTime, departDate,take,sk
   } catch (error) {
     console.error("Error retrieving user info and booking address:", error);
     return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+export async function getCountsForScanning(departDate, departTime, busName) {
+  try {
+    const completedCount = await prisma.booking.count({
+      where: {
+        depart_Date: departDate,
+        depart_Time: departTime,
+        bus: {
+          bus_Name: busName
+        },
+        bookingStatus: 'Completed'
+      }
+    });
+
+    const pendingCount = await prisma.booking.count({
+      where: {
+        depart_Date: departDate,
+        depart_Time: departTime,
+        bus: {
+          bus_Name: busName
+        },
+      }
+    });
+
+    return { completed: completedCount, total: pendingCount };
+  } catch (error) {
+    console.error('Error fetching booking counts:', error);
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+
+export  async function completeBooking(idBooking) {
+  try {
+    // Fetch the booking with the given id_Booking and status "Pending"
+    const booking = await prisma.booking.findFirst({
+      where: {
+        id_Booking: idBooking,
+        bookingStatus: 'Pending'
+      }
+    });
+
+    if (!booking) {
+      console.log('No pending booking found with the given id.');
+      return false;
+    }
+
+    // Update the bookingStatus to "Completed"
+    const updatedBooking = await prisma.booking.update({
+      where: {
+        id_Booking: idBooking
+      },
+      data: {
+        bookingStatus: 'Completed'
+      }
+    });
+
+   return true;
+
+  } catch (error) {
+    console.error('Error updating booking status:', error);
+    return false;
+    
   } finally {
     await prisma.$disconnect();
   }

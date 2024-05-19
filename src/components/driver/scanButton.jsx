@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 export default function ScanButton() {
   return (
     <Button
-    className=" text-black-50 my-2 bg-[#A7E92F] mx-auto hover:bg-[#A7E92F]"
+    className=" text-black-50  bg-[#A7E92F] mx-auto hover:bg-[#A7E92F]"
     variant="primary"
   >
     <ScanIcon className="mr-2 h-4 w-4" />

@@ -15,9 +15,9 @@ import StudentHistory from "./StudentHistory";
 
 export default function StudentNav() {
 
-  async function destroySession(){
-   const res = await fetch('/api/destroySession');
-   signOut();
+  async function destroySession() {
+    const res = await fetch('/api/destroySession');
+    signOut();
   }
 
   return (
@@ -31,36 +31,41 @@ export default function StudentNav() {
         >
           .Busify
         </Link>
-        <nav className="md:flex items-center space-x-6">
-         
-          <Dialog key="1" >
-            <DialogTrigger asChild>
-              <Link className="hover:text-gray-300" href="#">
-                Historique
-              </Link>
-            </DialogTrigger>
-            <StudentHistory />
-            </Dialog>
+       
+        <div className="flex items-center justify-center space-x-1 md:space-x-6">
 
-
-            <Dialog key="">
-              <DialogTrigger asChild>
-                <Link className="hover:text-gray-300" href="#">
-                  Settings
-                </Link>
-                </DialogTrigger>
-              <StudentEditModal />
-            </Dialog>
-
-              
-        </nav>
-        <div className="flex items-center space-x-4">
-          <Button size="icon" variant="ghost">
-            <BellIcon className="h-6 w-6" />
-          </Button>
           {/* <Toggle aria-label="Toggle dark mode">
             <MoonIcon className="h-6 w-6" />
           </Toggle> */}
+          <Dialog key="1" >
+            <DialogTrigger asChild>
+                <Button size="icon" variant="ghost">
+                  <ClockIcon className="h-6 w-6" />
+                </Button>
+            </DialogTrigger>
+            <StudentHistory />
+          </Dialog>
+
+
+          <Dialog key="">
+            <DialogTrigger asChild>
+                <Button size="icon" variant="ghost">
+                  <UserIcon className="h-6 w-6" />
+                </Button>
+            </DialogTrigger>
+            <StudentEditModal />
+          </Dialog>
+
+
+            <Button size="icon" variant="ghost">
+            <FileIcon className="h-6 w-6" />
+          </Button>
+
+
+          <Button size="icon" variant="ghost">
+            <BellIcon className="h-6 w-6" />
+          </Button>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar className="h-8 w-8 cursor-pointer">
@@ -70,12 +75,6 @@ export default function StudentNav() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
 
-           
-              <DropdownMenuItem className="cursor-pointer">
-                <UserIcon className="mr-2 h-4 w-4" />
-                Edit Profile
-              </DropdownMenuItem>
-             
 
 
 
@@ -113,6 +112,46 @@ function MoonIcon(props: SVGProps<SVGSVGElement>) {
 }
 
 
+function ClockIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  )
+}
+
+
+function FileIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+    </svg>
+  )
+}
 
 function BellIcon(props: SVGProps<SVGSVGElement>) {
   return (

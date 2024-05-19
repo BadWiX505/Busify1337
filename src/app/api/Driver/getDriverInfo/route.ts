@@ -8,7 +8,6 @@ export async function GET(){
     userId = cookies().get("userId")?.value || null; 
     if(userId)
     userId = parseInt(userId) 
-  userId =26;
 
       var user = null;
       if(userId){

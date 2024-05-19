@@ -1,6 +1,6 @@
 "use client"
 
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { z } from "zod";
@@ -74,7 +74,7 @@ const MyComponent = () => {
   const handleCurrentPositionChange = (position: Address) => {
     setadress(position);
   };
-  const [realAdress,setRealAdress] = useState('choose your destination -->');
+  const [realAdress, setRealAdress] = useState('choose your destination -->');
 
 
 
@@ -191,10 +191,10 @@ const MyComponent = () => {
 
 
 
-  useEffect(()=>{
-   console.log("selected addres is mmmmn : ");
-   console.log(address)
-  },[address])
+  useEffect(() => {
+    console.log("selected addres is mmmmn : ");
+    console.log(address)
+  }, [address])
 
 
 
@@ -204,15 +204,15 @@ const MyComponent = () => {
       ...prevUser,
       default_Address: address
     }));
-   const getRealAddress = async ()=>{
-    const realAdressFromGeo= await getAddressFromCoordinates(address.lat,address.lng);
-    if(realAdressFromGeo)
-      setRealAdress(realAdressFromGeo);
-    else
-     setRealAdress('Uknown Adress');
-   }
-   if(address.lat && address.lng)
-   getRealAddress();
+    const getRealAddress = async () => {
+      const realAdressFromGeo = await getAddressFromCoordinates(address.lat, address.lng);
+      if (realAdressFromGeo)
+        setRealAdress(realAdressFromGeo);
+      else
+        setRealAdress('Uknown Adress');
+    }
+    if (address.lat && address.lng)
+      getRealAddress();
 
   }, [address])
 
@@ -254,7 +254,7 @@ const MyComponent = () => {
       <div className="min-h-screen flex justify-center items-center">
         {isloading && <Loader />}
         <div className="max-w-6xl w-full">
-          <div className="grid grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
             <div className="space-y-6">
 
               <div>
@@ -276,38 +276,38 @@ const MyComponent = () => {
 
             } */}
 
-            <div className="space-y-16">
-              <h2 className="text-4xl font-bold">Let &apos s Get Started!</h2>
+            <div className="space-y-16 p-4">
+              <h2 className="text-4xl font-bold">{"Let's Get Started"}</h2>
               <div className="space-y-9">
 
                 <div className="space-y-1 relative">
                   <label htmlFor="">Your default location:</label>
                   <div className="input-container relative">
-                  <Dialog>
-        <DialogTrigger asChild>
-          <div >
-            <input className="border cursor-pointer rounded-md px-4 py-2 w-full" id="defaultLocation" placeholder={realAdress} readOnly />
-            <button id="locationButton" className="location-button absolute right-3 top-1/2 transform -translate-y-1/2 bg-transparent border-none p-1 focus:outline-none" type="button">
-              <svg
-                viewBox="0 0 576 512"
-                fill="currentColor"
-                height="2em"
-                width="2em"
-              >
-                <path d="M408 120c0 54.6-73.1 151.9-105.2 192-7.7 9.6-22 9.6-29.6 0C241.1 271.9 168 174.6 168 120 168 53.7 221.7 0 288 0s120 53.7 120 120zm8 80.4c3.5-6.9 6.7-13.8 9.6-20.6.5-1.2 1-2.5 1.5-3.7l116-46.4c15.8-6.3 32.9 5.3 32.9 22.3v270.8c0 9.8-6 18.6-15.1 22.3L416 503V200.4zm-278.4-62.1c2.4 14.1 7.2 28.3 12.8 41.5 2.9 6.8 6.1 13.7 9.6 20.6v251.4L32.9 502.7C17.1 509 0 497.4 0 480.4V209.6c0-9.8 6-18.6 15.1-22.3l122.6-49zM327.8 332c13.9-17.4 35.7-45.7 56.2-77v249.3l-192-54.9V255c20.5 31.3 42.3 59.6 56.2 77 20.5 25.6 59.1 25.6 79.6 0zM288 152c22.1 0 40-17.9 40-40s-17.9-40-40-40-40 17.9-40 40 17.9 40 40 40z" />
-              </svg>
-            </button>
-          </div>
-        </DialogTrigger>
-        <LoadScript 
-        googleMapsApiKey="AIzaSyDCzTRvG0nBe5vmD0j74U1Bsz7rvRCeD34"
-        >
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <div >
+                          <input className="border cursor-pointer rounded-md px-4 py-2 w-full" id="defaultLocation" placeholder={realAdress} readOnly />
+                          <button id="locationButton" className="location-button absolute right-3 top-1/2 transform -translate-y-1/2 bg-transparent border-none p-1 focus:outline-none" type="button">
+                            <svg
+                              viewBox="0 0 576 512"
+                              fill="currentColor"
+                              height="2em"
+                              width="2em"
+                            >
+                              <path d="M408 120c0 54.6-73.1 151.9-105.2 192-7.7 9.6-22 9.6-29.6 0C241.1 271.9 168 174.6 168 120 168 53.7 221.7 0 288 0s120 53.7 120 120zm8 80.4c3.5-6.9 6.7-13.8 9.6-20.6.5-1.2 1-2.5 1.5-3.7l116-46.4c15.8-6.3 32.9 5.3 32.9 22.3v270.8c0 9.8-6 18.6-15.1 22.3L416 503V200.4zm-278.4-62.1c2.4 14.1 7.2 28.3 12.8 41.5 2.9 6.8 6.1 13.7 9.6 20.6v251.4L32.9 502.7C17.1 509 0 497.4 0 480.4V209.6c0-9.8 6-18.6 15.1-22.3l122.6-49zM327.8 332c13.9-17.4 35.7-45.7 56.2-77v249.3l-192-54.9V255c20.5 31.3 42.3 59.6 56.2 77 20.5 25.6 59.1 25.6 79.6 0zM288 152c22.1 0 40-17.9 40-40s-17.9-40-40-40-40 17.9-40 40 17.9 40 40 40z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </DialogTrigger>
+                      <LoadScript
+                        googleMapsApiKey="AIzaSyDCzTRvG0nBe5vmD0j74U1Bsz7rvRCeD34"
+                      >
 
-         <GoogleMapsComponentModal handleCurrentPositionChange={handleCurrentPositionChange} modalRole='GTstarted'/>
-         
-         </LoadScript>
+                        <GoogleMapsComponentModal handleCurrentPositionChange={handleCurrentPositionChange} modalRole='GTstarted' />
 
-        </Dialog>
+                      </LoadScript>
+
+                    </Dialog>
 
                   </div>
                 </div>
@@ -321,13 +321,18 @@ const MyComponent = () => {
                   </select>
                 </div>
               </div>
-              <div className="flex justify-end">
+              <div className="flex justify-end gap-3">
+
+                <button className="flex items-center bg-white text-green font-medium py-2 px-4 rounded-md border border-green focus:outline-none transition duration-300 ease-in-out hover:bg-white hover:border-green hover:text-green-800" type='button' onClick={()=>signOut()}>
+                  Back
+                </button>
                 <button onClick={handleClickSubmit} className="flex items-center bg-green-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none transition duration-300 ease-in-out hover:bg-green-800" type="button">
                   Finish
                   <svg className="h-5 w-10" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path clipRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fillRule="evenodd"></path>
                   </svg>
                 </button>
+
               </div>
             </div>
 

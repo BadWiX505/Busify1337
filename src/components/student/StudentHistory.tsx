@@ -71,9 +71,9 @@ export default function StudentHistory() {
     return (
         
             <DialogContent className="sm:max-w-[1000px]">
-                <DialogHeader>
-                    <DialogTitle>Student Enrollment</DialogTitle>
-                    <DialogDescription>View and manage student course enrollments.</DialogDescription>
+                <DialogHeader className="mt-2">
+                    <DialogTitle className="my-2">Bookings History</DialogTitle>
+                    <DialogDescription>View all your bookings</DialogDescription>
                 </DialogHeader>
                 <div className="w-full overflow-x-auto">
                     <Table>

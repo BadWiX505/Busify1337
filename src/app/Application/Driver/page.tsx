@@ -18,23 +18,24 @@ import { Dialog } from "@/components/ui/dialog"
 import { DialogTrigger } from "@/components/ui/dialog"
 import BookingsDetails from "@/components/driver/detailsModal"
 import ScanButton from "@/components/driver/scanButton"
+import Link from "next/link"
 
 
 export default function Component() {
 
-    const [driver, setDriver] = useState({ full_name: ".....", image: null });
+    const [driver, setDriver] = useState({ full_name: ".....", image: null, busName: null });
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [popoverOpen, setPopoverOpen] = useState(false); // State to manage popover visibility
     const [duties, setDuties] = useState(null);
     const [loading, setLoading] = useState(true)
-    const [isDialogOpen , setisDialogOpen] = useState(false);
+    const [isDialogOpen, setisDialogOpen] = useState(false);
     const [selectedDutyIndex, setSelectedDutyIndex] = useState(null);
 
 
-   function changeDialogeMode(index){
-      setisDialogOpen(!isDialogOpen)
-      setSelectedDutyIndex(index);
-   }
+    function changeDialogeMode(index) {
+        setisDialogOpen(!isDialogOpen)
+        setSelectedDutyIndex(index);
+    }
 
 
     const togglePopover = () => {
@@ -43,7 +44,7 @@ export default function Component() {
 
     // Calculate the range of selectable dates
     const today = new Date();
-    const minDate = subDays(today, 1); // Yesterday
+    const minDate = subDays(today, 2); // Yesterday
     const maxDate = addDays(today, 7); // Today + 7 days
 
     // Function to check if a date is within the range
@@ -69,10 +70,9 @@ export default function Component() {
     useEffect(() => {
         if (duties) {
             setLoading(false);
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            console.log(duties)
+           
         }
-        
+
     }, [duties])
 
 
@@ -116,7 +116,7 @@ export default function Component() {
 
     return (
         <div key="1" className="flex flex-col items-center justify-center min-h-screen gap-8">
-          
+
             <div className="relative w-32 h-32 rounded-full overflow-hidden">
                 <img
                     alt="Driver"
@@ -176,18 +176,34 @@ export default function Component() {
                                     <TableCell className="px-4 py-3 whitespace-nowrap">{duty.date}</TableCell>
                                     <TableCell className="px-4 py-3 whitespace-nowrap">{duty.count}</TableCell>
                                     <TableCell className="px-4 py-3 whitespace-nowrap">
-                                        <Dialog onOpenChange={()=>changeDialogeMode(index)} key={index}>
+                                        <Dialog onOpenChange={() => changeDialogeMode(index)} key={index}>
                                             <DialogTrigger key={index}>
-                                       
-                                            <EyeIcon className="w-4 h-4" />
-                                       
-                                        </DialogTrigger>
-                                        {isDialogOpen && selectedDutyIndex === index && <BookingsDetails data={duty} />}
+
+                                                <EyeIcon className="w-4 h-4" />
+
+                                            </DialogTrigger>
+                                            {isDialogOpen && selectedDutyIndex === index && <BookingsDetails data={duty} />}
                                         </Dialog>
                                     </TableCell>
 
-                                  {duty.status == 'Pending' &&  <TableCell className="px-4 py-3 whitespace-nowrap text-">{duty.status}</TableCell> }
-                                  {duty.status == 'Scanning' && <ScanButton /> }
+
+                                    <TableCell className="px-4 py-3 whitespace-nowrap text-">
+
+                                        
+                                        {duty.status == 'Pending' && duty.status}
+                                        {duty.status == 'Scanning' && <Link href={{
+                                            pathname: "/Application/Driver/Scanning",
+                                            query: {
+                                                date: duty.date,
+                                                time: duty.time,
+                                                busName: driver ? driver.busName : null,
+                                            }
+                                        }}> <ScanButton /> </Link>}
+
+
+                                    </TableCell>
+
+
                                 </TableRow>
                             )
 
