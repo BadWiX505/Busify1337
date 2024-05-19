@@ -67,7 +67,7 @@ export default function StudentMain() {
   const [selectedTime, setSelectedTime] = useState(null);
   const [defaultTime, setDefaultTime] = useState(null);
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Function to handle the change of selected time
   const handleTimeChange = (value: SetStateAction<null>) => {
@@ -217,6 +217,7 @@ export default function StudentMain() {
     const isTimeAvailable = timesGroup.availaibleTimes.some(item => item.time == defaultTime);
 
     if (!isTimeAvailable) {
+      if(timesGroup.availaibleTimes.length>0)
       setSelectedTime(timesGroup.availaibleTimes[0].time);
     }
     else {
