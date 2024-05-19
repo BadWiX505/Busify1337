@@ -67,7 +67,7 @@ export default function StudentMain() {
   const [selectedTime, setSelectedTime] = useState(null);
   const [defaultTime, setDefaultTime] = useState(null);
   const { toast } = useToast();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Function to handle the change of selected time
   const handleTimeChange = (value: SetStateAction<null>) => {
