@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -250,15 +250,19 @@ const GoogleMapsComponentModal = () => {
 
 
   const rotateMap = (amount) => {
+    if(mapRef.current){
     const currentHeading = mapRef.current.getHeading() || 0; // Get the current heading, default to 0 if not available
     const newHeading = currentHeading + amount; // Calculate the new heading by adding the amount
-    mapRef.current.setHeading(newHeading); // Set the new heading to rotate the map
+    mapRef.current.setHeading(newHeading); 
+    }// Set the new heading to rotate the map
   };
 
   const tiltMap = (amount) => {
+    if(mapRef.current){
     const currentTilt = mapRef.current.getTilt() || 0; // Get the current tilt, default to 0 if not available
     const newTilt = currentTilt + amount; // Calculate the new tilt by adding the amount
-    mapRef.current.setTilt(newTilt); // Set the new tilt to adjust the map tilt
+    mapRef.current.setTilt(newTilt); 
+    }// Set the new tilt to adjust the map tilt
   };
 
 
