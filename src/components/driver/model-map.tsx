@@ -106,7 +106,7 @@ export default function ModelMap({ onClose, destination,removeMarker }) {
           <ul className="divide-y divide-gray-200 dark:divide-gray-700">
             {destination.users.map((user, index) => (
 
-              <li className="py-4 flex items-center justify-between">
+              <li className="py-4 flex items-center justify-between" key={index}>
                 <div className="flex items-center space-x-4">
                   <Avatar>
                     <AvatarImage
