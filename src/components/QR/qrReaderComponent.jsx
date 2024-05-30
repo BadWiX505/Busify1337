@@ -44,7 +44,6 @@ const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
         }}      
         />
       }
-      {/* <p>{result}</p> */}
     </div>
   );
 };

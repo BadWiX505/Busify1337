@@ -94,11 +94,7 @@ export default function QrScan() {
     //     return true;
     // }
 
-     useEffect(()=>{
-        if(readedData){
-        setReaderPlaying(false);
-        }
-     },[readedData])
+    
 
 
 
