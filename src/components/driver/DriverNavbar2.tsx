@@ -167,9 +167,9 @@ export default function DriverNavbar2({driverInfo}) {
                 <WrenchIcon className="h-4 w-4" />
                 <span>Account</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2" >
+              <DropdownMenuItem className="flex items-center gap-2" onClick={destroySession}>
                 <SignOutIcon className="h-4 w-4" />
-                <span onClick={destroySession}>Sign out</span>
+                <span>Sign out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -190,7 +190,7 @@ export default function DriverNavbar2({driverInfo}) {
                 <WrenchIcon className="h-4 w-4" />
                 <span>Account</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2" onClick={destroySession}>
                 <SignOutIcon className="h-4 w-5" />
                 <span>Sign out</span>
               </div>
