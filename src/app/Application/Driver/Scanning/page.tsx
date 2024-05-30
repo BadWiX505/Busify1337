@@ -2,7 +2,7 @@
 
 import QrReaderCompo from "@/components/QR/qrReaderComponent";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -23,11 +23,41 @@ export default function QrScan() {
     const [readerPlaying, setReaderPlaying] = useState(true)
     const router = useRouter();
     const [readedData , setReadedData] = useState(null);
+    const [isReaderConfirmDialog , setIsReaderConfirmDialog] = useState(false);
 
     const refreshQrReader = () => {
         setKey(prevKey => prevKey + 1);
     };
 
+
+     function closeReaderModal(){
+        setReaderPlaying(true);
+        setIsReaderConfirmDialog(false);
+     }
+
+    function ConfirmReading({ open }) {
+        setReaderPlaying(false);
+        return (
+          <Dialog open={open} >
+            <DialogContent className=" sm:w-100 lg:w-[300px] md:w-[300px] xl:w-[500px]">
+              <div className="p-4">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  Confirm Scanning
+                </h2>
+                <p className="text-gray-700">
+                  Are you sure you want to confirm Scanning and check this Qrcode?
+                </p>
+              </div>
+              <DialogFooter className="gap-4">
+                <Button onClick={closeReaderModal}>Cancel </Button>
+                <Button variant="destructive">
+                  Confirm
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        );
+      }
 
 
     // function validateJsonString(jsonString: string) {
@@ -72,6 +102,8 @@ export default function QrScan() {
 
 
 
+
+
     async function checkTicket(ticket) {
         const res = await fetch("/api/Driver/validateStudent?idBooking=" + ticket);
         const resp = await res.json();
@@ -108,7 +140,8 @@ export default function QrScan() {
 
     function SCchanged(data: any) {
         if(data){
-        
+        setReadedData(data);
+        setIsReaderConfirmDialog(true);
         setSCstatus("validating");
         setTimeout(() => {
             setSCstatus("checking")
@@ -260,6 +293,7 @@ export default function QrScan() {
                           )}
                     </div>
                 </div>
+                 <ConfirmReading open={isReaderConfirmDialog}/>
             </main>
             <footer className="bg-gray-900 text-white py-4 px-6 md:py-6 md:px-8 flex justify-end" />
         </div>
