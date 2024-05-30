@@ -274,6 +274,8 @@ const GoogleMapsComponentModal = () => {
         center={currentPosition  ? currentPosition :center}
         zoom={17}
         options={options}
+        heading={320}
+        tilt={47.5}
         onLoad={map => mapRef.current = map}
       >
         {currentPosition && (
