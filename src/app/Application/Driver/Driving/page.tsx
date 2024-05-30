@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -247,10 +247,40 @@ const GoogleMapsComponentModal = () => {
   };
 
 
+  const [mapRotation, setMapRotation] = useState(0);
+
+// Function to handle rotation change
+const handleRotationChange = (angle) => {
+  setMapRotation(angle);
+};
+
+// Inside the GoogleMap component, add a rotation option
+const options = {
+  rotateControl: true,
+};
+
+// Inside the GoogleMap component, update the rotation angle
+const map = useRef(null);
+
+useEffect(() => {
+  if (map.current) {
+    map.current.setHeading(mapRotation);
+  }
+}, [mapRotation]);
+
+// Inside the GoogleMap component, handle user interaction to change rotation
+const handleMapDrag = () => {
+  const heading = map.current.getHeading();
+  handleRotationChange(heading);
+};
+
+
   if (loadError) return <div>Error loading Google Maps</div>;
   return isLoaded ? (
     <div>
       <GoogleMap
+       ref={map}
+       onDrag={handleMapDrag}
         mapContainerStyle={containerStyle}
         center={currentPosition  ? currentPosition :center}
         zoom={17}
