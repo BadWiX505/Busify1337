@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { haversineDistance } from "@/utils/mapUtils";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { toast, useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 const containerStyle = {
   width: "100%",
   height: "100vh",
@@ -38,7 +38,6 @@ const west = longitude - buffer_distance;
 
 const options = {
   fullscreenControl: false, // Disables the fullscreen control
-  gestureHandling: "greedy",
   restriction: {
     latLngBounds: {
       north: north,
