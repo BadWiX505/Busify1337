@@ -3,36 +3,36 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { SVGProps } from "react";
-import { Toggle } from "../ui/toggle";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { signOut } from "next-auth/react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import StudentEditModal from "./StudentEditModal";
 import StudentHistory from "./StudentHistory";
+import { useRouter } from "next/navigation";
 
 
 
 export default function StudentNav() {
-
+  const router = useRouter();
   async function destroySession() {
-    const res = await fetch('/api/destroySession');
-    signOut();
+    const resp = await fetch('/api/destroySession');
+    const res = await resp.json();
+    if(res)
+      router.push('/login')
   }
 
   return (
-    <header className="bg-gray-900 text-white py-4 px-6 md:px-8 lg:px-10">
+    <header className="text-black py-4 px-6 md:px-8 lg:px-10  z-2 relative">
       <div className="flex items-center justify-between">
         <Link
-          className="text-2xl font-bold"
+          className="text-2xl font-bold text-white"
           href="#"
-          style={{ color: "#FFF" }}
         // style={{ color: "#A7E92F" }}
         >
           .Busify
         </Link>
        
-        <div className="flex items-center justify-center space-x-1 md:space-x-6">
+        <div className="flex items-center justify-center space-x-1 md:space-x-6 text-white">
 
           {/* <Toggle aria-label="Toggle dark mode">
             <MoonIcon className="h-6 w-6" />
@@ -91,25 +91,6 @@ export default function StudentNav() {
   )
 }
 
-
-function MoonIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-    </svg>
-  );
-}
 
 
 function ClockIcon(props) {

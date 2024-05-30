@@ -2,48 +2,60 @@ generator client {
   provider = "prisma-client-js"
 }
 
-//  provider = "postgresql"
-//   url      = env("DATABASE_URL")
-
-
 datasource db {
+  // provider = "postgresql"
+  // url      = env("DATABASE_URL")
   provider = "postgresql"
   url = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
-  id_User            Int     @id @default(autoincrement())
+  id_User            String     @id @default(cuid())
   full_name          String
   image              String?
+  email              String
   role               Role
-  status             status?
+  status             status?    @default(active)
   default_Adress_lat Float?
   default_Adress_lng Float?
-  default_time String?
-  booking      Booking[]
-  key          Key?      @relation(fields: [key_id], references: [id_Key])
-  key_id       Int?      @unique
+  createdAt          DateTime   @default(now())
+  default_time       String?
+  booking            Booking[]
+  reports            Report[]   @relation("Reporter")
+  receivedReports    Report[]   @relation("ReportedUser")
+  sessions           Session[]
+  bus                Bus?
+  busId              Int?
+  providers          Provider[]
+  issues             Issue[]    @relation("DriverIssues")
 }
 
-model Key {
-  id_Key   Int    @id @default(autoincrement())
-  userName String
-  email    String
-  user     User?
+model Provider {
+  userId      String
+  provider_Id String @id
+  username    String
+  user        User   @relation(references: [id_User], fields: [userId], onDelete: Cascade)
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id_User], fields: [userId], onDelete: Cascade)
 }
 
 model Booking {
-  id_Booking  Int      @id @default(autoincrement())
-  user_id     Int
-  depart_Time String
-  depart_Date String
-  Adress_lnt Float?
-  Adress_lng Float?
-  bookedAt DateTime?
-  bus_id      Int
-  bus         Bus      @relation(fields: [bus_id], references: [id_Bus])
-  user        User     @relation(fields: [user_id], references: [id_User])
+  id_Booking    Int            @id @default(autoincrement())
+  user_id       String
+  depart_Time   String
+  depart_Date   String
+  Adress_lnt    Float?
+  Adress_lng    Float?
+  bookedAt      DateTime?
+  bus_id        Int
+  bus           Bus            @relation(fields: [bus_id], references: [id_Bus])
+  user          User           @relation(fields: [user_id], references: [id_User])
   bookingStatus BookingStatus?
 }
 
@@ -51,29 +63,28 @@ model Bus {
   id_Bus       Int       @id @default(autoincrement())
   bus_Number   Int
   bus_Name     String
-  id_Driver    Int
+  id_Driver    String    @unique
   bus_Capacity Int
   bus_Status   status
+  user         User      @relation(fields: [id_Driver], references: [id_User])
   booking      Booking[]
-  duities Duty[]
+  duities      Duty[]
+  issues       Issue[]    @relation("BusIssues")
 }
 
-
-model TravelTimes{
-  id   Int @id @default(autoincrement())
-  time String 
+model TravelTimes {
+  id   Int    @id @default(autoincrement())
+  time String
 }
 
-
-model Duty{
-  id_Duty Int @id @default(autoincrement())
-  duty_Time String
-  duty_Date String
+model Duty {
+  id_Duty     Int         @id @default(autoincrement())
+  duty_Time   String
+  duty_Date   String
   duty_Status DutyStatus?
   bus_id      Int
-  bus         Bus      @relation(fields: [bus_id], references: [id_Bus])
+  bus         Bus         @relation(fields: [bus_id], references: [id_Bus])
 }
-
 
 enum status {
   inactive
@@ -86,15 +97,45 @@ enum Role {
   driver
 }
 
-enum BookingStatus{
+enum BookingStatus {
   Pending
   Completed
+  Checked
   Missed
 }
 
-enum DutyStatus{
- Pending
- Scanning
- Driving
- Completed
+enum DutyStatus {
+  Pending
+  Scanning
+  Driving
+  Completed
+}
+
+model Report {
+  id             Int      @id @default(autoincrement())
+  reporterId     String
+  reportedUserId String
+  reason         String
+  comment        String?
+  report_Status  status
+  createdAt      DateTime @default(now())
+  reporter       User     @relation("Reporter", fields: [reporterId], references: [id_User])
+  reportedUser   User     @relation("ReportedUser", fields: [reportedUserId], references: [id_User])
+  busId          Int?
+}
+
+
+model Issue {
+  id_issue    Int       @id @default(autoincrement())
+  driver_id   String
+  issueType   IssueType  
+  bus_id      Int
+  reported_at DateTime  @default(now())
+  driver      User      @relation("DriverIssues", fields: [driver_id], references: [id_User])
+  bus         Bus       @relation("BusIssues", fields: [bus_id], references: [id_Bus])
+}
+
+enum IssueType {
+  accident
+  breakdown
 }

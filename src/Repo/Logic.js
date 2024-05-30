@@ -1,35 +1,5 @@
-import {checkUserExistance,getUserRole,createUserAndKey,getUserDefaultThings,getAvailableTimes,bookSeatOnNextAvailableBus, getStudentDetails, updateUser, getStudentHistory,getPendingBookingsByUserId, getStudentTicket} from '@/app/server/db';
+import {getUserDefaultThings,getAvailableTimes,bookSeatOnNextAvailableBus, getStudentDetails, updateUser, getStudentHistory,getPendingBookingsByUserId, getStudentTicket} from '@/app/server/db';
 
-
-
-export function checkUserExistenceInLocalDB(userData) {
-       
-    return true;  
-}
-
-export async function createUserLogic(userInfo){
-   const res = await createUserAndKey(userInfo)
-   if(res)
-      return true;
-   else
-   return false
-}
-
-export async function checkAuth(user){
-   if(user){
-      const isExsist = await checkUserExistance(user);
-      // if(isExsist){
-      //    const role = await
-      // }
-   }
-   return false;
-}
-
-
-export async function getRole(userkey){
-   const user = await getUserRole(userkey);
-   return user;
-}
 
 
 
@@ -39,23 +9,10 @@ export async function getUserDefault(idUser){
 }
 
 
-// export async function door(){
-//    const session = await getServerSession(authOptions);
-   
-//    if(!session){
-//      redirect('/login');
-//    }
-//    else{
-//       // if()
-//    }
-// }
-
-
-
 
 
 export async function getAddressFromCoordinates(lat, lng) {
-   const apiKey = 'AIzaSyDCzTRvG0nBe5vmD0j74U1Bsz7rvRCeD34'; // Replace with your own API key
+   const apiKey = 'AIzaSyAH-j0JYMyTZx3A5m0XXFnal0qnCVmKz9M'; // Replace with your own API key
    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
 
    try {
@@ -71,7 +28,7 @@ export async function getAddressFromCoordinates(lat, lng) {
        }
    } catch (error) {
        console.error('Error fetching data:', error);
-       return null;
+       return 'problem occured';
     }
 }
 
@@ -87,6 +44,7 @@ export async function availableTimes(date){
 
 export async function bookBus(booking){
    const res = await bookSeatOnNextAvailableBus(booking.depart_date, booking.depart_time, booking.id_User, booking.adress_lat, booking.adress_lng);
+
    return res;
 }
 
@@ -99,7 +57,7 @@ export async function getStudentDetailsforStudent(userId){
 
 
 export async function UpdateStudent(userId,newSt){
-   const res = await updateUser(userId,newSt.address.lat,newSt.address.lng,newSt.time)
+   const res = await updateUser(userId,newSt.lat,newSt.lng,newSt.time)
    return res;
 }
 

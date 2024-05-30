@@ -91,7 +91,7 @@ export default function BookingsDetails({ data }) {
                                         <AvatarFallback>CN</AvatarFallback>
                                     </Avatar>
                                       {row.user.full_name}</TableCell>
-                                    <TableCell>{row.Adress_lng}</TableCell>
+                                    <TableCell>{row.destination}</TableCell>
                                 </TableRow>
                             )
                             )

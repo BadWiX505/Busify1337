@@ -7,17 +7,18 @@ import StudentCardLoading from "./PendingLoadingCards";
 
 export default function StudentCards(){
  
-   const [pendingBookings,setPendingBookings] = useState([]);
+   const [pendingBookings,setPendingBookings] = useState(null);
    const [loading , setLoading] = useState(true);
 
    useEffect(()=>{
-    if(pendingBookings.length>0){
+      if(pendingBookings){
        setLoading(false);
-    }
+      }
+    
    },[pendingBookings])
 
    async function getAllPendingBookings(){
-      const res = await fetch("/api/getPendingBookings");
+      const res = await fetch("/api/Student/getPendingBookings");
       const resp = await res.json();
      setPendingBookings(resp);
    }
@@ -27,7 +28,7 @@ export default function StudentCards(){
    },[])
     
     return (
-        <section className="bg-white py-12 px-1 md:px-8 lg:px-10">
+        <section className="bg-white py-12 px-1 md:px-8 lg:px-10 mt-30px">
         <div className="container mx-auto">
           <h2 className="text-2xl font-bold mb-8 w-auto">Pending Bookings </h2>
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">

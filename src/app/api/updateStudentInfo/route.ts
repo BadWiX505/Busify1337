@@ -1,23 +1,30 @@
 import { UpdateStudent } from "@/Repo/Logic";
-import { cookies } from "next/headers";
-
+import { validateRequest } from "@/lib/auth";
+import {z} from 'zod'
 
 export async function POST(request : Request){
 
-    let userId ;
-    userId = cookies().get("userId")?.value || null; 
-    let res=null;
+     const {user}  = await validateRequest();
+     let res=null;
+     let message = null;
 
-    if(userId){
-    userId = parseInt(userId) 
+     try{
+      const addressShema = z.object({
+
+      })
+    if(user){
     const data = await request.json();
-     res = await UpdateStudent(userId,data);
+     res = await UpdateStudent(user.idUser,data);
     }
+   }
+   catch(err){
+     
+   }
 
 
     const result = res ? true : false;
     
-   return new Response(JSON.stringify({finalRes : result}),{
+   return new Response(JSON.stringify(result),{
       headers : {
         "Content-Type" : "application/json",
       },

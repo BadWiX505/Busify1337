@@ -1,28 +1,24 @@
-
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/utils/authOptions";
-import { getRole } from "@/Repo/Logic";
-
+import { wallFunction } from "@/utils/wall";
 
 export default async function RootLayout({
     children,
   }: Readonly<{
     children: React.ReactNode;
   }>) {
+
+    const user  = await  wallFunction();
+
+    if(user){
+      if(user.role !='student' || user.defTime){
+          redirect('/login')
+      }
+    }
     
-     
-    const session = await getServerSession(authOptions);
-
-    if(session){
-      const res= await getRole({userName:session?.user?.name,email:session?.user?.email});
-       if(res){
-        redirect("/login");
-       }
-       // here student intra checking
-    }    
-
     return (
-      children
+      <>
+      {children}
+      </>
     );
   }
+  

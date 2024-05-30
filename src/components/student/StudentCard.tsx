@@ -11,6 +11,7 @@ import { Dialog } from "../ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import StudentTicket from "./StudentTicket";
 import { useState } from "react";
+import { formatShortReadableDate } from "@/utils/dateUtils";
 
 
 
@@ -23,16 +24,101 @@ export default function StudentCard({ data }) {
    function changeDialogeMode(){
       setisDialogOpen(!isDialogOpen)
    }
-  function formatShortReadableDate(dateString: string) {
-    const date = new Date(dateString);
-    const options = { month: 'short', day: 'numeric' };
-    const formattedDate = date.toLocaleDateString('en-US', options);
 
-    // Get time in HH:MM format from the date string
-    const time = `${date.getHours()}:${(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()}`;
-
-    return `${formattedDate}, ${date.getFullYear()} ${time}`;
+  function extractFirstName(locationString: string) {
+    var addr = "";
+    if (locationString.split(',').length <= 3) {
+      addr = locationString.split(',')[0].trim();
+    }
+    else {
+      addr = locationString.split(',')[0].trim() + ',' + locationString.split(',')[1].trim();
+    }
+    return addr;
   }
+
+  return (
+    <div className="bg-white dark:bg-gray-950 p-6 rounded-lg shadow-lg max-w-md mx-auto relative overflow-hidden">
+      <div className="absolute w-100 h-50 bg-[#A7E92F] rounded-full"    style={{ width: '200px', height: '200px',top : '-20%', left: '-20%' , zIndex : '0'}}></div>
+      <div className="absolute w-100 h-50 bg-[#A7E92F] rounded-full"    style={{ width: '200px', height: '200px',top : '55%', right: '-20%' , zIndex : '0'}}></div>
+
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-bold relative z-3">Bus Ticket</h2>
+        <div className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium ">Booked</div>
+      </div>
+      <div className="grid grid-cols-1 gap-4">
+        <div className="relative z-3">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-1 ">Destination</p>
+          <p className="font-medium">{extractFirstName(data.realAddress)}</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="relative z-3">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">Bus Name</p>
+          <p className="font-medium">{data.bus.bus_Name}</p>
+        </div>
+        <div className="relative z-3">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">BookedAt</p>
+          <p className="font-medium">{formatShortReadableDate(data.bookedAt)}</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-4 relative z-3">
+        <div>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">Departure Time</p>
+          <p className="font-medium">{data.depart_Time}</p>
+        </div>
+        <div>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">Departure Date</p>
+          <p className="font-medium">{data.depart_Date}</p>
+        </div>
+      </div>
+      <div className="mt-6 flex justify-end relative z-3">
+      
+        <Dialog onOpenChange={changeDialogeMode}>
+        <DialogTrigger asChild>
+        <Button size="sm" variant="outline" className=" bg-transparent hover:bg-black hover:text-white">
+          Get ticket
+        </Button>
+        </DialogTrigger>
+        {isDialogOpen &&
+        <StudentTicket idBooking = {data.id_Booking}/>
+          }
+        </Dialog>
+      </div>
+    </div>
+  )
+}
+
+
+
+
+
+/*
+import {
+  CardTitle,
+  CardDescription,
+  CardHeader,
+  CardContent,
+  Card,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "../ui/button";
+import { Dialog } from "../ui/dialog";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import StudentTicket from "./StudentTicket";
+import { useState } from "react";
+import { formatShortReadableDate } from "@/utils/dateUtils";
+
+
+
+export default function StudentCard({ data }) {
+
+  const [isDialogOpen , setisDialogOpen] = useState(false);
+
+
+
+   function changeDialogeMode(){
+      setisDialogOpen(!isDialogOpen)
+   }
 
   function extractFirstName(locationString: string) {
     var addr = "";
@@ -89,3 +175,4 @@ export default function StudentCard({ data }) {
     </Card>
   )
 }
+*/

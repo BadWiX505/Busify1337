@@ -14,7 +14,7 @@ export default function StudentTicket({idBooking}) {
    const [loading , setLoading] = useState(true);
 
    async function getStudentTicket(){
-      const res = await fetch("/api/getStudentTicket?idbooking="+idBooking);
+      const res = await fetch("/api/Student/getStudentTicket?idbooking="+idBooking);
       const Sticket = await res.json();
       setTicket(Sticket);
    }

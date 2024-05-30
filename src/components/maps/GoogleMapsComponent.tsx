@@ -2,7 +2,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import { GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 const containerStyle = {
   width: '100%',
   height: '490px'
@@ -104,7 +104,7 @@ const GoogleMapsComponentModal = ({handleCurrentPositionChange , modalRole}) => 
      useEffect(()=>{
        
       async function getStudentDefaultAddress(){
-        const res = await fetch('/api/getStudentDefault');
+        const res = await fetch('/api/Student/getStudentDefault');
         const DE = await res.json();
        setCurrentPosition({lat : DE.defU.default_Adress_lat , lng :DE.defU.default_Adress_lng})
       }
@@ -139,7 +139,7 @@ const GoogleMapsComponentModal = ({handleCurrentPositionChange , modalRole}) => 
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyDCzTRvG0nBe5vmD0j74U1Bsz7rvRCeD34"
+    googleMapsApiKey: "AIzaSyAH-j0JYMyTZx3A5m0XXFnal0qnCVmKz9M"
   })
 
   

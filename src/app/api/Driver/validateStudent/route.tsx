@@ -1,5 +1,4 @@
 import { scanStudnet } from "@/Repo/driverLogic";
-import { NextApiRequest } from "next";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 

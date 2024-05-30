@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Bus" ALTER COLUMN "id_Driver" SET DATA TYPE TEXT;
+
+-- AddForeignKey
+ALTER TABLE "Bus" ADD CONSTRAINT "Bus_id_Driver_fkey" FOREIGN KEY ("id_Driver") REFERENCES "User"("id_User") ON DELETE RESTRICT ON UPDATE CASCADE;

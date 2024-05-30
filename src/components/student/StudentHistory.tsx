@@ -7,23 +7,24 @@ import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@
 import { Badge } from "@/components/ui/badge"
 import { useEffect, useState } from "react";
 import StudentHistoryLoading from "@/components/student/StudentHistoryLoading"
+import { formatDateTime } from "@/utils/dateUtils"
 
 const OFFSET = 3;
 const LIMIT = 3;
 
 export default function StudentHistory() {
 
-    const [history, setHistory] = useState([]);
+    const [history, setHistory] = useState(null);
     const [page, setPage] = useState(0);
     const [hasMoreRows, setHasMoreRows] = useState(true); // State to track if there are more rows
     const [loading , setLoading] = useState(true);
 
 
     async function getHistory() {
-        const res = await fetch(`/api/StudentHistory?limit=${LIMIT}&offset=${page}`);
+        const res = await fetch(`/api/Student/StudentHistory?limit=${LIMIT}&offset=${page}`);
         const resp = await res.json();
         const historYArray = resp.booking;
-        setHasMoreRows(historYArray.length <= LIMIT && historYArray.length>=1); // Check if there are more rows
+        setHasMoreRows(historYArray.length>=1); // Check if there are more rows
         setHistory(historYArray);
         setLoading(false);
     }
@@ -47,7 +48,7 @@ export default function StudentHistory() {
     }
 
 
-    function getBorderColor(bookingStatus) {
+    function getBorderColor(bookingStatus : string) {
         switch (bookingStatus) {
           case 'Pending':
             return 'border-yellow-500';
@@ -55,17 +56,15 @@ export default function StudentHistory() {
             return 'border-green-500';
           case 'Missed':
             return 'border-red-500';
+           case 'Checked' :
+            return 'border-blue-500';
           default:
             return 'border-gray-500'; // Default border color
         }
       }
       
 
-    function formatDateTime(isoString : string | number | Date ) {
-        const date = new Date(isoString);
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
-        return date.toLocaleDateString(undefined, options);
-      }
+    
 
 
     return (
@@ -91,7 +90,7 @@ export default function StudentHistory() {
                             {loading && <StudentHistoryLoading limit={LIMIT}/>}
 
                             {!loading &&
-
+                            history && 
                             history.map(historyElemet => 
                                 <TableRow key={historyElemet.bookedAt}>
                                     <TableCell>{historyElemet.depart_Time}</TableCell>

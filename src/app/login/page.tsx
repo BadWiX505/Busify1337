@@ -7,32 +7,16 @@ import { Button } from "@/components/ui/button"
 import Divider from '@mui/material/Divider';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GoogleIconSVG from "@/components/ui/GoogleIcon";
-import { signIn} from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loader from "@/components/ui/loader";
 
 
 
 export default function LoginPage() {
-    const router = useRouter();
-    const [isloading ,setIsLoading]= useState(true);
+    
+    const [isloading ,setIsLoading]= useState(false);
    
-   
-    async function patrolman(){
-    const res = await fetch("/api/patrolman");
-    const link = await res.json();
-    if (link.linkvalue) {
-        router.push(link.linkvalue);
-    }
-
-    setIsLoading(false);
-}
-
-
-useEffect(()=>{
-    patrolman();
-},[])
+    
 
     return (
         
@@ -58,14 +42,18 @@ useEffect(()=>{
                     </div>
                     <div className="grid gap-4">
                         <Divider>Staff or Student</Divider>
-                        <Button type="submit" className="w-full" onClick={() => signIn("github")}>
+                        <a href="/login/github" >
+                        <Button type="submit" className="w-full">
                             <GitHubIcon className="mr-2" />
                             Sign in with Github
                         </Button>
+                        </a>
                         <Divider>Or Driver</Divider>
-                        <Button variant="outline" className="w-full" onClick={() => signIn("google")}>
+                        <a href="/login/google" >
+                        <Button variant="outline" className="w-full">
                             <GoogleIconSVG /> Sign in with Google
                         </Button>
+                        </a>
                     </div>
 
                     <p className="text-balance text-muted-foreground text-center">

@@ -1,7 +1,8 @@
-import { getRole } from "@/Repo/Logic";
-import { authOptions } from "@/app/utils/authOptions";
-import DriverNavBar from "@/components/driver/DriverNavBar";
-import { getServerSession } from "next-auth";
+import DriverNavBar from "@/components/driver/DriverNavbar2";
+import DriverParent from "@/components/driver/driverParent";
+import { DatabaseUserAttributes } from "@/lib/auth";
+
+import { wallFunction } from "@/utils/wall";
 import { redirect } from "next/navigation";
 
 export default async function RootLayout({
@@ -11,20 +12,24 @@ export default async function RootLayout({
   }>) {
     
    
-    const session = await getServerSession(authOptions);
-
-    if(session){
-      const res= await getRole({userName:session?.user?.name,email:session?.user?.email});
-       if(!res || res.role!=="driver"){
-        redirect("/login");
-       }
-    }    
+    
+  const user  = await  wallFunction();
+  if(user){
+    if(user.role!='driver'){
+      redirect('/login');
+    }
+  }
+  else{
+    redirect('/login')
+  }
 
         
     return (
       <>
-      <DriverNavBar />
+      <DriverNavBar driverInfo={user} />
+      <DriverParent driver={user}>
       {children}
+      </DriverParent>
       </>
     );
   }

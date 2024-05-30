@@ -1,19 +1,16 @@
 import { cookies } from "next/headers";
 import {driverInfo}  from "@/Repo/driverLogic";
+import { validateRequest } from "@/lib/auth";
 
 
 export async function GET(){
      
-    let userId ;
-    userId = cookies().get("userId")?.value || null; 
-    if(userId)
-    userId = parseInt(userId) 
-
-      var user = null;
-      if(userId){
-      const defaultUser = await driverInfo(userId);
-      user = defaultUser;
+     const {user}  = await validateRequest();
+      let driver = null;
+      if(user && user.role==='driver'){
+      const defaultUser = await driverInfo(user.idUser);
+      driver = defaultUser;
       }
  
-      return Response.json(user)
+      return Response.json(driver)
 }

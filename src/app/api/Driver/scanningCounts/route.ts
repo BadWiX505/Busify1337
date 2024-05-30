@@ -1,21 +1,31 @@
-import { scanningCounts } from "@/Repo/driverLogic";
-import { cookies } from "next/headers";
+import { dutyPropsFromId, scanningCounts } from "@/Repo/driverLogic";
+import { validateRequest } from "@/lib/auth";
 import { NextRequest } from "next/server";
 
 
 export async function GET(request : NextRequest){
 
-    let userId ;
-    userId = cookies().get("userId")?.value || null; 
-    let counts = null;
+  const {user}  = await validateRequest();
+  try{
+ if(user && user.role==='driver' && user.busId){
+  const params = request.nextUrl.searchParams;
+  const idDuty = params.get('idDuty') ? parseInt(params.get('idDuty')) : null;
+   const dutyProperties = await dutyPropsFromId(idDuty);
+   if(dutyProperties){
+     const counts = await scanningCounts(dutyProperties.duty_Date,dutyProperties.duty_Time,user.busId);
+     if(counts){
+        return Response.json(counts,{status : 200});
+     }
+     throw new Error('an internal error happened');
 
-    const params = request.nextUrl.searchParams;
-     
-   if(params){
-    if(userId){
-     counts = await scanningCounts(params.get("date"),params.get("time"),params.get("busName"))
-    }
-    }
+   }
+   else{
+    throw new Error('an internal error happened');
+   }
+}
+}
+catch(err){
+  return Response.json('an internal server error happened',)
+}
 
-  return Response.json(counts);
 }

@@ -1,14 +1,15 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 
 // Dynamically import QrReader with no SSR
 const QrReader = dynamic(() => import('react-qr-scanner'), { ssr: false });
 
 
-const QrReaderCompo = ({key,SCchanged}) => {
+const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
   //const [result, setResult] = useState(null);
 
+    
   const handleScan = (data) => {
     if (data) {
       SCchanged(data.text);
@@ -30,6 +31,7 @@ const QrReaderCompo = ({key,SCchanged}) => {
 
   return (
     <div>
+      {isPlaying &&
       <QrReader
       key={key}
         delay={2000}
@@ -41,6 +43,7 @@ const QrReaderCompo = ({key,SCchanged}) => {
           video: { facingMode: "environment" }
         }}      
         />
+      }
       {/* <p>{result}</p> */}
     </div>
   );

@@ -3,18 +3,19 @@
 
 import Link from "next/link"
 import { DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "@/components/ui/dropdown-menu"
-import { signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { PopoverTrigger, PopoverContent, Popover } from "@/components/ui/popover"
+import { useRouter } from "next/navigation"
 
 export default function DruverNavBar(){
 
-    
+    const router = useRouter();
     async function destroySession() {
-        const res = await fetch('/api/destroySession');
-        signOut();
-    }
-
+        const resp = await fetch('/api/destroySession');
+        const res = await resp.json();
+        if(res)
+          router.push('/login')
+      }
 
   return(
     <header className="w-full bg-white shadow-md dark:bg-gray-900 dark:text-white">
