@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { haversineDistance } from "@/utils/mapUtils";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 const containerStyle = {
   width: "100%",
   height: "100vh",
@@ -38,6 +38,7 @@ const west = longitude - buffer_distance;
 
 const options = {
   fullscreenControl: false, // Disables the fullscreen control
+  gestureHandling: "greedy",
   restriction: {
     latLngBounds: {
       north: north,
@@ -76,8 +77,6 @@ const GoogleMapsComponentModal = () => {
   const [jobFinished,setjobIsFinished]  = useState(false);
   const params = useSearchParams();
   const router = useRouter();
-  const mapRef = useRef(null);
-
   const {toast} = useToast();
   //the Delete marker confirmation POPUP
 
@@ -248,34 +247,14 @@ const GoogleMapsComponentModal = () => {
   };
 
 
-  const rotateMap = (amount) => {
-    if(mapRef.current){
-    const currentHeading = mapRef.current.getHeading() || 0; // Get the current heading, default to 0 if not available
-    const newHeading = currentHeading + amount; // Calculate the new heading by adding the amount
-    mapRef.current.setHeading(newHeading); 
-    }// Set the new heading to rotate the map
-  };
-
-  const tiltMap = (amount) => {
-    if(mapRef.current){
-    const currentTilt = mapRef.current.getTilt() || 0; // Get the current tilt, default to 0 if not available
-    const newTilt = currentTilt + amount; // Calculate the new tilt by adding the amount
-    mapRef.current.setTilt(newTilt); 
-    }// Set the new tilt to adjust the map tilt
-  };
-
-
   if (loadError) return <div>Error loading Google Maps</div>;
   return isLoaded ? (
-    <div className="relative">
+    <div>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={currentPosition  ? currentPosition :center}
         zoom={17}
         options={options}
-        heading={320}
-        tilt={47.5}
-        onLoad={map => mapRef.current = map}
       >
         {currentPosition && (
           <Marker
@@ -295,12 +274,6 @@ const GoogleMapsComponentModal = () => {
         {direction && <DirectionsRenderer directions={direction} />}
 
       </GoogleMap>
-      <div className="map-controls absolute top-[50px] left-[10px]">
-        <button onClick={() => rotateMap(-20)}>Rotate Left</button>
-        <button onClick={() => rotateMap(20)}>Rotate Right</button>
-        <button onClick={() => tiltMap(20)}>Tilt Down</button>
-        <button onClick={() => tiltMap(-20)}>Tilt Up</button>
-      </div>
 
       {showModel && (
         <ModelMap  
