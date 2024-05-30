@@ -135,8 +135,8 @@ export default function QrScan() {
 
 
     function SCchanged(data: any) {
-        if(data){
-        setReadedData(data);
+        if(data.text){
+        setReadedData(data.text);
         setIsReaderConfirmDialog(true);
         setSCstatus("validating");
         setTimeout(() => {
