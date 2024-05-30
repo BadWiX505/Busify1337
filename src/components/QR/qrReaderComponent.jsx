@@ -9,7 +9,7 @@ const QrReader = dynamic(() => import('react-qr-scanner'), { ssr: false });
 const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
   //const [result, setResult] = useState(null);
 
-    
+    console.log(isPlaying)
   const handleScan = (data) => {
     if (data) {
       SCchanged(data.text);
@@ -31,7 +31,6 @@ const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
 
   return (
     <div>
-      {isPlaying &&
       <QrReader
       key={key}
         delay={2000}
@@ -43,7 +42,7 @@ const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
           video: { facingMode: "environment" }
         }}      
         />
-      }
+      
     </div>
   );
 };
