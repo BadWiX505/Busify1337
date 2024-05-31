@@ -24,7 +24,6 @@ export default function QrScan() {
     const router = useRouter();
     const [readedData , setReadedData] = useState(null);
     const [isReaderConfirmDialog , setIsReaderConfirmDialog] = useState(false);
-    const [res , setRes]  = useState()
 
     const refreshQrReader = () => {
         setKey(prevKey => prevKey + 1);
@@ -193,7 +192,6 @@ export default function QrScan() {
 
     return (
         <div key="1" className="flex flex-col h-screen">
-            <p> {res}  </p>
                {loading && <Loader/>}
             <main className="flex-1 grid grid-cols-1 md:grid-cols-1 gap-6 p-6 md:p-8">
                 <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 md:p-8 flex flex-col items-center justify-center">

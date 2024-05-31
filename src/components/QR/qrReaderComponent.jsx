@@ -7,13 +7,11 @@ const QrReader = dynamic(() => import('react-qr-scanner'), { ssr: false });
 
 
 const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
-  const [result, setResult] = useState(null);
+  // const [result, setResult] = useState(null);
 
-    console.log(isPlaying)
   const handleScan = (data) => {
     if (data) {
       SCchanged(data.text);
-      setResult(data.text)
     }
   };
 
@@ -45,7 +43,6 @@ const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
         }}      
         />
       }
-      <p>{result}</p>
     </div>
   );
 };
