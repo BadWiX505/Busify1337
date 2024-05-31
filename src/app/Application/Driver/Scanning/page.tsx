@@ -78,8 +78,10 @@ export default function QrScan() {
 
 
       useEffect(()=>{
-        if(readedData)
+        if(readedData){
         setIsReaderConfirmDialog(true);
+        console.log(readedData)
+        }
       },[readedData])
     
 
