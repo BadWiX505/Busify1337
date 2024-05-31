@@ -4,15 +4,16 @@
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
 import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TicketLoading from "./StudentTicketLoading";
 import QRCodeGenerator from "../QR/qrComponent";
+import { StudentContext } from "./StudentProvider";
 
 export default function StudentTicket({idBooking}) {
   
    const [ticket,setTicket] = useState(null);
    const [loading , setLoading] = useState(true);
-
+   const student = useContext(StudentContext);
    async function getStudentTicket(){
       const res = await fetch("/api/Student/getStudentTicket?idbooking="+idBooking);
       const Sticket = await res.json();
@@ -63,7 +64,7 @@ export default function StudentTicket({idBooking}) {
         <div className="font-medium">{ticket.bus_Name}</div>
       </div>
       <div className="flex justify-center">
-        <QRCodeGenerator jsonData={ticket}/>
+        <QRCodeGenerator jsonData={{ id_Booking : idBooking , id_User : student.id_User }}/>
       </div>
     </Card> }
 
