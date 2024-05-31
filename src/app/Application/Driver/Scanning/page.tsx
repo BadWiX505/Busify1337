@@ -36,7 +36,6 @@ export default function QrScan() {
      }
 
     function ConfirmReading({ open }) {
-        setReaderPlaying(false);
         return (
           <Dialog open={open} >
             <DialogContent className=" sm:w-100 lg:w-[300px] md:w-[300px] xl:w-[500px]">
@@ -136,7 +135,9 @@ export default function QrScan() {
 
     function SCchanged(data: any) {
         if(data.text){
+            console.log(data.text)
         setReadedData(data.text);
+        setReaderPlaying(false);
         setIsReaderConfirmDialog(true);
         setSCstatus("validating");
         setTimeout(() => {
