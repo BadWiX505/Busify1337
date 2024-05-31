@@ -32,6 +32,7 @@ const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
 
   return (
     <div>
+      {isPlaying &&
       <QrReader
       key={key}
         delay={2000}
@@ -43,6 +44,7 @@ const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
           video: { facingMode: "environment" }
         }}      
         />
+      }
       <p>{result}</p>
     </div>
   );
