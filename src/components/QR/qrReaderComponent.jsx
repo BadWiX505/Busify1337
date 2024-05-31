@@ -13,7 +13,7 @@ const QrReaderCompo = ({key,SCchanged,isPlaying}) => {
   const handleScan = (data) => {
     if (data) {
       SCchanged(data.text);
-      setResult(result)
+      setResult(data.text)
     }
   };
 
