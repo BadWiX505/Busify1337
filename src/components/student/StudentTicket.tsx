@@ -14,6 +14,9 @@ export default function StudentTicket({idBooking}) {
    const [ticket,setTicket] = useState(null);
    const [loading , setLoading] = useState(true);
    const student = useContext(StudentContext);
+
+
+   console.log(student)
    async function getStudentTicket(){
       const res = await fetch("/api/Student/getStudentTicket?idbooking="+idBooking);
       const Sticket = await res.json();
@@ -64,7 +67,7 @@ export default function StudentTicket({idBooking}) {
         <div className="font-medium">{ticket.bus_Name}</div>
       </div>
       <div className="flex justify-center">
-        <QRCodeGenerator jsonData={{ id_Booking : idBooking , id_User : student.id_User }}/>
+        <QRCodeGenerator jsonData={{ id_Booking : idBooking , id_User : student.idUser }}/>
       </div>
     </Card> }
 
