@@ -252,6 +252,7 @@ export default function QrScan() {
 
                         }
 
+                      <ConfirmReading open={isReaderConfirmDialog}/>
 
 
                   {isRendered && (
@@ -292,7 +293,6 @@ export default function QrScan() {
                 </div>
             </main>
             <footer className="bg-gray-900 text-white py-4 px-6 md:py-6 md:px-8 flex justify-end" />
-            <ConfirmReading open={isReaderConfirmDialog}/>
         </div>
     );
 }
