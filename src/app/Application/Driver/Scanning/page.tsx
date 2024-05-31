@@ -89,9 +89,10 @@ export default function QrScan() {
 
     function SCchanged(data: any) {
         if(data){
+        console.log("getten data : "+data)
+        setReaderPlaying(false);
         setReadedData(data);
         setSCstatus("validating");
-        setReaderPlaying(false);
        }
     }
 
