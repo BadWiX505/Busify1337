@@ -52,6 +52,11 @@ export default function QrScan() {
         }
 
         closeReaderModal();
+
+       const IDTIMEOUT= setTimeout(()=>{
+         setSCstatus('checking');
+         clearTimeout(IDTIMEOUT);
+        },3000)
      }
 
 
@@ -117,11 +122,13 @@ export default function QrScan() {
         setIsDialogOpen(false);
         setLoading(true);
         try{
-      const res  = await fetch('/api/Driver/confirmToDriving?idDuty='+params.get("idDuty"));
+      const res  = await fetch('/api/Driver/confirmToDriving',{
+        method : 'PATCH',
+        body : params.get('idDuty') ? params.get('idDuty')  : null,
+      });
       const resp = await res.json();
       if(resp){
-        router.push("/Application/Driver");
-       
+        router.push("/Application/Driver");  
       }
       else {
         console.log("problema");

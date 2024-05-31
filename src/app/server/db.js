@@ -761,7 +761,6 @@ export async function updateBookingStatus(idBooking,newStatus,theWhere) {
         bookingStatus: newStatus,
       }
     });
-    
   if(updatedBooking)
     return true;
   
