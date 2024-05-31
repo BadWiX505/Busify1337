@@ -78,8 +78,3 @@ export async function scanTicket(id_Booking, user_id, depart_Time , depart_Date,
    return res;
 }
 
-
-
-export default scanStudent(idUser,idBooking){
-
-}
