@@ -252,7 +252,7 @@ const GoogleMapsComponentModal = () => {
     <div>
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={currentPosition  ? currentPosition :center}
+        center={center}
         zoom={17}
         options={options}
       >
