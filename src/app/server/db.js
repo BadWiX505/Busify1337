@@ -761,8 +761,11 @@ export async function updateBookingStatus(idBooking,newStatus,theWhere) {
         bookingStatus: newStatus,
       }
     });
-
+    
+  if(updatedBooking)
     return true;
+  
+  return false;
 
   } catch (error) {
     console.error('Error updating booking status:', error);
@@ -786,7 +789,7 @@ export async function confirmDuty(idDuty, idUser) {
       const res = await createReport(idUser, missedBooking.user_id, 'missed Bus', null, 'active', dutyProperties.bus_id);
       if (!res)
         throw new Error("err");
-    }a
+    }
     const updatedDuty = await updateDutyStatusUsingId(idDuty, 'Driving');
     return true;
   } catch (err) {
@@ -935,6 +938,33 @@ export async function createIssue(driver_id, issueType, bus_id) {
   } catch (error) {
     console.error('Error creating issue:', error);
     throw error;
+  }finally {
+    await prisma.$disconnect();
   }
 }
 
+
+export async function findUniqueBooking(id_Booking, user_id, depart_Time , depart_Date, bus_id,bookingStatus) {
+  try{
+  const booking = await prisma.booking.findFirst({
+    where: {
+      id_Booking: id_Booking,
+      user_id: user_id,
+      depart_Time: depart_Time,
+      depart_Date: depart_Date,
+      bus_id: bus_id,
+      bookingStatus: bookingStatus,
+    },
+  });
+
+    if(booking)
+    return true
+
+  return false;
+  }catch(err){
+  console.log(err);
+  return false;
+  }finally {
+    await prisma.$disconnect();
+  }
+}

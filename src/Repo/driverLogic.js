@@ -1,5 +1,5 @@
 
-import {getBookingCountsByTimeAndDate, getBookingsDetails, getCountsForScanning, confirmDuty, createIssue, getDutyPropertiesFronId, createReport, updateBookingStatus , updateDutyStatusUsingId}   from '@/app/server/db';
+import {getBookingCountsByTimeAndDate, getBookingsDetails, getCountsForScanning, confirmDuty, createIssue, getDutyPropertiesFronId, createReport, updateBookingStatus , updateDutyStatusUsingId, findUniqueBooking}   from '@/app/server/db';
 
 
 
@@ -69,4 +69,17 @@ export async function reportStudent(reporterId,sudentId,reason,comment,busId){
 export async function completeDuty(idDuty){
   const res = await updateDutyStatusUsingId(idDuty,'Completed');
   return res;
+}
+
+
+
+export async function scanTicket(id_Booking, user_id, depart_Time , depart_Date, bus_id){
+   const res =  await  findUniqueBooking(id_Booking, user_id, depart_Time , depart_Date, bus_id,'Pending');
+   return res;
+}
+
+
+
+export default scanStudent(idUser,idBooking){
+
 }

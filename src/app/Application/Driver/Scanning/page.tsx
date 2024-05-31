@@ -35,6 +35,23 @@ export default function QrScan() {
         setIsReaderConfirmDialog(false);
      }
 
+
+     async function validateStudent(){
+        const res = await fetch('/api/Driver/validateStudent',{
+            method : 'POST',
+            body : JSON.stringify({ticket : readedData , idDuty : params.get("idDuty")}),
+        })
+        if(!res.ok){
+          setSCstatus('danger');
+        }
+        else{
+            setSCstatus('validated');
+        }
+
+        closeReaderModal();
+     }
+
+
     function ConfirmReading({ open }) {
         return (
           <Dialog open={open} >
@@ -49,7 +66,7 @@ export default function QrScan() {
               </div>
               <DialogFooter className="gap-4">
                 <Button onClick={closeReaderModal}>Cancel </Button>
-                <Button variant="destructive">
+                <Button variant="destructive" onClick={validateStudent}>
                   Confirm
                 </Button>
               </DialogFooter>
@@ -59,90 +76,20 @@ export default function QrScan() {
       }
 
 
-    // function validateJsonString(jsonString: string) {
-    //     // Define the expected structure
-    //     const expectedStructure = {
-    //         full_name: "string",
-    //         image: "string",
-    //         bus_Name: "string",
-    //         depart_Date: "string",
-    //         depart_Time: "string",
-    //         idBooking: "number"
-    //     };
 
-    //     // Try to parse the JSON string
-    //     let obj;
-    //     try {
-    //         obj = JSON.parse(jsonString);
-    //     } catch (e) {
-    //         return false; // Invalid JSON string
-    //     }
-
-    //     // Check if obj is an object
-    //     if (typeof obj !== 'object' || obj === null) {
-    //         return false;
-    //     }
-
-    //     // Validate the structure
-    //     for (let key in expectedStructure) {
-    //         if (!obj.hasOwnProperty(key) || typeof obj[key] !== expectedStructure[key]) {
-    //             return false;
-    //         }
-    //     }
-
-    //     return true;
-    // }
-
+      useEffect(()=>{
+        if(readedData)
+        setIsReaderConfirmDialog(true);
+      },[readedData])
     
 
 
 
-
-
-    async function checkTicket(ticket) {
-        const res = await fetch("/api/Driver/validateStudent?idBooking=" + ticket);
-        const resp = await res.json();
-        return resp;
-    }
-
-    // async function validateCode(code: string) {
-    //     if (validateJsonString(code)) {
-
-    //         const ticket = JSON.parse(code);
-
-
-    //         const res = await checkTicket(ticket);
-    //         if (res) {
-
-    //             setSCstatus("validated");
-
-    //             setCounts(prev => ({
-    //                 ...prev,
-    //                 completed: prev.completed + 1 // Correctly incrementing the completed count
-    //             }));
-
-    //         }
-
-    //         else
-    //             setSCstatus("danger");
-
-    //     }
-    //     else {
-    //         setSCstatus("danger");
-    //     }
-    // }
-
-
     function SCchanged(data: any) {
         if(data){
-        console.log(data)
         setReadedData(data);
-        setReaderPlaying(false);
-        setIsReaderConfirmDialog(true);
         setSCstatus("validating");
-        setTimeout(() => {
-            setSCstatus("checking")
-        }, 3000)
+        setReaderPlaying(false);
        }
     }
 
