@@ -136,7 +136,6 @@ export default function QrScan() {
     function SCchanged(data: any) {
         if(data){
         console.log(data)
-        setRes(data)
         setReadedData(data);
         setReaderPlaying(false);
         setIsReaderConfirmDialog(true);
