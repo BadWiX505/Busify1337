@@ -24,6 +24,8 @@ export default function QrScan() {
     const router = useRouter();
     const [readedData , setReadedData] = useState(null);
     const [isReaderConfirmDialog , setIsReaderConfirmDialog] = useState(false);
+    const [forceUpdate, setForceUpdate] = useState(false);
+
 
     const refreshQrReader = () => {
         setKey(prevKey => prevKey + 1);
@@ -82,7 +84,7 @@ export default function QrScan() {
         setIsReaderConfirmDialog(true);
         console.log(readedData)
         }
-      },[readedData])
+      }, [readedData, forceUpdate])
     
 
 
@@ -92,6 +94,7 @@ export default function QrScan() {
         console.log("getten data : "+data)
         setReaderPlaying(false);
         setReadedData(data);
+        setForceUpdate(prev => !prev); // Toggle forceUpdate to force the effect to rerun
         setSCstatus("validating");
        }
     }
