@@ -48,6 +48,7 @@ export default function QrScan() {
         }
         else{
             setSCstatus('validated');
+            setCounts(prev =>({...prev , completed : prev.completed+1}));
         }
 
         closeReaderModal();
