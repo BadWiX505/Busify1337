@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
           if (!scanning)
             return Response.json('Expired ticket', { status: 401 });
           else {
-            const updateBookingStatus = await BookingStatusUpdate(data.ticket.id_Booking, 'Checked', 'Pending');
+            const updateBookingStatus = await BookingStatusUpdate(studentTicket.id_Booking, 'Checked', 'Pending');
             if (updateBookingStatus) {
               return Response.json('success', { status: 201 });
             }
