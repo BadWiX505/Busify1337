@@ -15,7 +15,8 @@ export async function POST(request: NextRequest) {
       if (data.idDuty && data.ticket) {
         if (validateJsonString(data.ticket)) {
           const dutyProperties = await getDutyPropertiesFronId(parseInt(data.idDuty));
-          const studentTicket = JSON.parse(data.ticket);
+          const Ticketmodal = JSON.parse(data.ticket);
+          const studentTicket = JSON.parse(Ticketmodal);
           console.log(studentTicket)
           const scanning = await scanTicket(studentTicket.id_Booking,studentTicket.id_User, dutyProperties?.duty_Time, dutyProperties?.duty_Date, user.busId);
           if (!scanning)
