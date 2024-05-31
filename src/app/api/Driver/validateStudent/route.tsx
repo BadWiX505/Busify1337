@@ -13,10 +13,10 @@ export async function POST(request: NextRequest) {
     if (user && user.role === 'driver' && user.busId) {
       const data = await request.json();
       if (data.idDuty && data.ticket) {
-            console.log(data)
         if (validateJsonString(data.ticket)) {
           const dutyProperties = await getDutyPropertiesFronId(parseInt(data.idDuty));
           const studentTicket = JSON.parse(data.ticket);
+          console.log(studentTicket)
           const scanning = await scanTicket(studentTicket.id_Booking,studentTicket.id_User, dutyProperties?.duty_Time, dutyProperties?.duty_Date, user.busId);
           if (!scanning)
             return Response.json('Expired ticket', { status: 401 });
