@@ -43,7 +43,7 @@ export default function DriverNavbar2({driverInfo}) {
   async function handleReport(event, issueType) {
     event.preventDefault();
     setDropdownOpen(false);
-    const reportPayload = { issueType};
+    const reportPayload = {issueType};
 
     try {
       const response = await fetch("/api/Driver/reportIssue", {

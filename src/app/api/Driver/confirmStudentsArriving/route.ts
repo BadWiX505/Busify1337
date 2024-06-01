@@ -24,7 +24,7 @@ export async function POST(request : NextRequest){
                     }
                 }
                 if(checkIssue)
-                return Response.json('some Students have not been confirmed for some reason try again!',{status : 500})
+                return Response.json('some Students have not been confirmed for some reason resfresh and  try again!',{status : 500})
 
                 return Response.json('success',{status : 201});
              }

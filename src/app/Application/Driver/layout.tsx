@@ -1,6 +1,5 @@
 import DriverNavBar from "@/components/driver/DriverNavbar2";
 import DriverParent from "@/components/driver/driverParent";
-import { DatabaseUserAttributes } from "@/lib/auth";
 
 import { wallFunction } from "@/utils/wall";
 import { redirect } from "next/navigation";

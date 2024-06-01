@@ -63,7 +63,7 @@ export default function DriverMain() {
 
     // Calculate the range of selectable dates
     const today = new Date();
-    const minDate = subDays(today, 4); // Yesterday
+    const minDate = subDays(today, 1); // Yesterday
     const maxDate = addDays(today, 7); // Today + 7 days
 
     // Function to check if a date is within the range
@@ -114,7 +114,8 @@ export default function DriverMain() {
         setLoading(true)
         const res = await fetch("/api/Driver/getDuties?date=" + formatDateToModern(selectedDate));
         const duties = await res.json();
-        setDuties(duties);
+        if(duties)
+        setDuties(duties);        
     }
  
     /////////////////////// end async /////////////

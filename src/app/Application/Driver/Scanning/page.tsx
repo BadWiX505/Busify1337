@@ -88,7 +88,6 @@ export default function QrScan() {
       useEffect(()=>{
         if(readedData){
         setIsReaderConfirmDialog(true);
-        console.log(readedData)
         }
       }, [readedData, forceUpdate])
     
@@ -97,7 +96,6 @@ export default function QrScan() {
 
     function SCchanged(data: any) {
         if(data){
-        console.log("getten data : "+data)
         setReaderPlaying(false);
         setReadedData(data);
         setForceUpdate(prev => !prev); // Toggle forceUpdate to force the effect to rerun

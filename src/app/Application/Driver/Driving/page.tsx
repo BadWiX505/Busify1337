@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { haversineDistance } from "@/utils/mapUtils";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { toast, useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 const containerStyle = {
   width: "100%",
   height: "100vh",
@@ -194,38 +194,7 @@ const GoogleMapsComponentModal = () => {
     }
   }, [isLoaded, loadError]);
 
-  // useEffect(() => {
-  //   if (currentPosition && markers.length > 0) {
-  //     const closestMarker = markers.reduce((closest, marker) => {
-  //       const closestDistance =
-  //         window.google.maps.geometry.spherical.computeDistanceBetween(
-  //           new window.google.maps.LatLng(
-  //             currentPosition.lat,
-  //             currentPosition.lng
-  //           ),
-  //           new window.google.maps.LatLng(
-  //             closest.position.lat,
-  //             closest.position.lng
-  //           )
-  //         );
-  //       const markerDistance =
-  //         window.google.maps.geometry.spherical.computeDistanceBetween(
-  //           new window.google.maps.LatLng(
-  //             currentPosition.lat,
-  //             currentPosition.lng
-  //           ),
-  //           new window.google.maps.LatLng(
-  //             marker.position.lat,
-  //             marker.position.lng
-  //           )
-  //         );
-  //       return markerDistance < closestDistance ? marker : closest;
-  //     }, markers[0]);
-
-  //     setDirections([]);
-  //     calculateAndDrawRoute(currentPosition, closestMarker.position);
-  //   }
-  // }, [currentPosition, markers]);
+ 
 
   const drawRoute = (origin, destination) => {
     const directionsService = new window.google.maps.DirectionsService();

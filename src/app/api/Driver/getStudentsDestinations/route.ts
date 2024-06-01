@@ -17,7 +17,6 @@ export async function GET(request : NextRequest){
             const dutyProperties = await dutyPropsFromId(idDuty);
             if(dutyProperties && dutyProperties.duty_Status ==='Driving'){
                 const  usersAndCoordinates= await bookingsDetails(user.busId,dutyProperties.duty_Time,dutyProperties.duty_Date,2000,0,'Checked');
-                console.log(usersAndCoordinates)
                 if(usersAndCoordinates){
                   const groupedUserandCoordinates = groupCoordinates(usersAndCoordinates);
                  return Response.json(groupedUserandCoordinates)

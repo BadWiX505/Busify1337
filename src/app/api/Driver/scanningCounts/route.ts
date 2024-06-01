@@ -25,7 +25,7 @@ export async function GET(request : NextRequest){
 }
 }
 catch(err){
-  return Response.json('an internal server error happened',)
+  return Response.json('an internal server error happened',{status : 500})
 }
 
 }
