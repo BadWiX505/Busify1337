@@ -902,6 +902,8 @@ export async function createReport(reporterId, reportedUserId, reason, comment, 
     await resetReportNumber(reportedUserId);
     }
 
+    return true;
+
   } catch (error) {
     console.error("Error creating report:", error);
     throw error;
