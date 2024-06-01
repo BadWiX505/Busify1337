@@ -784,7 +784,6 @@ export async function confirmDuty(idDuty, idUser) {
     const dutyProperties = await getDutyPropertiesFronId(idDuty);
     const isUpdated = await updateBookingsStatusToMissed(dutyProperties.duty_Time, dutyProperties.duty_Date, dutyProperties.bus_id);
     const missedBookings = await getBookingsForReport(dutyProperties.duty_Time, dutyProperties.duty_Date, dutyProperties.bus_id);
-   console.log('idDuty : '+idDuty+'  isUpdated : '+isUpdated )
     if(missedBookings){
     for (const missedBooking of missedBookings) {
       const res = await createReport(idUser, missedBooking.user_id, 'missed Bus', null, dutyProperties.bus_id);
@@ -792,7 +791,6 @@ export async function confirmDuty(idDuty, idUser) {
         throw new Error("err");
     }
   }
-console.log("jjjjjjjjjjjjjjjj");
     const updatedDuty = await updateDutyStatusUsingId(idDuty, 'Driving');
     console.log('done')
     return true;

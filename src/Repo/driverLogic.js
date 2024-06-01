@@ -55,7 +55,7 @@ export async function dutyPropsFromId(idDuty){
 
 export async function reportStudent(reporterId,sudentId,reason,comment,busId){
   try{
-    const res = await createReport(reporterId,sudentId,reason,comment,'active',busId);
+    const res = await createReport(reporterId,sudentId,reason,comment,busId);
     return res;
   }
   catch(err){
