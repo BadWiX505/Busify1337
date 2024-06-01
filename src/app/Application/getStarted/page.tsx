@@ -124,7 +124,7 @@ type Address = {
       <section className="w-full py-12 md:py-14 lg:py-22 xl:py-38">
              {isloading &&  <Loader/> }
         <div className="container px-4 md:px-6 grid lg:grid-cols-2 gap-6 lg:gap-12">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 xl:h-[800px] lg:h-[700px]  md:h-[500px] sm:h-[300px]">
             <div className="relative group overflow-hidden rounded-xl">
               <Link className="absolute inset-0 z-10" href="#">
                 <span className="sr-only">View</span>
