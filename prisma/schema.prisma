@@ -5,8 +5,8 @@ generator client {
 datasource db {
   // provider = "postgresql"
   // url      = env("DATABASE_URL")
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
@@ -27,8 +27,10 @@ model User {
   sessions           Session[]
   bus                Bus?
   busId              Int?
+  report_number      Int        @default(0)
   providers          Provider[]
   issues             Issue[]    @relation("DriverIssues")
+  banns              Bann[]
 }
 
 model Provider {
@@ -69,7 +71,7 @@ model Bus {
   user         User      @relation(fields: [id_Driver], references: [id_User])
   booking      Booking[]
   duities      Duty[]
-  issues       Issue[]    @relation("BusIssues")
+  issues       Issue[]   @relation("BusIssues")
 }
 
 model TravelTimes {
@@ -102,6 +104,7 @@ enum BookingStatus {
   Completed
   Checked
   Missed
+  Banned
 }
 
 enum DutyStatus {
@@ -117,18 +120,34 @@ model Report {
   reportedUserId String
   reason         String
   comment        String?
-  report_Status  status
   createdAt      DateTime @default(now())
   reporter       User     @relation("Reporter", fields: [reporterId], references: [id_User])
   reportedUser   User     @relation("ReportedUser", fields: [reportedUserId], references: [id_User])
   busId          Int?
+  bans1          Bann[]   @relation("ReportCause1")
+  bans2          Bann[]   @relation("ReportCause2")
+  bans3          Bann[]   @relation("ReportCause3")
 }
 
+model Bann {
+  id_bann          Int       @id @default(autoincrement())
+  id_Banned_User   String 
+  user             User      @relation(fields: [id_Banned_User], references: [id_User])
+  report1          Report?   @relation("ReportCause1", fields: [id_report_cause1], references: [id])
+  report2          Report?   @relation("ReportCause2", fields: [id_report_cause2], references: [id])
+  report3          Report?   @relation("ReportCause3", fields: [id_report_cause3], references: [id])
+  bann_at          DateTime  @default(now())
+  end_bann_at      DateTime?
+  bann_cause_staff String
+  id_report_cause1 Int?
+  id_report_cause2 Int?
+  id_report_cause3 Int?
+}
 
 model Issue {
   id_issue    Int       @id @default(autoincrement())
   driver_id   String
-  issueType   IssueType  
+  issueType   IssueType
   bus_id      Int
   reported_at DateTime  @default(now())
   driver      User      @relation("DriverIssues", fields: [driver_id], references: [id_User])
@@ -137,5 +156,5 @@ model Issue {
 
 enum IssueType {
   accident
-  breakdown
+  breakdown
 }

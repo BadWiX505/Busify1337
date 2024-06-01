@@ -13,17 +13,20 @@ export async function GET(request: NextRequest) {
 
   if (params.get("idbooking")) {
     try {
-      if (user) {
+      if (user && user.role === 'student') {
         const idbooking = parseInt(params.get("idbooking"));
         ticket = await StudentTicket(idbooking);
         if (ticket)
           ticket.idBooking = parseInt(params.get("idbooking"));
 
       }
+      else {
+        return Response.json('Unauthorized', { status: 401 })
+      }
     }
     catch (err) {
-       console.log(err);
-       ticket=null;
+      console.log(err);
+      ticket = null;
     }
   }
 

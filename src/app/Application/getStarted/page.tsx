@@ -172,7 +172,7 @@ type Address = {
                 <Label htmlFor="name">address</Label>
                 <Dialog>
                       <DialogTrigger asChild>
-                      <Input id="name" placeholder="choose your destination -->" readOnly type="text" className='cursor-pointer' />
+                      <Input id="name" placeholder={realAdress} readOnly type="text" className='cursor-pointer' />
                       </DialogTrigger>                  
                         <GoogleMapsComponentModal handleCurrentPositionChange={handleCurrentPositionChange} modalRole='GTstarted' />
                 </Dialog>

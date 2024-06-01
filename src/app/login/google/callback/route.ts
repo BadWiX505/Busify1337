@@ -1,4 +1,4 @@
-// app/login/github/callback/route.ts
+// app/login/google/callback/route.ts
 import { google, lucia } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";

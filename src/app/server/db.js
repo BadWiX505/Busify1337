@@ -1,4 +1,4 @@
-import { isInTravelsTime ,isFutureDateTime} from '@/utils/dateUtils';
+import { isInTravelsTime, isFutureDateTime } from '@/utils/dateUtils';
 import { z } from "zod";
 
 import prisma from '@/lib/prisma';
@@ -166,11 +166,11 @@ export async function bookSeatOnNextAvailableBus(date, hour, userId, Adresslnt, 
     const validatedAdresslng = AdresslngSchema.parse(Adresslng);
 
     const isTimeExist = await isInTravelsTime(validatedHour);
-    
-    if(!isFutureDateTime(validatedDate,validatedHour) || !isTimeExist){
-            throw new Error("a prolem occurred in dates and times")
+
+    if (!isFutureDateTime(validatedDate, validatedHour) || !isTimeExist) {
+      throw new Error("a prolem occurred in dates and times")
     }
-   
+
     // Check if the user has already made a booking for the specified hour on the given date
     const existingBooking = await prisma.booking.findFirst({
       where: {
@@ -286,10 +286,10 @@ export async function getStudentDetails(userId) {
         id_User: userId,
       },
     });
-    if(user){
+    if (user) {
       user.travelTimes = await getAlltravelTimes();
     }
-    else{
+    else {
       return null;
     }
     return user;
@@ -659,7 +659,7 @@ function isCurrentMomentWithinTenMinutes(date, time) {
 
 
 
-export async function getBookingsDetails(busId, departTime, departDate, take, skip,bookingStatus) {
+export async function getBookingsDetails(busId, departTime, departDate, take, skip, bookingStatus) {
   try {
     const userInfoWithBookingAddress = await prisma.booking.findMany({
       where: {
@@ -675,7 +675,7 @@ export async function getBookingsDetails(busId, departTime, departDate, take, sk
 
         user: {
           select: {
-            id_User : true,
+            id_User: true,
             full_name: true,
             image: true,
           }
@@ -737,7 +737,7 @@ export async function getCountsForScanning(departDate, departTime, busId) {
 // replace that to be geted from id duty
 
 
-export async function updateBookingStatus(idBooking,newStatus,theWhere) {
+export async function updateBookingStatus(idBooking, newStatus, theWhere) {
   try {
     // Fetch the booking with the given id_Booking and status "Pending"
     const booking = await prisma.booking.findFirst({
@@ -761,10 +761,10 @@ export async function updateBookingStatus(idBooking,newStatus,theWhere) {
         bookingStatus: newStatus,
       }
     });
-  if(updatedBooking)
-    return true;
-  
-  return false;
+    if (updatedBooking)
+      return true;
+
+    return false;
 
   } catch (error) {
     console.error('Error updating booking status:', error);
@@ -785,7 +785,7 @@ export async function confirmDuty(idDuty, idUser) {
     const isUpdated = await updateBookingsStatusToMissed(dutyProperties.duty_Time, dutyProperties.duty_Date, dutyProperties.bus_id);
     const missedBookings = await getBookingsForReport(dutyProperties.duty_Time, dutyProperties.duty_Date, dutyProperties.bus_id);
     for (const missedBooking of missedBookings) {
-      const res = await createReport(idUser, missedBooking.user_id, 'missed Bus', null, 'active', dutyProperties.bus_id);
+      const res = await createReport(idUser, missedBooking.user_id, 'missed Bus', null, dutyProperties.bus_id);
       if (!res)
         throw new Error("err");
     }
@@ -874,7 +874,7 @@ async function updateBookingsStatusToMissed(time, date, id) {
 
 
 
-export async function createReport(reporterId, reportedUserId, reason, comment, reportStatus, busId) {
+export async function createReport(reporterId, reportedUserId, reason, comment, busId) {
   try {
     const newReport = await prisma.report.create({
       data: {
@@ -882,11 +882,21 @@ export async function createReport(reporterId, reportedUserId, reason, comment, 
         reportedUserId: reportedUserId,
         reason: reason,
         comment: comment,
-        report_Status: reportStatus,
         busId: busId
       }
     });
-    return true;
+
+    await incrementReportNumber(reportedUserId);
+    const deserveBanning = await isReportNumberGreaterOrEqualToThree(reportedUserId);
+    if(deserveBanning){
+    
+    const RecentReports = await getThreeRecentReports(reportedUserId);
+    await createNewBann(reportedUserId,'three reports',RecentReports[0].id,RecentReports[1].id,RecentReports[2].id,null);
+    await updateUserStatus(reportedUserId,'inactive');
+    await updateBookingStatusUsingUserId(reportedUserId,'Pending','Banned');  
+    await resetReportNumber(reportedUserId);
+    }
+
   } catch (error) {
     console.error("Error creating report:", error);
     throw error;
@@ -894,6 +904,157 @@ export async function createReport(reporterId, reportedUserId, reason, comment, 
     await prisma.$disconnect();
   }
 }
+
+
+//// Banning functions  ///////////////////////////////////////////////////////////////////////////////
+//used
+async function incrementReportNumber(userId) {
+  try {
+    await prisma.user.update({
+      where: { id_User: userId },
+      data: {
+        report_number: {
+          increment: 1,
+        },
+      },
+    });
+
+    return true;
+  } catch (error) {
+    console.error('Error incrementing report number:', error);
+    throw new Error('an error occured');
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+//used
+async function isReportNumberGreaterOrEqualToThree(userId) {
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id_User: userId },
+      select: { report_number: true },
+    });
+
+    if (user && user.report_number >= 3) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error checking report number:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+
+}
+
+
+//used
+async function resetReportNumber(userId) {
+  try {
+    await prisma.user.update({
+      where: { id_User: userId },
+      data: {
+        report_number: 0,
+      },
+    });
+    console.log(`Report number reset to 0 for user with id: ${userId}`);
+  } catch (error) {
+    console.error('Error resetting report number:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+//used
+async function getThreeRecentReports(reportedUserId) {
+  try {
+    const reports = await prisma.report.findMany({
+      where: { reportedUserId },
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+    });
+    return reports;
+  } catch (error) {
+    console.error('Error fetching recent reports:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+//used
+async function createNewBann(id_Banned_User, bann_cause_staff, id_report_cause1 = null, id_report_cause2 = null, id_report_cause3 = null, end_bann_at = null) {
+  try {
+    const newBann = await prisma.bann.create({
+      data: {
+        id_Banned_User: id_Banned_User,
+        bann_cause_staff: bann_cause_staff,
+        id_report_cause1: id_report_cause1,
+        id_report_cause2: id_report_cause2,
+        id_report_cause3: id_report_cause3,
+        end_bann_at: end_bann_at,
+      },
+    });
+
+    return newBann;
+
+  } catch (error) {
+    console.error('Error creating new bann:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+
+//used
+async function updateUserStatus(userId, newStatus) {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id_User: userId },
+      data: {
+        status: newStatus,
+      },
+    });
+    return updatedUser;
+  } catch (error) {
+    console.error('Error updating user status:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+
+async function updateBookingStatusUsingUserId(userId, currentStatus, newStatus) {
+  try {
+    const updatedBooking = await prisma.booking.updateMany({
+      where: {
+        user_id: userId,
+        bookingStatus: currentStatus,
+      },
+      data: {
+        bookingStatus: newStatus,
+      },
+    });
+    return updatedBooking;
+  } catch (error) {
+    console.error('Error updating booking status:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+///////////////////////////////////////   END OF BANNING FUNCTIONS /////////////////////////////////////////////////////
 
 
 
@@ -937,33 +1098,33 @@ export async function createIssue(driver_id, issueType, bus_id) {
   } catch (error) {
     console.error('Error creating issue:', error);
     throw error;
-  }finally {
+  } finally {
     await prisma.$disconnect();
   }
 }
 
 
-export async function findUniqueBooking(id_Booking, user_id, depart_Time , depart_Date, bus_id,bookingStatus) {
-  try{
-  const booking = await prisma.booking.findFirst({
-    where: {
-      id_Booking: id_Booking,
-      user_id: user_id,
-      depart_Time: depart_Time,
-      depart_Date: depart_Date,
-      bus_id: bus_id,
-      bookingStatus: bookingStatus,
-    },
-  });
+export async function findUniqueBooking(id_Booking, user_id, depart_Time, depart_Date, bus_id, bookingStatus) {
+  try {
+    const booking = await prisma.booking.findFirst({
+      where: {
+        id_Booking: id_Booking,
+        user_id: user_id,
+        depart_Time: depart_Time,
+        depart_Date: depart_Date,
+        bus_id: bus_id,
+        bookingStatus: bookingStatus,
+      },
+    });
 
-    if(booking)
-    return true
+    if (booking)
+      return true
 
-  return false;
-  }catch(err){
-  console.log(err);
-  return false;
-  }finally {
+    return false;
+  } catch (err) {
+    console.log(err);
+    return false;
+  } finally {
     await prisma.$disconnect();
   }
 }
