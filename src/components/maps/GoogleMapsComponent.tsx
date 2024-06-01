@@ -33,6 +33,7 @@ const east = longitude + buffer_distance;
 const west = longitude - buffer_distance;
 
 const options = {
+  gestureHandling: "greedy",
   restriction: {
     latLngBounds: {
       north: north,
