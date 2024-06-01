@@ -6,7 +6,7 @@ export async function GET(){
      const {user} = await validateRequest();
       let history = null;
 
-    if(user && user.role==='student'){
+    if(user && user.role==='student' && user.status==='active'){
     history = await  StudentBookingPending(user.idUser);
     if(history){
       for(const item of history){

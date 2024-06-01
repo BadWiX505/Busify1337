@@ -7,7 +7,7 @@ export async function GET(){
      
      const {user}  = await validateRequest();
       let driver = null;
-      if(user && user.role==='driver'){
+      if(user && user.role==='driver' && user.status==='active'){
       const defaultUser = await driverInfo(user.idUser);
       driver = defaultUser;
       }

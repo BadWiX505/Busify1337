@@ -9,7 +9,7 @@ export async function POST(request : NextRequest){
 
              
         try{
-            if(user && user.role==='driver' && user.busId){
+            if(user && user.role==='driver' && user.busId && user.status==='active'){
 
 
             const students= await request.json();

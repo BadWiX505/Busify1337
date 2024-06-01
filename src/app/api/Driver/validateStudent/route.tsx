@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   try {
 
-    if (user && user.role === 'driver' && user.busId) {
+    if (user && user.role === 'driver' && user.busId && user.status==='active') {
       const data = await request.json();
       if (data.idDuty && data.ticket) {
         if (validateJsonString(data.ticket)) {

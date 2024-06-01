@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
   if (params.get("idbooking")) {
     try {
-      if (user && user.role === 'student') {
+      if (user && user.role === 'student' && user.status==='active') {
         const idbooking = parseInt(params.get("idbooking"));
         ticket = await StudentTicket(idbooking);
         if (ticket)

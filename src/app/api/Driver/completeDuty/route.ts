@@ -9,7 +9,7 @@ export async function GET(request : NextRequest){
 
              
         try{
-            if(user && user.role==='driver' && user.busId){
+            if(user && user.role==='driver' && user.busId && user.status==='active'){
                   const params = request.nextUrl.searchParams;
                   const idDuty = params.get("idDuty") ? parseInt(params.get("idDuty")) : null;
                   if(idDuty){

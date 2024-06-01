@@ -10,7 +10,7 @@ export async function POST(request : NextRequest) {
   try {
      const {user}  = await validateRequest();
 
-    if(user && user.idUser && user.role==='driver' && user.busId){
+    if(user && user.idUser && user.role==='driver' && user.busId && user.status==='active'){
     const { reason, description , studentId} = await request.json();
 
     const reasonSchema = z.enum([

@@ -38,6 +38,7 @@ export const lucia = new Lucia(adapter, {
 			image : attributes.image,
 			defTime : attributes.default_time,
 			busId : attributes.busId,
+			status : attributes.status,
 		};
 	}
     
@@ -87,4 +88,5 @@ export interface DatabaseUserAttributes {
 	image : String
 	default_time : String
 	busId : number
+	status : String
 }

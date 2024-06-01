@@ -9,7 +9,7 @@ export async function PATCH(request : NextRequest){
 
              
         try{
-            if(user && user.role==='driver' && user.busId){
+            if(user && user.role==='driver' && user.busId && user.status==='active'){
               const data = await request.json();
               const idDuty = parseInt(data);
               const confirmation = await dutyConfirm(idDuty,user.idUser);

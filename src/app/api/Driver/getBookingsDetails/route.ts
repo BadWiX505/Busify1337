@@ -8,7 +8,7 @@ export async function GET(request : NextRequest){
      const params = request.nextUrl.searchParams;
       const {user}  = await validateRequest();
     
-       if(user && user.role==='driver' && user.busId){
+       if(user && user.role==='driver' && user.busId && user.status==='active'){
       var date = params.get("date") ? params.get("date") : null;
       var time = params.get("time") ? params.get("time") : null;
       var offset = 0;

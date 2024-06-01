@@ -11,7 +11,7 @@ export async function POST(request : Request){
     const {user}  = await validateRequest();
     var res : resType = {status : 401 ,message : "Unauthorised request!"}
 
-   if(user && user.role==='student'){
+   if(user && user.role==='student' && user.status==='active'){
    const booking = await request.json();
        
     if(booking){

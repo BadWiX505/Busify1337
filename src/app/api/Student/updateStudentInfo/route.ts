@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 
   try {
 
-    if (user && user.role === 'student') {
+    if (user && user.role === 'student' && user.status==='active') {
 
       const dataShema = z.object({
         lat: z.number({ message: 'invalid destination' }),

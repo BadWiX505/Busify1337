@@ -6,7 +6,7 @@ export async function GET() {
     const { user } = await validateRequest();
     let res = null;
 
-    if (user && user.role === 'student') {
+    if (user && user.role === 'student' && user.status==='active') {
         const travelsTimes = await getAlltravelTimes();
         res = travelsTimes;
     }

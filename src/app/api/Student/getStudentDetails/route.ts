@@ -9,7 +9,7 @@ export async function GET() {
 
   const { user } = await validateRequest()
   var finalStudent = null;
-  if (user && user.role === 'student') {
+  if (user && user.role === 'student' && user.status==='active') {
     const Student = await getStudentDetailsforStudent(user.idUser);
     finalStudent = Student;
   } else {

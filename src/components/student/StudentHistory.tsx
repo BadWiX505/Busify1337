@@ -72,7 +72,7 @@ export default function StudentHistory() {
             <DialogContent className="sm:max-w-[1000px]">
                 <DialogHeader className="mt-2">
                     <DialogTitle className="my-2">Bookings History</DialogTitle>
-                    <DialogDescription>View all your bookings</DialogDescription>
+                    <DialogDescription>View your all bookings</DialogDescription>
                 </DialogHeader>
                 <div className="w-full overflow-x-auto">
                     <Table>

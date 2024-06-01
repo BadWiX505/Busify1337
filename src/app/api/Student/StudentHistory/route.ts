@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const { user } = await validateRequest();
   let history = [];
-  if (user && user.role === 'student') {
+  if (user && user.role === 'student' && user.status==='active') {
     const params = request.nextUrl.searchParams;
     const offset = parseInt(params.get("offset"));
     const limit = parseInt(params.get("limit"));

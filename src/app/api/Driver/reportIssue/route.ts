@@ -7,7 +7,7 @@ export async function POST(req:NextRequest) {
   try {
 
     const {user} = await validateRequest();
-    if(user && user.role==='driver' && user.busId){
+    if(user && user.role==='driver' && user.busId && user.status==='active'){
     const reportPayload = await req.json();
 
     console.log("Received payload:", reportPayload);

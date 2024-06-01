@@ -7,7 +7,7 @@ export async function GET(request : NextRequest){
      const params = request.nextUrl.searchParams;
      const {user}  = await validateRequest();
      try{
-    if(user && user.role==='driver' && user.busId){
+    if(user && user.role==='driver' && user.busId && user.status==='active'){
 
       var date = params.get("date") ? params.get("date") : null;
       var duties = null;
