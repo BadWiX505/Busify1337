@@ -1185,7 +1185,7 @@ export async function getAvailableBuses(){
     });
 
     const AvailableBuses = allBuses.filter(bus => {
-         checkBusExistanseInDrivers(bus.id_Bus);
+         !checkBusExistanseInDrivers(bus.id_Bus);
     });
 
     function checkBusExistanseInDrivers(idbus){
@@ -1197,7 +1197,7 @@ export async function getAvailableBuses(){
      return false;
     }
 
-    return AvailableBuses;
+    return {drivers,allBuses};
 
   }catch(err){
     return null;
