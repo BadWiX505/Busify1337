@@ -22,7 +22,7 @@ model User {
   createdAt           DateTime   @default(now())
   default_time        String?
   total_working_hours Int        @default(0)
-  salary_per_hour     Decimal
+  salary_per_hour     Decimal?
   booking             Booking[]
   reports             Report[]   @relation("Reporter")
   receivedReports     Report[]   @relation("ReportedUser")
