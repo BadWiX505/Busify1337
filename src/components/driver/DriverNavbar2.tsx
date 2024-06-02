@@ -107,6 +107,7 @@ export default function DriverNavbar2({driverInfo}) {
           </div>
         </div>
         <div className="flex items-center gap-4">
+          {driverInfo.busId &&
           <DropdownMenu open={isDropdownOpen} onOpenChange={setDropdownOpen}>
             <DropdownMenuTrigger asChild>
               <Button
@@ -150,6 +151,8 @@ export default function DriverNavbar2({driverInfo}) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+             }
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -170,6 +173,7 @@ export default function DriverNavbar2({driverInfo}) {
                 <span>Account</span>
               </DropdownMenuItem>
 
+              {driverInfo.busId &&
               <DropdownMenuItem
                 className="flex items-center gap-2 text-red-600 "
                 onClick={()=>setLeavingBusConf(true)}
@@ -178,7 +182,8 @@ export default function DriverNavbar2({driverInfo}) {
                 <span>Leave bus</span>
               </DropdownMenuItem>
 
-
+              }
+              
               <DropdownMenuItem className="flex items-center gap-2" onClick={destroySession}>
                 <SignOutIcon className="h-4 w-4" />
                 <span>Sign out</span>

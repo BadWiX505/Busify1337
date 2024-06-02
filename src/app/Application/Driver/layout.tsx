@@ -18,8 +18,12 @@ export default async function RootLayout({
     if(user.status!='active'){
       redirect('/BannPage')
     }
+
     if(user.role!='driver'){
       redirect('/login');
+    }
+    if(!user.busId){
+      redirect('/selectBus');
     }
   }
   else{
