@@ -1200,6 +1200,7 @@ export async function getAvailableBuses(){
     return   res; 
 
   }catch(err){
+    console.log(err)
     return null;
   }finally {
     await prisma.$disconnect();
