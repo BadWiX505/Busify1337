@@ -1190,6 +1190,7 @@ export async function getAvailableBuses(){
 
     function checkBusExistanseInDrivers(idbus){
      for(const driver of drivers){
+      console.log('driverBus : '+driver.busId + '      idBUS : '+idbus);
        if(driver.busId===idbus){
         return true;
        }
