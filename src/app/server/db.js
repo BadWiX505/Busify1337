@@ -1197,7 +1197,7 @@ export async function getAvailableBuses(){
      return false;
     }
 
-    return {drivers,allBuses};
+    return checkBusExistanseInDrivers(bus.id_Bus);
 
   }catch(err){
     return null;
