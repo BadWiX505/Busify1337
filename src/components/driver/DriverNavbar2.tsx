@@ -169,9 +169,9 @@ export default function DriverNavbar2({driverInfo}) {
               </DropdownMenuItem>
 
               <DropdownMenuItem
-                className="flex items-center gap-2 "
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-900 text-white"
               >
-                <BusIcon className="h-4 w-4 bg-red-600 hover:bg-red-900" />
+                <BusIcon className="h-4 w-4 " />
                 <span>Leave bus</span>
               </DropdownMenuItem>
 
