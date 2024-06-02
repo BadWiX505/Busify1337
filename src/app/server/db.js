@@ -1178,24 +1178,12 @@ export async function getAvailableBuses(){
         bus_Status : 'active',
       }
     });
-    const drivers = await prisma.user.findMany({
-      where: {
-        role: 'driver'
-      }
-    });
+    
 
     const AvailableBuses = allBuses.filter(bus => {
       return !checkBusExistanseInDrivers(bus.id_Bus);
     });
 
-    function checkBusExistanseInDrivers(idbus){
-     for(const driver of drivers){
-       if(driver.busId===idbus){
-        return true;
-       }
-     }
-     return false;
-    }
 
     return   AvailableBuses; 
 
@@ -1205,4 +1193,27 @@ export async function getAvailableBuses(){
   }finally {
     await prisma.$disconnect();
   }
+}
+
+
+export async function checkBusExistanseInDrivers(idbus){
+
+  const drivers = await prisma.user.findMany({
+    where: {
+      role: 'driver'
+    }
+  });
+
+ for(const driver of drivers){
+   if(driver.busId===idbus){
+    return true;
+   }
+ }
+ return false;
+ 
+}
+
+export async function asignDriverToBus(userId,busId){
+     
+
 }
