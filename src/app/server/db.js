@@ -1164,3 +1164,28 @@ export async function updatebusIdInUser(userId,newValue=null) {
     await prisma.$disconnect();
   }
 }
+
+
+
+
+///      select available buses ///////
+
+export async function getAvailableBuses(){
+  try{
+
+    const allBuses = await prisma.bus.findMany();
+    const drivers = await prisma.user.findMany({
+      where: {
+        role: 'driver'
+      }
+    });
+
+    const AvailableBuses = allBuses.filter(bus => !bus.id_Bus in drivers.map(driver => driver.busId));
+    return AvailableBuses;
+
+  }catch(err){
+    return null;
+  }finally {
+    await prisma.$disconnect();
+  }
+}
