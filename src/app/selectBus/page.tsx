@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
-export default function selectPage() {
+export default function SelectPage() {
   const [buses , setBuses] = useState([]);
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-12 md:py-16 lg:py-20">
