@@ -1184,8 +1184,20 @@ export async function getAvailableBuses(){
       }
     });
 
-    const AvailableBuses = allBuses.filter(bus => !bus.id_Bus in drivers.map(driver => driver.busId));
-    return drivers;
+    const AvailableBuses = allBuses.filter(bus => {
+         !checkBusExistanseInDrivers(bus.id_Bus);
+    });
+
+    function checkBusExistanseInDrivers(idbus){
+     for(const driver of drivers){
+       if(driver.busId===idbus){
+        return true;
+       }
+     }
+     return false;
+    }
+
+    return AvailableBuses;
 
   }catch(err){
     return null;
