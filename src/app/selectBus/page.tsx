@@ -24,7 +24,7 @@ export default function SelectPage() {
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Choose Your Bus</h1>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-            Select a bus for the available buses below . choose one and start your duties
+            Select a bus from the available buses below . choose and start your duties
           </p>
         </div>
 
