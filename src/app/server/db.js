@@ -1185,12 +1185,11 @@ export async function getAvailableBuses(){
     });
 
     const AvailableBuses = allBuses.filter(bus => {
-         !checkBusExistanseInDrivers(bus.id_Bus);
+         checkBusExistanseInDrivers(bus.id_Bus);
     });
 
     function checkBusExistanseInDrivers(idbus){
      for(const driver of drivers){
-      console.log('driverBus : '+driver.busId + '      idBUS : '+idbus);
        if(driver.busId===idbus){
         return true;
        }
