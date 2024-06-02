@@ -11,26 +11,28 @@ datasource db {
 }
 
 model User {
-  id_User            String     @id @default(cuid())
-  full_name          String
-  image              String?
-  email              String
-  role               Role
-  status             status?    @default(active)
-  default_Adress_lat Float?
-  default_Adress_lng Float?
-  createdAt          DateTime   @default(now())
-  default_time       String?
-  booking            Booking[]
-  reports            Report[]   @relation("Reporter")
-  receivedReports    Report[]   @relation("ReportedUser")
-  sessions           Session[]
-  bus                Bus?
-  busId              Int?
-  report_number      Int        @default(0)
-  providers          Provider[]
-  issues             Issue[]    @relation("DriverIssues")
-  banns              Bann[]
+  id_User             String     @id @default(cuid())
+  full_name           String
+  image               String?
+  email               String
+  role                Role
+  status              status?    @default(active)
+  default_Adress_lat  Float?
+  default_Adress_lng  Float?
+  createdAt           DateTime   @default(now())
+  default_time        String?
+  total_working_hours Int        @default(0)
+  salary_per_hour     Decimal
+  booking             Booking[]
+  reports             Report[]   @relation("Reporter")
+  receivedReports     Report[]   @relation("ReportedUser")
+  sessions            Session[]
+  bus                 Bus?
+  busId               Int?
+  report_number       Int        @default(0)
+  providers           Provider[]
+  issues              Issue[]    @relation("DriverIssues")
+  banns               Bann[]
 }
 
 model Provider {
@@ -65,6 +67,7 @@ model Bus {
   id_Bus       Int       @id @default(autoincrement())
   bus_Number   Int
   bus_Name     String
+  image        String?
   id_Driver    String    @unique
   bus_Capacity Int
   bus_Status   status
@@ -131,7 +134,7 @@ model Report {
 
 model Bann {
   id_bann          Int       @id @default(autoincrement())
-  id_Banned_User   String 
+  id_Banned_User   String
   user             User      @relation(fields: [id_Banned_User], references: [id_User])
   report1          Report?   @relation("ReportCause1", fields: [id_report_cause1], references: [id])
   report2          Report?   @relation("ReportCause2", fields: [id_report_cause2], references: [id])

@@ -1,5 +1,5 @@
 
-import {getBookingCountsByTimeAndDate, getBookingsDetails, getCountsForScanning, confirmDuty, createIssue, getDutyPropertiesFronId, createReport, updateBookingStatus , updateDutyStatusUsingId, findUniqueBooking}   from '@/app/server/db';
+import {getBookingCountsByTimeAndDate, getBookingsDetails, getCountsForScanning, confirmDuty, createIssue, getDutyPropertiesFronId, createReport, updateBookingStatus , updateDutyStatusUsingId, findUniqueBooking, updatebusIdInUser}   from '@/app/server/db';
 
 
 
@@ -78,3 +78,9 @@ export async function scanTicket(id_Booking, user_id, depart_Time , depart_Date,
    return res;
 }
 
+
+
+export async function updateBusIdUsingUserId(userId , newValue){
+    const res = await updatebusIdInUser(userId,newValue);
+    return res;
+}

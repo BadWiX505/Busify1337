@@ -1133,3 +1133,34 @@ export async function findUniqueBooking(id_Booking, user_id, depart_Time, depart
     await prisma.$disconnect();
   }
 }
+
+
+
+
+
+
+
+///////// leaveBus '///////
+
+export async function updatebusIdInUser(userId,newValue=null) {
+  try {
+    // Update the user with the specified id_User, setting busId to null
+    const updatedUser = await prisma.user.update({
+      where: {
+        id_User: userId,
+      },
+      data: {
+        busId: newValue,
+      },
+    });
+
+    console.log('User updated successfully:', updatedUser);
+    return updatedUser;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return false;
+  }
+  finally {
+    await prisma.$disconnect();
+  }
+}

@@ -15,11 +15,13 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import DriverProfileModel from "@/components/driver/DriverProfile";
 import { useRouter } from "next/navigation";
+import ConfirmationDialogForLeavingBus from "./confirmationDialog";
 
 export default function DriverNavbar2({driverInfo}) {
   const { toast } = useToast();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
+   const [leavingBusConfirmation, setLeavingBusConf] = useState(false); 
 
   
   const router = useRouter();
@@ -170,6 +172,7 @@ export default function DriverNavbar2({driverInfo}) {
 
               <DropdownMenuItem
                 className="flex items-center gap-2 text-red-600 "
+                onClick={()=>setLeavingBusConf(true)}
               >
                 <BusIcon className="h-4 w-4 " />
                 <span>Leave bus</span>
@@ -199,6 +202,17 @@ export default function DriverNavbar2({driverInfo}) {
                 <WrenchIcon className="h-4 w-4" />
                 <span>Account</span>
               </div>
+
+              <div
+                onClick={()=>setLeavingBusConf(true)}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                 <BusIcon className="h-4 w-4 " />
+                <span>Leave bus</span>
+              </div>
+
+
+
               <div className="flex items-center gap-2" onClick={destroySession}>
                 <SignOutIcon className="h-4 w-5" />
                 <span>Sign out</span>
@@ -214,6 +228,15 @@ export default function DriverNavbar2({driverInfo}) {
           driver={driverInfo}
         />
       )}
+
+      {
+        leavingBusConfirmation && (
+          <ConfirmationDialogForLeavingBus 
+           open={leavingBusConfirmation}
+           onClose={()=>setLeavingBusConf(false)}
+          />
+        )
+      }
     </header>
   );
 }
