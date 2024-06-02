@@ -1185,7 +1185,7 @@ export async function getAvailableBuses(){
     });
 
     const AvailableBuses = allBuses.filter(bus => !bus.id_Bus in drivers.map(driver => driver.busId));
-    return allBuses;
+    return drivers;
 
   }catch(err){
     return null;
