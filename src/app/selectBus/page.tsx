@@ -31,9 +31,9 @@ export default function SelectPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
        {
         buses && 
-        buses.map(bus=>  
+        buses.map((bus,index)=>  
              
-          <div className="group relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+          <div className="group relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow" key={index}>
             <img
               src={bus.image}
               alt="Bus 1"
