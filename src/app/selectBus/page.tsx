@@ -1,10 +1,14 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 
 export default function SelectPage() {
   const [buses , setBuses] = useState([]);
+  const {toast}  = useToast();
+  const router = useRouter();
 
   async function getBuses(){
     const res = await fetch('/api/Driver/getAvailableBuses');
@@ -12,6 +16,25 @@ export default function SelectPage() {
        const buses = await res.json();
        setBuses(buses);  
     }
+  }
+
+  async function selectBus(idBus:number){
+     const res =  await fetch('/api/Driver/selectBus',{
+      method : 'PATCH',
+      body : JSON.stringify(idBus),
+     })
+
+     if(!res.ok){
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: 'Try again !',
+      })
+
+     }
+     else{
+       router.push('/login')
+     }
   }
 
 
@@ -45,7 +68,9 @@ export default function SelectPage() {
               <h3 className="text-lg font-semibold">{bus.bus_Name}</h3>
               <p className="mt-2 text-gray-500 dark:text-gray-400">Bus Number: {bus.bus_Number}</p>
               <p className="mt-2 text-gray-500 dark:text-gray-400">Bus Capacity: {bus.bus_Capacity} seats</p>
-              <Button size="sm" className="mt-4">
+              <Button size="sm" className="mt-4" 
+              onClick={()=>selectBus(bus.id_Bus)}
+              >
                 Select
               </Button>
             </div>
