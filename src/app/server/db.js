@@ -1173,7 +1173,11 @@ export async function updatebusIdInUser(userId,newValue=null) {
 export async function getAvailableBuses(){
   try{
 
-    const allBuses = await prisma.bus.findMany();
+    const allBuses = await prisma.bus.findMany({
+      where :{
+        bus_Status : 'active',
+      }
+    });
     const drivers = await prisma.user.findMany({
       where: {
         role: 'driver'
@@ -1181,7 +1185,7 @@ export async function getAvailableBuses(){
     });
 
     const AvailableBuses = allBuses.filter(bus => !bus.id_Bus in drivers.map(driver => driver.busId));
-    return AvailableBuses;
+    return allBuses;
 
   }catch(err){
     return null;
