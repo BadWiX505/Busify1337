@@ -1196,7 +1196,8 @@ export async function getAvailableBuses(){
      }
      return false;
     }
-   const res = checkBusExistanseInDrivers(bus.id_Bus);
+    const id = allBuses[0].id_Bus;
+   const res = checkBusExistanseInDrivers(id);
     return   res; 
 
   }catch(err){
