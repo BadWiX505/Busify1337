@@ -85,8 +85,8 @@ export default function StudentNav() {
             
             <DropdownMenuItem className="cursor-pointer">
                 <ScaleIcon className="mr-2 h-4 w-4" />
-                <p className="text-red-600">
-                  Busify laws
+                <p>
+                  Busify rules
                 </p>
               </DropdownMenuItem>
 
