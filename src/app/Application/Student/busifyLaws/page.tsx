@@ -76,7 +76,7 @@ export default function Component() {
               </p>
               <h3 className="mb-4 text-xl font-bold">Clean Water Act</h3>
               <p className="mb-4 text-gray-500 dark:text-gray-400">
-                The Clean Water Act is a federal law that regulates the discharge of pollutants into the nation's
+                The Clean Water Act is a federal law that regulates the discharge of pollutants into
                 surface waters, including lakes, rivers, streams, and coastal areas.
               </p>
             </div>
