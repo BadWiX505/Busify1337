@@ -186,8 +186,12 @@ export default function StudentMain() {
     }
     setLoading(false);
   }
-
-
+   function handleBookNowClick(e: any) {
+    if (e.type === 'submit') {
+      e.preventDefault();
+    }
+  }
+  
 
   async function book(){
     setLoading(true);
@@ -368,6 +372,7 @@ export default function StudentMain() {
                       <DialogTrigger>
                     <Button
                       className="w-full"
+                      onClick={handleBookNowClick}
                     >
                       Book Now
                     </Button>
