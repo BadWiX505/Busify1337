@@ -268,7 +268,7 @@ export default function Home() {
               <h3 className="heading-tertiary">Get Your Tickets</h3>
               <p className="step-description">
                 After selecting your trip details, proceed to secure your seat.
-                You'll receive instant confirmation and your tickets will be
+                You will receive instant confirmation and your tickets will be
                 ready for your upcoming adventure.
               </p>
             </div>
@@ -302,7 +302,7 @@ export default function Home() {
           <div className="container center-text">
             <span className="subheading">BUS</span>
             <h2 className="heading-secondary">
-              We've got the best buses in town
+              We have got the best buses in town
             </h2>
           </div>
 
