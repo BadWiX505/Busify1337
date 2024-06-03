@@ -187,9 +187,7 @@ export default function StudentMain() {
     setLoading(false);
   }
    function handleBookNowClick(e: any) {
-    if (e.type === 'submit') {
       e.preventDefault();
-    }
   }
   
 
@@ -257,7 +255,7 @@ export default function StudentMain() {
             </div>
             <Card className="relative w-full lg:w-[40%] lg:mb-48 max-w-[700px] bg-url[/img/big]">
               <CardContent className="p-6 space-y-4">
-                <form className="grid gap-4">
+                <form className="grid gap-4" onSubmit={handleBookNowClick}>
                   <h1 className="text-center font-bold border-b-2 border-gray-100 pb-2">
                     BOOK YOUR SEAT
                   </h1>
@@ -372,7 +370,6 @@ export default function StudentMain() {
                       <DialogTrigger>
                     <Button
                       className="w-full"
-                      onClick={handleBookNowClick}
                     >
                       Book Now
                     </Button>
