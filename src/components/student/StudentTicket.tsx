@@ -36,7 +36,7 @@ export default function StudentTicket({idBooking}) {
   return (
     <DialogContent className="sm:max-w-[500px]">
     <DialogHeader>
-      <DialogTitle>Student Ticket</DialogTitle>
+      <DialogTitle>Bus Ticket</DialogTitle>
     </DialogHeader>
 
     {loading ? <TicketLoading />   :
