@@ -649,12 +649,11 @@ function isCurrentMomentWithinTenMinutes(date, time) {
   // Subtract 10 minutes from the target time
   const tenMinutesAgo = new Date(targetTime.getTime() - 10 * 60000); // 10 minutes in milliseconds
 
-  // Get the current time
-  const currentTime = new Date();
-  console.log(currentTime)
+  // Get the current time and add 1 hour
+  const currentTimePlusOneHour = new Date(new Date().getTime() + 1 * 60 * 60000); // 1 hour in milliseconds
 
-  // Compare current time with 10 minutes ago
-  return currentTime >= tenMinutesAgo;
+  // Compare current time plus 1 hour with 10 minutes ago
+  return currentTimePlusOneHour >= tenMinutesAgo;
 }
 
 
