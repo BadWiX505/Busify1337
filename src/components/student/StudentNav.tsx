@@ -83,9 +83,9 @@ export default function StudentNav() {
               href='/Application/Student/busifyLaws'
             > 
             
-            <DropdownMenuItem className="text-red-600 cursor-pointer">
-                <ScaleIcon className="mr-2 h-4 w-4 text-red-600" />
-                <p className="text-red-600" onClick={destroySession}>
+            <DropdownMenuItem className="cursor-pointer">
+                <ScaleIcon className="mr-2 h-4 w-4" />
+                <p className="text-red-600">
                   Busify laws
                 </p>
               </DropdownMenuItem>
