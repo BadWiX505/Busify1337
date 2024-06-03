@@ -1,14 +1,9 @@
-"use client"
-
-
+"use client";
 
 import { Label } from "../ui/label";
 import { Button } from "@/components/ui/button";
 // import Modal from "react-modal";
-import {
-  Dialog,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 import {
   PopoverTrigger,
@@ -39,11 +34,10 @@ import {
   isAfter,
   startOfDay,
 } from "date-fns";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
 import { Skeleton } from "../ui/skeleton";
 import { filterFutureTimes, isDateToday } from "@/utils/dateUtils";
 import { Card, CardContent } from "../ui/card";
-
 
 type Address = {
   lat: number | null;
@@ -57,21 +51,22 @@ interface Booking {
   adress_lng: number | null;
 }
 
-
 export default function StudentMain() {
-
-
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [popoverOpen, setPopoverOpen] = useState(false); // State to manage popover visibility
   const [address, setadress] = useState<Address>({ lat: null, lng: null });
-  const [realAdress, setRealAdress] = useState('choose your destination');
+  const [realAdress, setRealAdress] = useState("choose your destination");
   const [availaibleTimes, setAvailaibleTimes] = useState([]);
-  const [booking, setBooking] = useState<Booking>({ depart_time: null, depart_date: null, adress_lat: null, adress_lng: null })
+  const [booking, setBooking] = useState<Booking>({
+    depart_time: null,
+    depart_date: null,
+    adress_lat: null,
+    adress_lng: null,
+  });
   const [selectedTime, setSelectedTime] = useState(null);
   const [defaultTime, setDefaultTime] = useState(null);
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
-
 
   //////// handlers /////////////
 
@@ -80,21 +75,17 @@ export default function StudentMain() {
     setSelectedTime(value);
   };
 
-  // update current address using googlemap component by passing this function as a prop 
+  // update current address using googlemap component by passing this function as a prop
   const handleCurrentPositionChange = (position: Address) => {
     setadress(position);
   };
-
-
 
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
     setPopoverOpen(false); // Close the popover after selecting a date
   };
 
-
   /////////////  End Heandlers ///////////////
-
 
   //// date settings //////////
   // Calculate the range of selectable dates
@@ -112,129 +103,99 @@ export default function StudentMain() {
     disabled: (date) => !isSelectable(date),
   };
 
-
   ///////////// END date Settings //////////
-
-
-
-
 
   /////// useEffects ///////////////////
 
-
-
   useEffect(() => {
-    setBooking(prevBooking => ({
+    setBooking((prevBooking) => ({
       ...prevBooking,
-      depart_time: selectedTime
+      depart_time: selectedTime,
     }));
   }, [selectedTime]);
-
-
 
   // update available times based on date changes
   useEffect(() => {
     const year = selectedDate.getFullYear();
-    const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(selectedDate.getDate()).padStart(2, '0');
+    const month = String(selectedDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(selectedDate.getDate()).padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
     getAvailaibleTimes(formattedDate);
-    setBooking(prevBooking => ({
+    setBooking((prevBooking) => ({
       ...prevBooking,
-      depart_date: formattedDate
+      depart_date: formattedDate,
     }));
-  }, [selectedDate, defaultTime])
+  }, [selectedDate, defaultTime]);
 
-
-
-
-  // get Real adress using Geocoding api and update current destination of student 
+  // get Real adress using Geocoding api and update current destination of student
   useEffect(() => {
-    if (address.lat && address.lng)
-      getRealAddress();
+    if (address.lat && address.lng) getRealAddress();
 
-    setBooking(prevBooking => ({
+    setBooking((prevBooking) => ({
       ...prevBooking,
       adress_lat: address.lat,
-      adress_lng: address.lng
+      adress_lng: address.lng,
     }));
-  }, [address])
-
-
-
+  }, [address]);
 
   // get Student default adress after the page mounts for the first time
   useEffect(() => {
-
     async function getStudentDefaultTime() {
       // default time
-      const res = await fetch('/api/Student/getStudentDefault');
+      const res = await fetch("/api/Student/getStudentDefault");
       const DE = await res.json();
       setDefaultTime(DE.defU.default_time);
     }
 
     getStudentDefaultTime();
-
-  }, [])
-
-
-
-
-
-
+  }, []);
 
   ////// END useEffect ////////////
-
-
-
 
   //// asyncs ////////////////
 
   const getRealAddress = async () => {
-    const realAdressFromGeo = await getAddressFromCoordinates(address.lat, address.lng);
-    if (realAdressFromGeo)
-      setRealAdress(realAdressFromGeo);
-    else
-      setRealAdress('Uknown Adress');
-  }
+    const realAdressFromGeo = await getAddressFromCoordinates(
+      address.lat,
+      address.lng
+    );
+    if (realAdressFromGeo) setRealAdress(realAdressFromGeo);
+    else setRealAdress("Uknown Adress");
+  };
 
-
-
-  // getAvailable times according to date 
+  // getAvailable times according to date
   async function getAvailaibleTimes(date: String) {
-
-    const res2 = await fetch('/api/Student/getAvailableTimes?date=' + date);
+    const res2 = await fetch("/api/Student/getAvailableTimes?date=" + date);
     const timesGroup = await res2.json();
     if (isDateToday(selectedDate)) {
-      timesGroup.availaibleTimes = filterFutureTimes(timesGroup.availaibleTimes);
+      timesGroup.availaibleTimes = filterFutureTimes(
+        timesGroup.availaibleTimes
+      );
     }
     setAvailaibleTimes(timesGroup.availaibleTimes);
-    const isDefaultTimeAvailable = timesGroup.availaibleTimes.some(item => item.time == defaultTime);
+    const isDefaultTimeAvailable = timesGroup.availaibleTimes.some(
+      (item) => item.time == defaultTime
+    );
 
     if (!isDefaultTimeAvailable) {
       if (timesGroup.availaibleTimes.length > 0)
         setSelectedTime(timesGroup.availaibleTimes[0].time);
-    }
-    else {
+    } else {
       setSelectedTime(defaultTime);
     }
     setLoading(false);
   }
 
-
-
-
-
   async function handleBookNowClick(e: any) {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await fetch("/api/Student/BookBus", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json" // Specify the content type as JSON
+          "Content-Type": "application/json", // Specify the content type as JSON
         },
-        body: JSON.stringify(booking) // Convert finalUser to JSON format
+        body: JSON.stringify(booking), // Convert finalUser to JSON format
       });
 
       const response = await res.json();
@@ -243,198 +204,195 @@ export default function StudentMain() {
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
           description: response.msg.message,
-        })
-
+        });
       else
         toast({
           variant: "success",
           title: "Successfully booking",
           description: response.msg.message,
-        })
-    }
-    catch (err) {
+        });
+    } catch (err) {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: "Try again. If you're still stuck, call the staff. .",
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
-
-
-
-
-
-
-
-
   /////////// end of asyncs//////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   ///// other functions //////////////
   const togglePopover = () => {
     setPopoverOpen(!popoverOpen);
   };
 
-
   ////////////////////// End other functions //////////
 
-
-
-
-
-
-
-
   return (
-    <section className="w-full py-12 md:pt-24 lg:pt-32 relative z-2">
-      <div className="container px-4 md:px-6">
-        <div className="grid items-center gap-6 lg:grid-rows-[1fr_300px] lg:gap-12 xl:grid-rows-[1fr_300px] justify-center">
-          <div className="space-y-4 flex justify center items-center flex-col">
-            <h1 className="text-5xl font-bold tracking-tighter sm:text-5xl text-white text-center mb-3">Book Your seat in <span className="text-[#A7E92F]">Busify</span></h1>
-            <p className="max-w-[600px] text-white md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-center">
-              Find your perfect destination, plan your trip, and book with ease.
-            </p>
-          </div>
-          <Card className="relative mt-[300px] max-w-[700px]" >
-            <CardContent className="p-6 space-y-4">
-              <form className="grid gap-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="destination">Time</Label>
-                    {loading &&
+    <>
+      <section className="w-full h-[800px] lg:h-[490px] md:h-[650px] sm:h-[700px] relative z-2">
+        {/* py-12 md:pt-24 lg:pt-32 */}
+        <div className="container px-4 md:px-6 mt-16">
+          <div className="flex flex-col lg:flex-row justify-around items-top ">
+            <div className="w-full lg:text-left lg:w-[50%] mb-8 lg:mb-0 md:text-center sm:text-center">
+              <h1 className="text-4xl lg:text-6xl mb-4 text-[#333] mt-10 font-bold leading-normal ">
+                A Convenient Ride, Just a Tap Away with{" "}
+                <span className="text-green-500">Busify</span>
+              </h1>
+              <p className="text-sm lg:text-base text-[#555] font-normal font-sans md:text-center sm:text-center lg:text-left ">
+                Book your seat hassle-free. Enjoy a comfortable journey every
+                time, tailored to your schedule and preferences.
+              </p>
+              {/* <p className="lg:text-base   text-[#3dff64] font-bold font-sans">
+                1337
+              </p> */}
+            </div>
+            <Card className="relative w-full lg:w-[40%] lg:mb-48 max-w-[700px] bg-url[/img/big]">
+              <CardContent className="p-6 space-y-4">
+                <form className="grid gap-4">
+                  <h1 className="text-center font-bold border-b-2 border-gray-100 pb-2">
+                    BOOK YOUR SEAT
+                  </h1>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="destination">Time</Label>
+                      {loading && (
+                        <div>
+                          <Skeleton className="h-10 w-full rounded-md" />
+                        </div>
+                      )}
 
-                      <div>
-                        <Skeleton className="h-10 w-full rounded-md" />
-                      </div>
+                      {!loading && (
+                        <Select
+                          onValueChange={handleTimeChange}
+                          value={selectedTime}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select time" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {availaibleTimes.map((AVtime) => (
+                              <SelectItem value={AVtime.time} key={AVtime.id}>
+                                {AVtime.time}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="date">Date</Label>
 
-                    }
+                      {loading && (
+                        <div>
+                          <Skeleton className="h-10 w-full rounded-md" />
+                        </div>
+                      )}
 
-                    {!loading &&
-                      <Select onValueChange={handleTimeChange} value={selectedTime}>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select time" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {availaibleTimes.map(AVtime => <SelectItem value={AVtime.time} key={AVtime.id} >{AVtime.time}</SelectItem>)}
-                        </SelectContent>
-                      </Select>
-                    }
-
+                      {!loading && (
+                        <Popover
+                          open={popoverOpen}
+                          onOpenChange={setPopoverOpen}
+                        >
+                          <PopoverTrigger asChild>
+                            <Button
+                              className="w-full flex items-center justify-between"
+                              variant="outline"
+                              onClick={togglePopover}
+                            >
+                              <span>
+                                {selectedDate
+                                  ? format(selectedDate, "PPP")
+                                  : "Select date"}
+                              </span>
+                              <CalendarIcon className="w-5 h-5" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="p-0">
+                            <Calendar
+                              mode="single"
+                              onSelect={handleDateSelect}
+                              modifiers={modifiers}
+                              defaultValue={startOfDay(today)} // Default value should be today
+                              minDate={minDate} // Limit selection from yesterday
+                              maxDate={maxDate} // Limit selection to today + 7 days
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      )}
+                    </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="date">Date</Label>
-
-                    {loading &&
-
+                    <Label htmlFor="time">Destination</Label>
+                    {loading && (
                       <div>
                         <Skeleton className="h-10 w-full rounded-md" />
                       </div>
+                    )}
 
-                    }
-
-                    {!loading &&
-                      <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-                        <PopoverTrigger asChild>
+                    {!loading && (
+                      <Dialog>
+                        <DialogTrigger asChild>
                           <Button
-                            className="w-full flex items-center justify-between"
                             variant="outline"
-                            onClick={togglePopover}
+                            className="w-full text-left flex justify-between overflow-hidden"
+                            title={realAdress}
                           >
-                            <span>
-                              {selectedDate
-                                ? format(selectedDate, "PPP")
-                                : "Select date"}
-                            </span>
-                            <CalendarIcon className="w-5 h-5" />
+                            <p>{realAdress}</p>
+                            <div></div>
                           </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="p-0">
-                          <Calendar
-                            mode="single"
-                            onSelect={handleDateSelect}
-                            modifiers={modifiers}
-                            defaultValue={startOfDay(today)} // Default value should be today
-                            minDate={minDate} // Limit selection from yesterday
-                            maxDate={maxDate} // Limit selection to today + 7 days
-                          />
-                        </PopoverContent>
-                      </Popover>
+                        </DialogTrigger>
 
-                    }
+                        <GoogleMapsComponentModal
+                          handleCurrentPositionChange={
+                            handleCurrentPositionChange
+                          }
+                          modalRole="STmain"
+                        />
+                      </Dialog>
+                    )}
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="time">Destination</Label>
-                  {loading &&
 
+                  {loading && (
                     <div>
                       <Skeleton className="h-10 w-full rounded-md" />
                     </div>
+                  )}
 
-                  }
-
-                  {!loading &&
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className="w-full text-left flex justify-between overflow-hidden"
-                          title={realAdress}
-                        >
-                          <p>{realAdress}</p>
-                          <div></div>
-                        </Button>
-                      </DialogTrigger>
-
-
-                      <GoogleMapsComponentModal handleCurrentPositionChange={handleCurrentPositionChange} modalRole='STmain' />
-
-
-                    </Dialog>
-                  }
-                </div>
-
-                {loading &&
-
-                  <div>
-                    <Skeleton className="h-10 w-full rounded-md" />
-                  </div>
-
-                }
-
-                {!loading &&
-                  <Button className="w-full" type="submit" onClick={handleBookNowClick}>
-                    Book Now
-                  </Button>
-                }
-              </form>
-            </CardContent>
-          </Card>
+                  {!loading && (
+                    <Button
+                      className="w-full"
+                      type="submit"
+                      onClick={handleBookNowClick}
+                    >
+                      Book Now
+                    </Button>
+                  )}
+                </form>
+              </CardContent>
+            </Card>
+          </div>
         </div>
+      </section>
+
+      <div>
+        <svg
+          className="block w-full fill-color-static-white-canvas"
+          style={{ height: "min(48px, 3.3333333333333335vw)" }}
+          viewBox="0 0 1440 72"
+          fill="none"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0 59.6698V72H1440L1379.96 61.8656C1319.92 51.7312 1199.83 31.4624 1079.75 19.3011C959.666 7.13978 839.583 3.08601 719.5 1.05913C599.416 -0.967751 479.333 -0.967751 359.249 9.16666C239.166 19.3011 119.083 39.5699 59.041 49.7043L0 59.6698Z"></path>
+        </svg>
       </div>
-    </section>
-  )
+    </>
+  );
 }
-
-
 
 function CalendarDaysIcon(props) {
   return (
@@ -461,9 +419,8 @@ function CalendarDaysIcon(props) {
       <path d="M12 18h.01" />
       <path d="M16 18h.01" />
     </svg>
-  )
+  );
 }
-
 
 /*
 
@@ -770,7 +727,7 @@ async function handleBookNowClick(e: any) {
 
 
   return (
-    <main className="bg-gray-100 py-11 px-0 md:px-8 lg:px-10">
+    <main className="py-11 px-0 md:px-8 lg:px-10">
       <div className="container mx-auto px-4">
         <div
           style={{
