@@ -38,6 +38,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Skeleton } from "../ui/skeleton";
 import { filterFutureTimes, isDateToday } from "@/utils/dateUtils";
 import { Card, CardContent } from "../ui/card";
+import BookingConfirmation from "./bookingConfirmation";
 
 type Address = {
   lat: number | null;
@@ -67,6 +68,7 @@ export default function StudentMain() {
   const [defaultTime, setDefaultTime] = useState(null);
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
+  const [bookingConf , setBookingConf] = useState(false);
 
   //////// handlers /////////////
 
@@ -188,7 +190,13 @@ export default function StudentMain() {
 
   async function handleBookNowClick(e: any) {
     e.preventDefault();
+    setBookingConf(true)
+  }
+
+
+  async function book(){
     setLoading(true);
+    setBookingConf(false)
     try {
       const res = await fetch("/api/Student/BookBus", {
         method: "POST",
@@ -221,7 +229,6 @@ export default function StudentMain() {
       setLoading(false);
     }
   }
-
   /////////// end of asyncs//////////////
 
   ///// other functions //////////////
@@ -377,7 +384,7 @@ export default function StudentMain() {
           </div>
         </div>
       </section>
-
+       <BookingConfirmation onClose={()=>setBookingConf(false)} open={bookingConf}  confirmFunction={book}/>
       <div>
         <svg
           className="block w-full fill-color-static-white-canvas"

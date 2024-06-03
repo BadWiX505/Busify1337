@@ -6,7 +6,7 @@ export default function Rules() {
       <header className="bg-gray-900 py-12 text-center text-white">
         <div className="container mx-auto px-4 md:px-6">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">Rules and Regulations</h1>
-          <p className="mt-6 text-lg leading-8">Explore the necessary laws of our 1337 busify comunity.</p>
+          <p className="mt-6 text-lg leading-8">Explore the necessary rules of our 1337 busify comunity.</p>
         </div>
       </header>
       <main className="flex-1">
