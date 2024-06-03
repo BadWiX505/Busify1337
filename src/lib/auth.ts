@@ -39,8 +39,14 @@ export const lucia = new Lucia(adapter, {
 			defTime : attributes.default_time,
 			busId : attributes.busId,
 			status : attributes.status,
+			totalWorkingHours : attributes.total_working_hours,
+			totalProfits : attributes.total_profits,
 		};
 	}
+
+// 	total_working_hours Int        @default(0)
+//   salary_per_hour     Decimal?
+//   total_profits       Decimal    
     
 });
 
@@ -89,4 +95,6 @@ export interface DatabaseUserAttributes {
 	default_time : String
 	busId : number
 	status : String
+	total_working_hours : number
+	total_profits : number
 }

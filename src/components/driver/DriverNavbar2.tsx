@@ -88,7 +88,7 @@ export default function DriverNavbar2({driverInfo}) {
               <DollarSignIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             </div>
             <div>
-              <p className="font-semibold">$234.56</p>
+              <p className="font-semibold">${driverInfo.totalProfits}</p>
               <p className="text-gray-500 dark:text-gray-400 text-sm">
                 Total Earnings
               </p>
@@ -99,7 +99,7 @@ export default function DriverNavbar2({driverInfo}) {
               <ClockIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             </div>
             <div>
-              <p className="font-semibold">20 hrs</p>
+              <p className="font-semibold">{driverInfo.totalWorkingHours} hrs</p>
               <p className="text-gray-500 dark:text-gray-400 text-sm">
                 Total Hours Worked
               </p>
