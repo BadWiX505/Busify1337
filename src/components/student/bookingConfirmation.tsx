@@ -16,7 +16,7 @@ export default function BookingConfirmation({confirmFunction}) {
           <div className="mt-12 space-y-2 text-center">
             <DialogTitle className="text-2xl font-bold">Are you sure?</DialogTitle>
             <DialogDescription className="text-gray-500 dark:text-gray-400">
-              are you sure you want to book at this hour and date, you can't cancel booking later!
+              are you sure you want to book at this hour and date, you cannot cancel booking later!
             </DialogDescription>
           </div>
           <div className="mt-6 flex w-full justify-center gap-2">
