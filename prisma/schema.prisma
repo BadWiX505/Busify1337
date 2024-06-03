@@ -23,6 +23,7 @@ model User {
   default_time        String?
   total_working_hours Int        @default(0)
   salary_per_hour     Decimal?
+  total_profits       Decimal    @default(0)
   booking             Booking[]
   reports             Report[]   @relation("Reporter")
   receivedReports     Report[]   @relation("ReportedUser")

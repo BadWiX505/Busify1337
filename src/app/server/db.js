@@ -1063,7 +1063,7 @@ async function updateBookingStatusUsingUserId(userId, currentStatus, newStatus) 
 
 
 
-export async function updateDutyStatusUsingId(idDuty, value) {
+export async function updateDutyStatusUsingId(idDuty, value,userId) {
   try {
 
     const updatedDuty = await prisma.duty.update({
@@ -1071,6 +1071,9 @@ export async function updateDutyStatusUsingId(idDuty, value) {
       data: { duty_Status: value }
     });
 
+     await incrementWorkingHours(userId,1);
+     await incrementTotalProfits(userId);
+     
     if (updatedDuty)
       return true;
     else
@@ -1083,6 +1086,60 @@ export async function updateDutyStatusUsingId(idDuty, value) {
     await prisma.$disconnect();
   }
 }
+
+
+
+async function incrementTotalProfits(userId) {
+  try {
+    // Fetch the user's salary_per_hour
+    const user = await prisma.user.findUnique({
+      where: { id_User: userId },
+      select: { salary_per_hour: true },
+    });
+
+    if (!user || !user.salary_per_hour) {
+      throw new Error('User not found or salary_per_hour is not set');
+    }
+
+    // Increment the total_profits by salary_per_hour
+    const updatedUser = await prisma.user.update({
+      where: {
+        id_User: userId,
+      },
+      data: {
+        total_profits: {
+          increment: user.salary_per_hour,
+        },
+      },
+    });
+
+    return updatedUser;
+  } catch (error) {
+    console.error('Error incrementing total profits:', error);
+    throw error;
+  }
+}
+
+
+async function incrementWorkingHours(userId, hoursToAdd) {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        id_User: userId,
+      },
+      data: {
+        total_working_hours: {
+          increment: hoursToAdd,
+        },
+      },
+    });
+    return updatedUser;
+  } catch (error) {
+    console.error('Error incrementing working hours:', error);
+    throw error;
+  }
+}
+
 
 ////////////////////////////////////////// end of banning ///////////////////////////////
 

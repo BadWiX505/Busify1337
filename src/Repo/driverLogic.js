@@ -66,8 +66,8 @@ export async function reportStudent(reporterId,sudentId,reason,comment,busId){
 
 
 
-export async function completeDuty(idDuty){
-  const res = await updateDutyStatusUsingId(idDuty,'Completed');
+export async function completeDuty(idDuty,userId){
+  const res = await updateDutyStatusUsingId(idDuty,'Completed',userId);
   return res;
 }
 

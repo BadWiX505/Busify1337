@@ -13,7 +13,7 @@ export async function GET(request : NextRequest){
                   const params = request.nextUrl.searchParams;
                   const idDuty = params.get("idDuty") ? parseInt(params.get("idDuty")) : null;
                   if(idDuty){
-                  const res = await completeDuty(idDuty);
+                  const res = await completeDuty(idDuty,user.idUser);
                   if(res){
                     return Response.json('success',{status : 200})
                   }
