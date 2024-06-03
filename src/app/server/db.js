@@ -651,6 +651,7 @@ function isCurrentMomentWithinTenMinutes(date, time) {
 
   // Get the current time
   const currentTime = new Date();
+  console.log(currentTime)
 
   // Compare current time with 10 minutes ago
   return currentTime >= tenMinutesAgo;
