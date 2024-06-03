@@ -2,7 +2,7 @@
 
 export default function BannPage() {
   return (
-    <div className="flex h-[100dvh] w-full flex-col items-center justify-center bg-gray-950 px-4 text-center">
+    <div className="flex h-[100vh] w-full flex-col items-center justify-center bg-gray-950 px-4 text-center">
       <div className="max-w-md space-y-6">
         <h1 className="text-5xl font-bold tracking-tighter text-red-500 sm:text-6xl md:text-7xl">YOU ARE BANNED</h1>
         <p className="text-lg font-medium text-gray-300">

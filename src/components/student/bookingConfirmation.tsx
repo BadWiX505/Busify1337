@@ -4,7 +4,7 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "../ui/dialog"
+import {  DialogClose, DialogContent, DialogDescription, DialogTitle } from "../ui/dialog"
 
 export default function BookingConfirmation({confirmFunction}) {
   return (
