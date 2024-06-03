@@ -210,7 +210,7 @@ export default function DriverNavbar2({driverInfo}) {
 
               <div
                 onClick={()=>setLeavingBusConf(true)}
-                className="flex items-center gap-2 cursor-pointer"
+                className="flex items-center gap-2 cursor-pointer text-red-600"
               >
                  <BusIcon className="h-4 w-4 " />
                 <span>Leave bus</span>
