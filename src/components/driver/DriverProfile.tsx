@@ -43,7 +43,7 @@ export default function DriverProfileModel({ open, handleCloseProfileModal,drive
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Total Hours
               </p>
-              <p className="text-xl font-medium">{driver.totalWorkingHours}</p>
+              <p className="text-xl font-medium">{driver.totalWorkingHours} hrs</p>
             </div>
             <div className="space-y-1">
               <p className="text-sm text-gray-500 dark:text-gray-400">

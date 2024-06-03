@@ -78,6 +78,21 @@ export default function StudentNav() {
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+
+            <Link 
+              href='/Application/Student/busifyLaws'
+            > 
+            
+            <DropdownMenuItem className="text-red-600 cursor-pointer">
+                <ScaleIcon className="mr-2 h-4 w-4 text-red-600" />
+                <p className="text-red-600" onClick={destroySession}>
+                  Busify laws
+                </p>
+              </DropdownMenuItem>
+
+              </Link>
+
+
               <DropdownMenuItem className="text-red-600 cursor-pointer">
                 <LogOutIcon className="mr-2 h-4 w-4 text-red-600" />
                 <p className="text-red-600" onClick={destroySession}>
@@ -90,6 +105,31 @@ export default function StudentNav() {
       </div>
     </header>
   );
+}
+
+
+
+function ScaleIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+      <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+      <path d="M7 21h10" />
+      <path d="M12 3v18" />
+      <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" />
+    </svg>
+  )
 }
 
 function ClockIcon(props) {
