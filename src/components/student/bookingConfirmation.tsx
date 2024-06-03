@@ -6,9 +6,8 @@
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "../ui/dialog"
 
-export default function BookingConfirmation({confirmFunction,open,onClose}) {
+export default function BookingConfirmation({confirmFunction}) {
   return (
-    <Dialog open={open}>
       <DialogContent className="max-w-md p-0">
         <div className="relative flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-8 shadow-lg dark:bg-gray-900">
           <div className="absolute -top-12 flex h-24 w-24 items-center justify-center rounded-full bg-blue-500 text-white">
@@ -23,17 +22,18 @@ export default function BookingConfirmation({confirmFunction,open,onClose}) {
           </div>
           <div className="mt-6 flex w-full justify-center gap-2">
             <DialogClose>
-            <Button variant="outline" className="flex-1" onClick={onClose}>
+            <Button variant="outline" className="flex-1" >
               Cancel
             </Button>
             </DialogClose>
+            <DialogClose>
             <Button className="flex-1"  onClick={confirmFunction}>
               Confirm
             </Button>
+            </DialogClose>
           </div>
         </div>
       </DialogContent>
-    </Dialog>
   )
 }
 

@@ -68,7 +68,6 @@ export default function StudentMain() {
   const [defaultTime, setDefaultTime] = useState(null);
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
-  const [bookingConf , setBookingConf] = useState(false);
 
   //////// handlers /////////////
 
@@ -190,13 +189,11 @@ export default function StudentMain() {
 
   async function handleBookNowClick(e: any) {
     e.preventDefault();
-    setBookingConf(true)
   }
 
 
   async function book(){
     setLoading(true);
-    setBookingConf(false)
     try {
       const res = await fetch("/api/Student/BookBus", {
         method: "POST",
@@ -370,6 +367,8 @@ export default function StudentMain() {
                   )}
 
                   {!loading && (
+                    <Dialog>
+                      <DialogTrigger>
                     <Button
                       className="w-full"
                       type="submit"
@@ -377,6 +376,9 @@ export default function StudentMain() {
                     >
                       Book Now
                     </Button>
+                    </DialogTrigger>
+                    <BookingConfirmation  confirmFunction={book}/>
+                    </Dialog>
                   )}
                 </form>
               </CardContent>
@@ -384,7 +386,6 @@ export default function StudentMain() {
           </div>
         </div>
       </section>
-       <BookingConfirmation onClose={()=>setBookingConf(false)} open={bookingConf}  confirmFunction={book}/>
       <div>
         <svg
           className="block w-full fill-color-static-white-canvas"
