@@ -11,8 +11,10 @@ export default async function RootLayout({
     if(user){
      switch(user.role){
       case 'student' : if(user.defTime) redirect('/Application/Student')
-                       else redirect('/Application/getStarted')
-      case 'driver'  : redirect('/Application/Driver')
+                       else redirect('/Application/getStarted');
+      case 'driver'  : redirect('/Application/Driver');
+
+      case 'staff' : redirect('/Application/Staff');
      }
     }
     
