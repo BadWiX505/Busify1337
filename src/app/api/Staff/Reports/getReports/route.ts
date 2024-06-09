@@ -5,13 +5,9 @@ import { getReports } from '@/Repo/staffLogic';
 
 export async function GET(req: NextRequest) {
   try {
-    // Retrieve query parameters for reporterId and reportedUserId
-    const reporterId = req.url.split('?')[1]?.split('&').find(param => param.startsWith('reporterId='));
-    const reportedUserId = req.url.split('?')[1]?.split('&').find(param => param.startsWith('reportedUserId='));
-
-    // Extract values from query parameters
-    const reporterIdValue = reporterId ? reporterId.split('=')[1] : undefined;
-    const reportedUserIdValue = reportedUserId ? reportedUserId.split('=')[1] : undefined;
+       const params =  req.nextUrl.searchParams;
+    const reporterIdValue= params.get("reporterId");
+    const reportedUserIdValue = params.get('reportedUserId');
 
     // Call getReports function with query parameters
     const reports = await getReports(reporterIdValue, reportedUserIdValue);

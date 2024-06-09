@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select"
 import Badge from '@/components/ui/Badge2';
-import { PencilIcon,TrashIcon } from 'lucide-react';
+import { PencilIcon } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

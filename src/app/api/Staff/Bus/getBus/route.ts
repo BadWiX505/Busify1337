@@ -5,7 +5,7 @@ import { getBus, HighestBusId } from '@/Repo/staffLogic';
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
+    const searchParams  = req.nextUrl.searchParams;
     const limit = parseInt(searchParams.get('limit') || '4');
     const offset = parseInt(searchParams.get('offset') || '0');
 
