@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getBus, HighestBusId } from '@/Repo/staffLogic';
 
 export async function GET(req: NextRequest) {
+  const searchParams  = req.nextUrl.searchParams;
   try {
-    const searchParams  = req.nextUrl.searchParams;
     const limit = parseInt(searchParams.get('limit') || '4');
     const offset = parseInt(searchParams.get('offset') || '0');
 

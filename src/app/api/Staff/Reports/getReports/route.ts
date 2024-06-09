@@ -4,8 +4,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getReports } from '@/Repo/staffLogic';
 
 export async function GET(req: NextRequest) {
+  const params =  req.nextUrl.searchParams;
+
   try {
-       const params =  req.nextUrl.searchParams;
     const reporterIdValue= params.get("reporterId");
     const reportedUserIdValue = params.get('reportedUserId');
 
