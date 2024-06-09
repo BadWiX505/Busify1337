@@ -1,10 +1,10 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import TableComponent from '@/components/Staff/Reports/TableComponent';
-import PaginationControls from '@/components/Staff/Reports/PaginationControls';
-import usePagination from '@/components/Staff/Reports/usePagination';
-import { formatDate, formatTime } from '@/components/Staff/Reports/utils';
+import TableComponent from '@/components/staff/Reports/TableComponent';
+import PaginationControls from '@/components/staff/Reports/PaginationControls';
+import usePagination from '@/components/staff/Reports/usePagination';
+import { formatDate, formatTime } from '@/components/staff/Reports/utils';
 
 export default function Component() {
   const [reports, setReports] = useState([]);
