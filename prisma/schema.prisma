@@ -28,6 +28,7 @@ model User {
   reports             Report[]   @relation("Reporter")
   receivedReports     Report[]   @relation("ReportedUser")
   sessions            Session[]
+  problems            studentProblem[]
   bus                 Bus?
   busId               Int?
   report_number       Int        @default(0)
@@ -157,6 +158,16 @@ model Issue {
   driver      User      @relation("DriverIssues", fields: [driver_id], references: [id_User])
   bus         Bus       @relation("BusIssues", fields: [bus_id], references: [id_Bus])
 }
+
+
+model studentProblem {
+ id_StdProblem Int  @id @default(autoincrement())
+ id_Student String
+ user   User   @relation(fields: [id_Student], references: [id_User])
+ content String
+ reportedAt DateTime
+}
+
 
 enum IssueType {
   accident

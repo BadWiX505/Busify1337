@@ -432,7 +432,8 @@ export async function getStudentTicket(idBooking) {
       bus_Name: booking.bus.bus_Name,
       depart_Date: booking.depart_Date,
       depart_Time: booking.depart_Time,
-      idBooking: 0
+      idBooking: 0,
+      code : '',
     }
   } catch (error) {
     console.error('Error fetching user and bus details:', error)

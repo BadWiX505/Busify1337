@@ -1,7 +1,7 @@
-import { getAddressFromCoordinates, StudentTicket } from "@/Repo/Logic";
+import { StudentTicket } from "@/Repo/Logic";
 import { validateRequest } from "@/lib/auth";
-import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
+import {encrypt} from '@/utils/cryptoService'
 
 
 export async function GET(request: NextRequest) {
@@ -16,8 +16,10 @@ export async function GET(request: NextRequest) {
       if (user && user.role === 'student' && user.status==='active') {
         const idbooking = parseInt(params.get("idbooking"));
         ticket = await StudentTicket(idbooking);
-        if (ticket)
+        if (ticket){
           ticket.idBooking = parseInt(params.get("idbooking"));
+          ticket.code = encrypt(JSON.stringify({ id_Booking : idbooking , id_User : user.idUser }));
+        }
 
       }
       else {
