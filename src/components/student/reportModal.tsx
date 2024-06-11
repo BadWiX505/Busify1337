@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { 
   DialogContent, DialogHeader, DialogTitle, DialogDescription 
 } from "@/components/ui/dialog";
@@ -19,7 +19,7 @@ export default function ReportModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/send-message', {
+      const response = await fetch('/api/Student/sendReport', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -40,9 +40,14 @@ export default function ReportModal() {
   async function getReportsHistory(){
     const res = await fetch('/api/Student/getstudentReports');
     if(res.ok){
-
+      const resp = await res.json();
+      setReports(resp);
     }
   }
+
+  useEffect(()=>{
+     getReportsHistory();
+  },[])
 
   return (
     <DialogContent className="sm:max-w-[800px]">
