@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
+import { formatDateTime } from '@/utils/dateUtils';
 
 
 
@@ -84,7 +85,7 @@ export default function ReportModal() {
                 required
               />
             </div>
-            <Button type="submit" className='mt-3'>Send Report</Button>
+            <Button type="submit" className='mt-5'>Send Report</Button>
           </form>
         </div>
         <div className="space-y-4">
@@ -93,6 +94,7 @@ export default function ReportModal() {
             <DialogDescription>View a list of previously submitted reports.</DialogDescription>
           </DialogHeader>
           <Card>
+          <div className="overflow-x-auto overflow-y-auto w-full">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -104,12 +106,13 @@ export default function ReportModal() {
                 {reports.map((report,index)=>
                     <TableRow key={index}>
                     <TableCell>{report.content}</TableCell>
-                    <TableCell>{report.reportedAt}</TableCell>
+                    <TableCell>{formatDateTime(report.reportedAt)}</TableCell>
                     </TableRow>    
                 )}
                         
               </TableBody>
             </Table>
+            </div>
           </Card>
         </div>
       </div>
