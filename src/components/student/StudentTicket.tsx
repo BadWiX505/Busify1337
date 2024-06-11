@@ -67,7 +67,7 @@ export default function StudentTicket({idBooking}) {
         <div className="font-medium">{ticket.bus_Name}</div>
       </div>
       <div className="flex justify-center">
-        <QRCodeGenerator jsonData={{ id_Booking : idBooking , id_User : student.idUser }}/>
+        <QRCodeGenerator jsonData={ticket.code}/>
       </div>
     </Card> }
 
