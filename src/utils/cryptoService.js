@@ -8,7 +8,8 @@ export const encrypt = (text) => {
 
 export const decrypt = (cipherText) => {
   try {
-    const bytes = CryptoJS.AES.decrypt(cipherText, SECRET_KEY);
+    const cleanedEncryptedCode = cipherText.replace(/^"(.*)"$/, '$1');
+    const bytes = CryptoJS.AES.decrypt(cleanedEncryptedCode, SECRET_KEY);
     const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
     
     // Check if decryption was successful
