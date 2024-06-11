@@ -7,10 +7,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { useToast } from "@/components/ui/use-toast";
+
+
 
 export default function ReportModal() {
   const [message, setMessage] = useState('');
   const [reports, setReports] =  useState([]);
+
+  const {toast} = useToast();
 
   const handleChange = (e) => {
     setMessage(e.target.value);
@@ -28,8 +33,18 @@ export default function ReportModal() {
       });
       if (response.ok) {
         setMessage(''); 
+        toast({
+          variant: "success",
+          title: "sent successfully",
+          description: 'report has been sent successfully',
+        });
       } else {
         console.error('Failed to send report');
+        toast({
+          variant: "destructive",
+          title: "Something went wrong",
+          description: 'something went wrong , try again!',
+        });
       }
     } catch (error) {
       console.error('Error:', error);
@@ -69,7 +84,7 @@ export default function ReportModal() {
                 required
               />
             </div>
-            <Button type="submit">Send Report</Button>
+            <Button type="submit" className='mt-3'>Send Report</Button>
           </form>
         </div>
         <div className="space-y-4">
