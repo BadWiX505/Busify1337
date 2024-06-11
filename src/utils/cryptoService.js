@@ -7,6 +7,18 @@ export const encrypt = (text) => {
 };
 
 export const decrypt = (cipherText) => {
-  const bytes = CryptoJS.AES.decrypt(cipherText, SECRET_KEY);
-  return bytes.toString(CryptoJS.enc.Utf8);
+  try {
+    const bytes = CryptoJS.AES.decrypt(cipherText, SECRET_KEY);
+    const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+    
+    // Check if decryption was successful
+    if (!decryptedText) {
+      throw new Error('Invalid encrypted text');
+    }
+
+    return decryptedText;
+  } catch (error) {
+    console.error('Decryption failed:', error);
+    throw new Error('failed')
+  }
 };

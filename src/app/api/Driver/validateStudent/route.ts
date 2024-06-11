@@ -1,6 +1,7 @@
 import { BookingStatusUpdate, scanTicket } from "@/Repo/driverLogic";
 import { getDutyPropertiesFronId } from "@/app/server/db";
 import { validateRequest } from "@/lib/auth";
+import { decrypt } from "@/utils/cryptoService";
 import { NextRequest } from "next/server";
 
 
@@ -13,9 +14,16 @@ export async function POST(request: NextRequest) {
     if (user && user.role === 'driver' && user.busId && user.status==='active') {
       const data = await request.json();
       if (data.idDuty && data.ticket) {
-        if (validateJsonString(data.ticket)) {
+        let decryptedTicket ='';
+        try{
+         decryptedTicket = decrypt(data.ticket);
+        }
+        catch(err){
+          throw new Error('failed');
+        }
+        if (validateJsonString(decryptedTicket)) {
           const dutyProperties = await getDutyPropertiesFronId(parseInt(data.idDuty));
-          const studentTicket = JSON.parse(data.ticket);
+          const studentTicket = JSON.parse(decryptedTicket);
           const scanning = await scanTicket(studentTicket.id_Booking,studentTicket.id_User, dutyProperties?.duty_Time, dutyProperties?.duty_Date, user.busId);
           if (!scanning)
             return Response.json('Expired ticket', { status: 401 });
