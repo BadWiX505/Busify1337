@@ -94,7 +94,7 @@ export default function ReportModal() {
             <DialogDescription>View a list of previously submitted reports.</DialogDescription>
           </DialogHeader>
           <Card>
-          <div className="overflow-x-auto overflow-y-auto w-full">
+          <div className="overflow-x-auto overflow-y-auto w-full max-h-[300px]">
             <Table>
               <TableHeader>
                 <TableRow>
