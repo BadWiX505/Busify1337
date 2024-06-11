@@ -134,7 +134,7 @@ export async function createStudentProblem(idStudent, message) {
   try {
     const newProblem = await prisma.studentProblem.create({
       data: {
-        id_User: idStudent,
+        id_Student: idStudent,
         content: message,
       },
     });
