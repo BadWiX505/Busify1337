@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       if (data.idDuty && data.ticket) {
         let decryptedTicket ='';
         try{
-          console.log(data.ticket)
+          console.log("code :   "+data.ticket)
          decryptedTicket = decrypt(data.ticket);
         }
         catch(err){
