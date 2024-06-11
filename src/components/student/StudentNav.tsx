@@ -14,6 +14,7 @@ import { Dialog, DialogTrigger } from "../ui/dialog";
 import StudentEditModal from "./StudentEditModal";
 import StudentHistory from "./StudentHistory";
 import { useRouter } from "next/navigation";
+import ReportModal from "./reportModal";
 
 export default function StudentNav() {
   const router = useRouter();
@@ -36,9 +37,15 @@ export default function StudentNav() {
 
         <div className="flex justify-between items-center">
           <div className="mr-7">
+          <Dialog>
+
+            <DialogTrigger asChild>
             <Button size="icon" variant="ghost">
-              Reports
+             Report
             </Button>
+            </DialogTrigger>
+            <ReportModal />
+            </Dialog>
           </div>
           <div>
             <Dialog key="1">
