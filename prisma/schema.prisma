@@ -165,7 +165,7 @@ model studentProblem {
  id_Student String
  user   User   @relation(fields: [id_Student], references: [id_User])
  content String
- reportedAt DateTime
+ reportedAt DateTime @default(now())
 }
 
 

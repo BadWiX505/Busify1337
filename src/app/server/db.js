@@ -28,7 +28,30 @@ export async function getUserDefaultThings(userId) {
 }
 
 
+export async function getStudentsReportsHistory(idS) {
+  try {
+    const reports = await prisma.studentProblem.findMany({
+      where: {
+        id_Student: idS,
+      },
+      orderBy : {
+        reportedAt : 'desc',
+      }
+    })
 
+    if (reports) {
+      return reports;
+    }
+
+    return null;
+  } catch (err) {
+    console.log(err)
+    return null;
+  }  finally {
+    prisma.$disconnect();
+  }
+
+}
 
 
 
@@ -107,6 +130,28 @@ export async function getAlltravelTimes() {
 
 
 
+export async function createStudentProblem(idStudent, message) {
+  try {
+    const newProblem = await prisma.studentProblem.create({
+      data: {
+        id_User: idStudent,
+        content: message,
+      },
+    });
+
+    if (!newProblem) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.log(err)
+    return false;
+  }  finally {
+    prisma.$disconnect();
+  }
+
+}
 
 
 
@@ -433,7 +478,7 @@ export async function getStudentTicket(idBooking) {
       depart_Date: booking.depart_Date,
       depart_Time: booking.depart_Time,
       idBooking: 0,
-      code : '',
+      code: '',
     }
   } catch (error) {
     console.error('Error fetching user and bus details:', error)
@@ -442,6 +487,12 @@ export async function getStudentTicket(idBooking) {
     await prisma.$disconnect()
   }
 }
+
+
+
+
+
+
 
 
 
@@ -785,13 +836,13 @@ export async function confirmDuty(idDuty, idUser) {
     const dutyProperties = await getDutyPropertiesFronId(idDuty);
     const isUpdated = await updateBookingsStatusToMissed(dutyProperties.duty_Time, dutyProperties.duty_Date, dutyProperties.bus_id);
     const missedBookings = await getBookingsForReport(dutyProperties.duty_Time, dutyProperties.duty_Date, dutyProperties.bus_id);
-    if(missedBookings){
-    for (const missedBooking of missedBookings) {
-      const res = await createReport(idUser, missedBooking.user_id, 'missed Bus', null, dutyProperties.bus_id);
-      if (!res)
-        throw new Error("err");
+    if (missedBookings) {
+      for (const missedBooking of missedBookings) {
+        const res = await createReport(idUser, missedBooking.user_id, 'missed Bus', null, dutyProperties.bus_id);
+        if (!res)
+          throw new Error("err");
+      }
     }
-  }
     const updatedDuty = await updateDutyStatusUsingId(idDuty, 'Driving');
     console.log('done')
     return true;
@@ -892,13 +943,13 @@ export async function createReport(reporterId, reportedUserId, reason, comment, 
 
     await incrementReportNumber(reportedUserId);
     const deserveBanning = await isReportNumberGreaterOrEqualToThree(reportedUserId);
-    if(deserveBanning){
-    
-    const RecentReports = await getThreeRecentReports(reportedUserId);
-    await createNewBann(reportedUserId,'three reports',RecentReports[0].id,RecentReports[1].id,RecentReports[2].id,null);
-    await updateUserStatus(reportedUserId,'inactive');
-    await updateBookingStatusUsingUserId(reportedUserId,'Pending','Banned');  
-    await resetReportNumber(reportedUserId);
+    if (deserveBanning) {
+
+      const RecentReports = await getThreeRecentReports(reportedUserId);
+      await createNewBann(reportedUserId, 'three reports', RecentReports[0].id, RecentReports[1].id, RecentReports[2].id, null);
+      await updateUserStatus(reportedUserId, 'inactive');
+      await updateBookingStatusUsingUserId(reportedUserId, 'Pending', 'Banned');
+      await resetReportNumber(reportedUserId);
     }
 
     return true;
@@ -1064,7 +1115,7 @@ async function updateBookingStatusUsingUserId(userId, currentStatus, newStatus) 
 
 
 
-export async function updateDutyStatusUsingId(idDuty, value,userId) {
+export async function updateDutyStatusUsingId(idDuty, value, userId) {
   try {
 
     const updatedDuty = await prisma.duty.update({
@@ -1072,9 +1123,9 @@ export async function updateDutyStatusUsingId(idDuty, value,userId) {
       data: { duty_Status: value }
     });
 
-     await incrementWorkingHours(userId,1);
-     await incrementTotalProfits(userId);
-     
+    await incrementWorkingHours(userId, 1);
+    await incrementTotalProfits(userId);
+
     if (updatedDuty)
       return true;
     else
@@ -1200,7 +1251,7 @@ export async function findUniqueBooking(id_Booking, user_id, depart_Time, depart
 
 ///////// leaveBus '///////
 
-export async function updatebusIdInUser(userId,newValue=null) {
+export async function updatebusIdInUser(userId, newValue = null) {
   try {
     // Update the user with the specified id_User, setting busId to null
     const updatedUser = await prisma.user.update({
@@ -1228,15 +1279,15 @@ export async function updatebusIdInUser(userId,newValue=null) {
 
 ///      select available buses ///////
 
-export async function getAvailableBuses(){
-  try{
+export async function getAvailableBuses() {
+  try {
 
     const allBuses = await prisma.bus.findMany({
-      where :{
-        bus_Status : 'active',
+      where: {
+        bus_Status: 'active',
       }
     });
-    
+
     const drivers = await prisma.user.findMany({
       where: {
         role: 'driver'
@@ -1244,70 +1295,70 @@ export async function getAvailableBuses(){
     });
 
     const AvailableBuses = allBuses.filter(bus => {
-      return !checkBusExistanseInDrivers(bus.id_Bus,drivers);
+      return !checkBusExistanseInDrivers(bus.id_Bus, drivers);
     });
 
-   
 
-    return   AvailableBuses; 
 
-  }catch(err){
+    return AvailableBuses;
+
+  } catch (err) {
     console.log(err)
     return null;
-  }finally {
+  } finally {
     await prisma.$disconnect();
   }
 }
 
 
-function checkBusExistanseInDrivers(idbus,drivers){
-  for(const driver of drivers){
-    if(driver.busId===idbus){
-     return true;
+function checkBusExistanseInDrivers(idbus, drivers) {
+  for (const driver of drivers) {
+    if (driver.busId === idbus) {
+      return true;
     }
   }
-  return false;
- }
-
-
-
-export async function asignDriverToBus(userId,busId){
-  try{
-  const drivers = await prisma.user.findMany({
-    where: {
-      role: 'driver'
-    }
-  });
-
-  if(checkBusExistanseInDrivers(busId,drivers)){
-    return false;
-  }
-
-   await prisma.bus.update({
-    where: {
-      id_Bus: busId,
-    },
-    data: {
-      id_Driver: userId,
-    },
-  })
-
-
-   await prisma.user.update({
-    where : {
-      id_User : userId
-    },
-    data :{
-      busId : busId,
-    }
-  })
-
-  return true;
-
-}catch(err){
-  console.log(err);
   return false;
 }
+
+
+
+export async function asignDriverToBus(userId, busId) {
+  try {
+    const drivers = await prisma.user.findMany({
+      where: {
+        role: 'driver'
+      }
+    });
+
+    if (checkBusExistanseInDrivers(busId, drivers)) {
+      return false;
+    }
+
+    await prisma.bus.update({
+      where: {
+        id_Bus: busId,
+      },
+      data: {
+        id_Driver: userId,
+      },
+    })
+
+
+    await prisma.user.update({
+      where: {
+        id_User: userId
+      },
+      data: {
+        busId: busId,
+      }
+    })
+
+    return true;
+
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 
 
 }
@@ -1348,7 +1399,7 @@ export async function getActiveUnassignedDriversFromDb() {
     },
     select: {
       id_User: true,
-      full_name :true,
+      full_name: true,
     },
   });
 
@@ -1401,21 +1452,21 @@ export async function getReportsFromDb(reporterId, reportedUserId) {
     include: {
       reporter: {
         select: {
-          id_User:true,
+          id_User: true,
           full_name: true,
           email: true,
           image: true,
-          role:true,
+          role: true,
         },
       },
       reportedUser: {
         select: {
-          id_User:true,
+          id_User: true,
           full_name: true,
           email: true,
           image: true,
           status: true,
-          role:true,
+          role: true,
         },
       },
     },

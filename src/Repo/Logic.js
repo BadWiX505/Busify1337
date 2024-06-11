@@ -1,4 +1,4 @@
-import {getUserDefaultThings,getAvailableTimes,bookSeatOnNextAvailableBus, getStudentDetails, updateUser, getStudentHistory,getPendingBookingsByUserId, getStudentTicket} from '@/app/server/db';
+import {getUserDefaultThings,getAvailableTimes,bookSeatOnNextAvailableBus, getStudentDetails, updateUser, getStudentHistory,getPendingBookingsByUserId, getStudentTicket, createStudentProblem, getStudentsReportsHistory} from '@/app/server/db';
 
 
 
@@ -78,4 +78,15 @@ export async function StudentBookingPending(userId){
 export  async function StudentTicket(bookingId){
     const ticket = await getStudentTicket(bookingId);
     return ticket;
+}
+
+
+export async function newStudentProblem(idS,msg){
+  const res = await createStudentProblem(idS,msg)
+  return res;
+}
+
+
+export async function studentReportsHistory(idS){
+  return await getStudentsReportsHistory(idS);
 }
