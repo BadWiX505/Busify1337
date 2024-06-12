@@ -11,7 +11,7 @@ const EntityWithHoverCard = ({ entity, isBus = false }) => {
 
   // Function to generate the appropriate page URL based on the role and ID
   const getEntityPageURL = () => {
-    return isBus ? `/Bus` : `/drivers`;
+    return isBus ? `/Application/Staff/Bus` : `/Application/Staff/Drivers`;
   };
 
   return (

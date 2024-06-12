@@ -29,7 +29,7 @@ export default function Navbare() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/Issue/getIssue');
+      const response = await fetch('/api/Staff/Issue/getIssue');
       if (!response.ok) {
         throw new Error('Failed to fetch issues');
       }
@@ -92,7 +92,7 @@ export default function Navbare() {
                             className="ml-auto p-0.5 flex items-center text-xs text-gray-500" 
                             onClick={(e) => {
                               e.stopPropagation(); // Prevent triggering the parent div's click event
-                              window.location.href = '/Issues'; // Navigate to the /Issues page
+                              window.location.href = '/Application/Staff/Issues'; // Navigate to the /Issues page
                             }}
                           >
                             <EyeIconOutline className="w-4 h-4 mr-1" /> View

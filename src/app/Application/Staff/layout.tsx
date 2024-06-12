@@ -14,10 +14,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
 
-  const user = await staffWall();
-  if(!user){
-     redirect('/login')
-  }
+  // const user = await staffWall();
+  // if(!user){
+  //    redirect('/login')
+  // }
   
 
 

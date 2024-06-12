@@ -22,7 +22,11 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-
+  const handleStatusUpdate = (updatedUser: User) => {
+    const updatedUsers = sortedUsers.map(u => u.id_User === updatedUser.id_User ? updatedUser : u);
+    setSortedUsers(updatedUsers);
+  };
+  
   useEffect(() => {
     handleSortByName();
   }, []); // Initial sort on component mount
@@ -135,7 +139,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
           </button>
         </div>
       </div>
-      <UserDetailsModal user={selectedUser} onClose={() => setIsModalOpen(false)} isOpen={isModalOpen} />
+      <UserDetailsModal user={selectedUser} onClose={() => setIsModalOpen(false)} isOpen={isModalOpen} onUpdateStatus={handleStatusUpdate} />
     </div>
   );
 };

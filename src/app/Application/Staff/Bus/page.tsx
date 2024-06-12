@@ -843,22 +843,31 @@ const fetchBuses = async (offset: number) => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
-              <div className="flex items-center gap-2">
-                <UserIcon className="w-5 h-5" />
-                <span>Driver :</span>
-              </div>
-              <select
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
-                value={editedBus.id_Driver}
-                onChange={(e) => setEditedBus({ ...editedBus, id_Driver: e.target.value })}
-              >
-                <option value="">{editedBus.id_Driver}</option>
-                {drivers.map((driver) => (
-                  <option key={driver.id_User} value={driver.id_User}>{driver.full_name}</option>
-                ))}
-              </select>
-            </div>
+            <div>
+        <Label htmlFor="driver">Drivers</Label>
+        <Select
+          name="id_Driver"
+          value={selectedDriverId ? selectedDriverId.toString() : ''}
+          onValueChange={(value) => {
+            setSelectedDriverId(Number(value));
+            setFormData((prevState) => ({
+              ...prevState,
+              id_Driver: value,
+            }));
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select driver" />
+          </SelectTrigger>
+          <SelectContent>
+            {drivers.map((driver) => (
+              <SelectItem key={driver.id_User} value={driver.id_User.toString()}>
+                {driver.full_name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
             <div className="grid grid-cols-2 gap-2">
               <div className="flex items-center gap-2">

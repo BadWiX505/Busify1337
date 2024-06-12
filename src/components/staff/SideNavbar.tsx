@@ -70,7 +70,7 @@ export default function SideNavbar({}: Props) {
           },
           {
             title: 'Issues',
-            href: '/Issues',
+            href: '/Application/Staff/Issues',
             icon: AlertTriangle,
             variant: 'ghost',
           },

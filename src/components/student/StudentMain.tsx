@@ -384,7 +384,7 @@ export default function StudentMain() {
         </div>
       </section>
       <div>
-        <svg
+      <svg
           className="block w-full fill-color-static-white-canvas"
           style={{ height: "min(48px, 3.3333333333333335vw)" }}
           viewBox="0 0 1440 72"

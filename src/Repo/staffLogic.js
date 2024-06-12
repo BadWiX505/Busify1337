@@ -12,6 +12,7 @@ import { getStudentFromDb,
   updateIssueStatus,
   getHighestBusId,
   getBookingFromDb,
+  updateStudentStatus,
 } from '@/app/server/db';
 
 export async function getStudents() {
@@ -71,4 +72,9 @@ export async function HighestBusId() {
 
 export async function getBooking() {
   return await getBookingFromDb();
+  }
+
+
+  export async function updateStudent(id,status) {
+    return await updateStudentStatus(id,status);
   }

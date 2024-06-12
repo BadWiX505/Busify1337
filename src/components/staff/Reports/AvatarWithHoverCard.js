@@ -10,7 +10,6 @@ const AvatarWithHoverCard = ({ user }) => {
   // Function to generate the appropriate user page URL based on their role and ID
 const getUserPageURL = () => {
   let url = '';
-  let id=user.id_User;
   if (user.role === 'driver') {
     url = '/drivers';
   } else if (user.role === 'student') {
@@ -19,7 +18,7 @@ const getUserPageURL = () => {
     url = '/report';
   }
   // Append the user ID to the URL
-  return `${url}?id=${id}`;
+  return `${url}`;
 };
 
 

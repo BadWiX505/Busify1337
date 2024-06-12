@@ -12,7 +12,7 @@ export default function MonthlyBookingPerDay() {
     // Fetch booking data and set the latest booking date
     async function fetchBookingData() {
       try {
-        const response = await fetch("/api/Booking/getBooking");
+        const response = await fetch("/api/Staff/Booking/getBooking");
         if (!response.ok) {
           throw new Error("Failed to fetch booking data");
         }

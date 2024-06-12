@@ -71,7 +71,7 @@ export default function ReportModal() {
         <div className="space-y-4">
           <DialogHeader>
             <DialogTitle>Report a Problem</DialogTitle>
-            <DialogDescription className='mt-3'>Submit a report to staff.</DialogDescription>
+            <DialogDescription className='mt-2'>Submit a report to staff.</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit}>
             <div className="space-y-2">
@@ -91,7 +91,7 @@ export default function ReportModal() {
         <div className="space-y-4">
           <DialogHeader>
             <DialogTitle>Reports History</DialogTitle>
-            <DialogDescription className='mt-3'>View a list of previously submitted reports.</DialogDescription>
+            <DialogDescription className='mt-2'>View a list of previously submitted reports.</DialogDescription>
           </DialogHeader>
           <Card>
           <div className="overflow-x-auto overflow-y-auto w-full max-h-[300px]">

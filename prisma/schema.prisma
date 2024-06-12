@@ -157,6 +157,7 @@ model Issue {
   reported_at DateTime  @default(now())
   driver      User      @relation("DriverIssues", fields: [driver_id], references: [id_User])
   bus         Bus       @relation("BusIssues", fields: [bus_id], references: [id_Bus])
+  status      status?
 }
 
 

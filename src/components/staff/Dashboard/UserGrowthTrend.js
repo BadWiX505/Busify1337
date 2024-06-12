@@ -10,7 +10,7 @@ export default function UserGrowthTrend() {
     // Fetch student data and process it to get new users per day
     async function fetchStudentData() {
       try {
-        const response = await fetch("/api/User/getStudents");
+        const response = await fetch("/api/Staff/User/getStudents");
         if (!response.ok) {
           throw new Error("Failed to fetch student data");
         }
