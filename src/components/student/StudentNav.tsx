@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { SVGProps } from "react";
+import { SVGProps, useContext } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,9 +15,11 @@ import StudentEditModal from "./StudentEditModal";
 import StudentHistory from "./StudentHistory";
 import { useRouter } from "next/navigation";
 import ReportModal from "./reportModal";
+import { StudentContext } from "./StudentProvider";
 
 export default function StudentNav() {
   const router = useRouter();
+  const user = useContext(StudentContext);
   async function destroySession() {
     const resp = await fetch("/api/destroySession");
     const res = await resp.json();
@@ -80,7 +82,7 @@ export default function StudentNav() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar className="h-8 w-8 cursor-pointer">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src={user.image} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
