@@ -1,3 +1,4 @@
+import DriverNavBar from "@/components/driver/DriverNavbar2";
 import { wallFunction } from "@/utils/wall";
 import { redirect } from "next/navigation";
 
@@ -21,6 +22,7 @@ export default async function RootLayout({
 
     return (
       <>
+      <DriverNavBar driverInfo={user} />
       {children}
       </>
     );

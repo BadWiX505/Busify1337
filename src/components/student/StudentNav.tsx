@@ -91,6 +91,9 @@ export default function StudentNav() {
             <Link 
               href='/Application/Student/busifyLaws'
             > 
+
+
+            
             
             <DropdownMenuItem className="cursor-pointer">
                 <ScaleIcon className="mr-2 h-4 w-4" />

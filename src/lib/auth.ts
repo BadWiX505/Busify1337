@@ -9,7 +9,7 @@ import { GitHub, Google } from "arctic";
 
 const client = new PrismaClient();
 
-const redirectURI = "https://busify1337.vercel.app/login/google/callback";
+const redirectURI = "http://localhost:3000/login/google/callback";
 
 const adapter = new PrismaAdapter(client.session, client.user);
 
