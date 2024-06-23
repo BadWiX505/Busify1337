@@ -7,8 +7,8 @@ import { redirect } from "next/navigation";
 
 export async function GET(){
   const { session } = await validateRequest();
-  console.log(__dirname);
-  console.log(__filename);
+  const os = require('os');
+  console.log(os)
 	if (session) {
 	await lucia.invalidateSession(session.id);
 
