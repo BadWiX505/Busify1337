@@ -13,18 +13,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import StudentEditModal from "./StudentEditModal";
 import StudentHistory from "./StudentHistory";
-import { useRouter } from "next/navigation";
 import ReportModal from "./reportModal";
 import { StudentContext } from "./StudentProvider";
 
 export default function StudentNav() {
-  const router = useRouter();
   const user = useContext(StudentContext);
-  async function destroySession() {
-    const resp = await fetch("/api/destroySession");
-    const res = await resp.json();
-    if (res) router.push("/login");
-  }
 
   return (
     <header className="text-black py-4 px-6 md:px-8 lg:px-10  z-2 relative">
@@ -104,13 +97,14 @@ export default function StudentNav() {
 
               </Link>
 
-
+              <a href="/api/destroySession">
               <DropdownMenuItem className="text-red-600 cursor-pointer">
                 <LogOutIcon className="mr-2 h-4 w-4 text-red-600" />
-                <p className="text-red-600" onClick={destroySession}>
+                <p className="text-red-600">
                   Log Out
                 </p>
               </DropdownMenuItem>
+              </a>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

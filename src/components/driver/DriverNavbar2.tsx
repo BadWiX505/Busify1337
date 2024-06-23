@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import DriverProfileModel from "@/components/driver/DriverProfile";
-import { useRouter } from "next/navigation";
 import ConfirmationDialogForLeavingBus from "./confirmationDialog";
 
 export default function DriverNavbar2({driverInfo}) {
@@ -24,15 +23,7 @@ export default function DriverNavbar2({driverInfo}) {
    const [leavingBusConfirmation, setLeavingBusConf] = useState(false); 
 
   
-  const router = useRouter();
-
-  async function destroySession() {
-      const resp = await fetch('/api/destroySession');
-      const res = await resp.json();
-      if(res)
-        router.push('/login')
-    }
-
+  
 
   function handleAccount() {
     setProfileModalOpen(true);
@@ -183,11 +174,12 @@ export default function DriverNavbar2({driverInfo}) {
               </DropdownMenuItem>
 
               }
-              
-              <DropdownMenuItem className="flex items-center gap-2" onClick={destroySession}>
+           <a href="/api/destroySession">
+              <DropdownMenuItem className="flex items-center gap-2" >
                 <SignOutIcon className="h-4 w-4" />
                 <span>Sign out</span>
               </DropdownMenuItem>
+            </a>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -217,11 +209,12 @@ export default function DriverNavbar2({driverInfo}) {
               </div>
 
 
-
-              <div className="flex items-center gap-2" onClick={destroySession}>
+              <a href="/api/destroySession">
+              <div className="flex items-center gap-2">
                 <SignOutIcon className="h-4 w-5" />
                 <span>Sign out</span>
               </div>
+              </a>
             </div>
           </PopoverContent>
         </Popover>

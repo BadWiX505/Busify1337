@@ -1,4 +1,5 @@
 
+import { Button } from "@/components/ui/button"
 
 export default function BannPage() {
   return (
@@ -11,13 +12,42 @@ export default function BannPage() {
         <div className="space-y-2">
           <p className="text-sm text-gray-400">
             If you believe this ban was made in error, please contact the staff to solve the problem
-           
+
           </p>
           <p className="text-sm text-gray-400">
             We take our booking system guidelines seriously and do not tolerate any violations or careless actions.
           </p>
         </div>
       </div>
+      <a href="/api/destroySession">
+        <Button className="flex items-center gap-2 bg-red-500 hover:bg-red-700 mt-5">
+          <LogOutIcon className="h-4 w-4" />
+          Logout
+        </Button>
+      </a>
     </div>
+  )
+}
+
+
+
+function LogOutIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" x2="9" y1="12" y2="12" />
+    </svg>
   )
 }
